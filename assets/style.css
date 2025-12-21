@@ -43,18 +43,17 @@ main {
 }
 
 /* --- Affiliations logos (small, back-to-back) --- */
-.affiliations{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:nowrap;
-  margin: 6px 0 14px 0;
+.affiliations {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0 12px 0;
 }
 
-.affiliations img{
-  height: 22px !important;   /* small */
+.affiliations img {
+  height: 20px !important;
   width: auto !important;
-  max-height: 22px !important;
-  max-width: 180px;          /* prevents huge wide logos */
-  display:block;
+  max-height: 20px !important;
+  max-width: 160px !important;
+  display: block;
 }
