@@ -41,3 +41,34 @@ main {
 @media (max-width: 768px){
   .site-banner{ height: 160px; }
 }
+
+/* --- Affiliations logos (clickable, same-size boxes) --- */
+.affiliations {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;          /* change to nowrap if you want never wrap */
+  margin: 10px 0 18px 0;
+}
+
+.affiliations a {
+  width: 170px;             /* same visual box width for each logo */
+  height: 56px;             /* same visual box height for each logo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.affiliations img {
+  max-height: 46px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .affiliations a { width: 150px; height: 52px; }
+  .affiliations img { max-height: 40px; }
+}
