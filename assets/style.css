@@ -44,7 +44,7 @@ main {
 
 /* --- Affiliations (small, inline logos) --- */
 .affiliations img{
-  height: 44px !important;     /* <- change this (e.g., 36–56) */
+  height: 56px !important;     /* <- change this (e.g., 36–56) */
   width: auto !important;
   max-width: none !important;  /* don't cap width */
   object-fit: contain;
