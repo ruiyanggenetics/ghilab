@@ -42,18 +42,18 @@ main {
   .site-banner{ height: 160px; }
 }
 
-/* --- Affiliations logos (small, back-to-back) --- */
-.affiliations{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  margin:6px 0 18px 0;
+/* --- Affiliations (small, inline logos) --- */
+.affiliations {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 14px 0;
 }
 
-.affiliations img{
-  height:22px;
-  width:auto;
-  max-width:160px;
-  object-fit:contain;
-  display:block;
+.affiliation-logo {
+  height: 18px !important;
+  width: auto !important;
+  max-width: 120px;
+  object-fit: contain;
+  display: block;
 }
