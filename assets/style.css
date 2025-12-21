@@ -30,8 +30,6 @@ main {
 /* --- Home page banner --- */
 .site-banner{
   width: 100%;
-  height: auto;          /* key */
-  object-fit: contain;   /* no cropping */
   display: block;
   border-radius: 14px;
   margin: 0 0 18px 0;
