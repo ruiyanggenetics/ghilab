@@ -43,17 +43,22 @@ main {
 }
 
 /* --- Affiliations (small, inline logos) --- */
-.affiliations {
+.affiliations{
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 6px 0 14px 0;
 }
 
-.affiliation-logo {
-  height: 18px !important;
+.affiliations a{
+  display: inline-flex;
+  align-items: center;
+}
+
+.affiliations img{
+  height: 20px !important;
   width: auto !important;
-  max-width: 120px;
+  max-width: 140px !important;
   object-fit: contain;
   display: block;
 }
