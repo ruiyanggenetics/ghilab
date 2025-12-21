@@ -42,33 +42,26 @@ main {
   .site-banner{ height: 160px; }
 }
 
-/* --- Affiliations logos (clickable, same-size boxes) --- */
-.affiliations {
+/* --- Affiliations logos (small, back-to-back) --- */
+.affiliations{
   display: flex;
-  gap: 18px;
+  gap: 10px;              /* space between BCM + TCH */
   align-items: center;
-  flex-wrap: wrap;          /* change to nowrap if you want never wrap */
-  margin: 10px 0 18px 0;
+  flex-wrap: nowrap;      /* stay on one line */
+  margin: 6px 0 14px 0;
 }
 
-.affiliations a {
-  width: 170px;             /* same visual box width for each logo */
-  height: 56px;             /* same visual box height for each logo */
-  display: flex;
+.affiliations a{
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
-}
-
-.affiliations img {
-  max-height: 46px;
-  max-width: 100%;
-  width: auto;
+  width: auto;            /* no big boxes */
   height: auto;
-  display: block;
+  padding: 0;
 }
 
-@media (max-width: 768px) {
-  .affiliations a { width: 150px; height: 52px; }
-  .affiliations img { max-height: 40px; }
+.affiliations img{
+  height: 24px;           /* <-- make smaller/bigger here */
+  width: auto;
+  display: block;
 }
