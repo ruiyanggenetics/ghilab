@@ -2,7 +2,7 @@
 layout: default
 title: About
 ---
-<img src="{{ '/assets/img/banner.jpg' | relative_url }}" alt="Lab banner" class="site-banner">
+<img src="{{ '/assets/img/lab_banner.jpg' | relative_url }}" class="site-banner" alt="Lab banner">
 
 # The Laboratory of Genetics of Human Immunity
 
