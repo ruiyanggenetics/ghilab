@@ -11,14 +11,12 @@ We study why only a small subset of people develop life-threatening infections o
 Using humans as our primary model system, we integrate human genetics and immunology to uncover mechanisms of disease and protection.
 
 **Affiliation**
-
 <div class="affiliations">
   <a href="https://www.bcm.edu/" target="_blank" rel="noopener">
-    <img src="{{ 'assets/img/bcm-logo.png' | relative_url }}" alt="Baylor College of Medicine">
+    <img src="{{ '/assets/img/bcm_logo.png' | relative_url }}" alt="Baylor College of Medicine">
   </a>
-
   <a href="https://www.texaschildrens.org/" target="_blank" rel="noopener">
-    <img src="{{ 'assets/img/TCH-logo.png' | relative_url }}" alt="Texas Children’s Hospital">
+    <img src="{{ '/assets/img/tch_logo.png' | relative_url }}" alt="Texas Children’s Hospital">
   </a>
 </div>
 
