@@ -42,11 +42,17 @@ main {
   .site-banner{ height: 160px; }
 }
 
-/* --- Affiliations (small, inline logos) --- */
+/* --- Affiliations logos --- */
+.affiliations{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0 18px 0;
+}
+
 .affiliations img{
-  height: 56px !important;     /* <- change this (e.g., 36–56) */
-  width: auto !important;
-  max-width: none !important;  /* don't cap width */
+  height: 100px;      /* ← your target size */
+  width: auto;
   object-fit: contain;
   display: block;
 }
