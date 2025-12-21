@@ -44,24 +44,17 @@ main {
 
 /* --- Affiliations logos (small, back-to-back) --- */
 .affiliations{
-  display: flex;
-  gap: 10px;              /* space between BCM + TCH */
-  align-items: center;
-  flex-wrap: nowrap;      /* stay on one line */
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:nowrap;
   margin: 6px 0 14px 0;
 }
 
-.affiliations a{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;            /* no big boxes */
-  height: auto;
-  padding: 0;
-}
-
 .affiliations img{
-  height: 24px;           /* <-- make smaller/bigger here */
-  width: auto;
-  display: block;
+  height: 22px !important;   /* small */
+  width: auto !important;
+  max-height: 22px !important;
+  max-width: 180px;          /* prevents huge wide logos */
+  display:block;
 }
