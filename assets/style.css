@@ -1,8 +1,4 @@
 body {
-  border: 10px solid red !important;
-}
-
-body {
   font-family: system-ui, sans-serif;
   margin: 0;
   background: #fff;
@@ -47,22 +43,10 @@ main {
 }
 
 /* --- Affiliations (small, inline logos) --- */
-.affiliations{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 6px 0 14px 0;
-}
-
-.affiliations a{
-  display: inline-flex;
-  align-items: center;
-}
-
 .affiliations img{
-  height: 20px !important;
+  height: 44px !important;     /* <- change this (e.g., 36–56) */
   width: auto !important;
-  max-width: 140px !important;
+  max-width: none !important;  /* don't cap width */
   object-fit: contain;
   display: block;
 }
