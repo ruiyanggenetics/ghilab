@@ -55,67 +55,36 @@ main {
   display: block;
 }
 
-/* Publications dropdown in navbar */
-.nav-dropdown {
-  position: relative;
-  display: inline-block;
-  margin-right: 1rem;
+/* Publications page cards */
+.pub-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 2rem;
 }
 
-/* Label */
-.nav-dropbtn {
-  cursor: pointer;
-  user-select: none;
-}
-
-/* Dropdown menu */
-.nav-dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 190px;
-  background: #fff;
+.pub-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 6px 0;
-  z-index: 999;
-}
-
-/* 🔑 Invisible hover bridge */
-.nav-dropdown-content::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 0;
-  right: 0;
-  height: 10px;
-}
-
-/* Show menu */
-.nav-dropdown:hover .nav-dropdown-content {
-  display: block;
-}
-
-/* Dark mode */
-body.dark .nav-dropdown-content {
-  background: #141414;
-  border-color: #2a2a2a;
-}
-
-/* Dropdown links */
-.nav-dropdown-content a {
-  display: block;
-  padding: 8px 12px;
+  border-radius: 14px;
   text-decoration: none;
   color: inherit;
-  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.nav-dropdown-content a:hover {
-  background: rgba(0,0,0,0.06);
+.pub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-body.dark .nav-dropdown-content a:hover {
-  background: rgba(255,255,255,0.08);
+.pub-card img {
+  height: 48px;
+  width: auto;
+}
+
+body.dark .pub-card {
+  border-color: #2a2a2a;
 }
