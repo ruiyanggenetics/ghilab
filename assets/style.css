@@ -54,3 +54,54 @@ main {
   object-fit: contain;
   display: block;
 }
+
+/* Publications dropdown in navbar */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.nav-dropbtn {
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 1.6rem;
+  left: 0;
+  min-width: 190px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 6px 0;
+  z-index: 999;
+}
+
+body.dark .nav-dropdown-content {
+  background: #141414;
+  border-color: #2a2a2a;
+}
+
+.nav-dropdown-content a {
+  display: block;
+  padding: 8px 12px;
+  margin: 0;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.nav-dropdown-content a:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+body.dark .nav-dropdown-content a:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.nav-dropdown:hover .nav-dropdown-content {
+  display: block;
+}
