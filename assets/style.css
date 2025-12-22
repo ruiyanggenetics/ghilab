@@ -22,57 +22,57 @@ a {
   min-height: 100vh;
 }
 
-/* =========================
-   LEFT SIDEBAR (Finn-style)
-   ========================= */
+/* ===== LEFT SIDEBAR ===== */
 
 .sidebar {
-  width: 270px;
+  width: 260px;
   padding: 32px 24px;
   border-right: 1px solid #e6e6e6;
   background: #fff;
-
   position: sticky;
   top: 0;
   height: 100vh;
-  box-sizing: border-box;
 }
 
 .lab-name a {
   font-size: 1.15rem;
   font-weight: 700;
-  line-height: 1.3;
   text-decoration: none;
   color: #111;
 }
 
-.lab-desc {
-  margin-top: 14px;
-  font-size: 0.95rem;
-  color: #444;
-  line-height: 1.45;
-}
-
-.lab-affiliation {
+.lab-links {
   margin-top: 18px;
   font-size: 0.9rem;
-  color: #666;
-  line-height: 1.4;
-}
-
-.lab-links {
-  margin-top: 22px;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .lab-links a {
-  margin-right: 12px;
-  font-size: 0.9rem;
   text-decoration: none;
-  color: #666;
-  font-weight: 500;
+  color: inherit;
 }
 
 .lab-links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== TOP NAV ===== */
+
+.topnav {
+  margin-bottom: 28px;
+}
+
+.topnav a {
+  margin-right: 18px;
+  font-size: 0.95rem;
+  color: #777;
+  text-decoration: none;
+}
+
+.topnav a:hover {
   color: #111;
 }
 
