@@ -5,16 +5,59 @@ permalink: /updates/
 ---
 
 <h1>Lab Updates</h1>
-<p>We share lab news, preprints, publications, and announcements on X.</p>
 
-<div class="x-embed">
-  <a class="twitter-timeline"
-     data-height="650"
-     data-dnt="true"
-     data-chrome="noheader nofooter noborders transparent"
-     href="https://twitter.com/ryangrui">
-    Tweets by @ryangrui
-  </a>
+<p>
+Announcements, preprints, publications, and lab news from the Yang Lab.
+Updates are curated and maintained by the lab.
+</p>
+
+<div id="updates" class="updates-list">
+  <p>Loading updates…</p>
 </div>
 
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+// Google Sheet configuration
+const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
+const SHEET_NAME = "Sheet1";
+
+// Build the JSON feed URL
+const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+fetch(url)
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    const container = document.getElementById("updates");
+    container.innerHTML = "";
+
+    if (!rows || rows.length === 0) {
+      container.innerHTML = "<p>No updates yet.</p>";
+      return;
+    }
+
+    rows.forEach(r => {
+      const date  = r.c[0]?.v || "";
+      const title = r.c[1]?.v || "";
+      const body  = r.c[2]?.v || "";
+      const link  = r.c[3]?.v || "";
+
+      const item = document.createElement("div");
+      item.className = "update-item";
+
+      item.innerHTML = `
+        <div class="update-date">${date}</div>
+        <div class="update-title">${title}</div>
+        <div class="update-body">${body}</div>
+        ${link ? `<a class="update-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
+      `;
+
+      container.appendChild(item);
+    });
+  })
+  .catch(() => {
+    document.getElementById("updates").innerHTML =
+      "<p>Unable to load updates. Please try again later.</p>";
+  });
+</script>
