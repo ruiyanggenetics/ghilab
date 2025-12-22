@@ -6,40 +6,108 @@ permalink: /people/
 
 <h1>People</h1>
 
-<!-- Head of Lab -->
+<!-- ======================
+     HEAD OF LAB (STATIC)
+     ====================== -->
+
 <section class="people-section">
   <h2>Head of Lab</h2>
+
   <div class="person-card head">
     <img src="{{ '/assets/img/rui-yang-photo.jpg' | relative_url }}" alt="Rui (Ray) Yang">
+
     <div class="person-info">
       <div class="person-name">Rui (Ray) Yang, MD, PhD</div>
       <div class="person-bio">
-        <!-- Replace with real bio -->
-        Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming tenure-track assistant professor at Baylor College of Medicine (BCM). He will launch his laboratory at Texas Children’s Hospital (TCH) and BCM in summer 2026. His research focuses on the monogenic causes of life-threatening infectious diseases, immune dysregulation, and malignancies. 
+        Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming
+        tenure-track assistant professor at Baylor College of Medicine (BCM).
+        He will launch his laboratory at Texas Children’s Hospital in summer 2026.
+        His research focuses on monogenic causes of severe infection,
+        immune dysregulation, and malignancy.
       </div>
     </div>
   </div>
 </section>
 
-<!-- Trainees -->
+<!-- ======================
+     TRAINEES (AUTO)
+     ====================== -->
+
 <section class="people-section">
   <h2>Trainees</h2>
-
-  <div class="trainees-grid">
-
-    <!-- Example trainee card -->
-    <div class="person-card trainee">
-      <img src="{{ '/assets/img/trainee1.jpg' | relative_url }}" alt="Trainee Name">
-      <div class="person-info">
-        <div class="person-name">Trainee Name</div>
-        <div class="person-bio">
-          <!-- Replace with real bio -->
-          Short bio description of the trainee.
-        </div>
-      </div>
-    </div>
-
-    <!-- Add more trainee cards here -->
-
+  <div id="trainees" class="people-grid">
+    <p>Loading trainees…</p>
   </div>
 </section>
+
+<!-- ======================
+     CLOSE COLLABORATORS
+     ====================== -->
+
+<section class="people-section">
+  <h2>Close Collaborators</h2>
+  <div id="collaborators" class="people-grid">
+    <p>Loading collaborators…</p>
+  </div>
+</section>
+
+<script>
+/* =========================
+   GOOGLE SHEET CONFIG
+   ========================= */
+
+const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
+const SHEET_NAME = "Sheet1";
+const DEFAULT_PHOTO = "{{ '/assets/img/person-placeholder.png' | relative_url }}";
+
+const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+/* =========================
+   FETCH + RENDER
+   ========================= */
+
+fetch(url)
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    const trainees = document.getElementById("trainees");
+    const collaborators = document.getElementById("collaborators");
+
+    trainees.innerHTML = "";
+    collaborators.innerHTML = "";
+
+    rows.forEach(r => {
+      const name = r.c[0]?.v || "";
+      const category = r.c[1]?.v || "";
+      const role = r.c[2]?.v || "";
+      const photo = r.c[3]?.v || DEFAULT_PHOTO;
+      const bio = r.c[6]?.v || "";
+
+      const card = document.createElement("div");
+      card.className = "person-card trainee";
+
+      card.innerHTML = `
+        <img src="${photo}" alt="${name}">
+        <div class="person-info">
+          <div class="person-name">${name}</div>
+          <div class="person-role">${role}</div>
+          <div class="person-bio">${bio}</div>
+        </div>
+      `;
+
+      if (category === "Trainee") {
+        trainees.appendChild(card);
+      } else if (category === "Close Collaborator") {
+        collaborators.appendChild(card);
+      }
+    });
+
+    if (!trainees.children.length) trainees.innerHTML = "<p>No trainees listed.</p>";
+    if (!collaborators.children.length) collaborators.innerHTML = "<p>No collaborators listed.</p>";
+  })
+  .catch(() => {
+    document.getElementById("trainees").innerHTML = "<p>Error loading people.</p>";
+  });
+</script>
