@@ -9,20 +9,13 @@
 <nav>
   <a href="{{ '/' | relative_url }}">About</a>
   <a href="{{ '/publications' | relative_url }}">Publications</a>
-  <a href="{{ '/projects/' | relative_url }}">Projects</a>
+  <a href="{{ '/research/' | relative_url }}">Research</a>
   <a href="{{ '/repositories/' | relative_url }}">Repositories</a>
   <a href="{{ '/people' | relative_url }}">People</a>
+  <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
   <a href="{{ '/search' | relative_url }}">Search</a>
-  <button id="theme">🌙</button>
 </nav>
 
 <main>
 {{ content }}
 </main>
-
-<script>
-document.getElementById("theme").onclick = () =>
-  document.body.classList.toggle("dark");
-</script>
-</body>
-</html>
