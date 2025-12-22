@@ -71,22 +71,28 @@ const SHEET_ID = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
 const SHEET_NAME = "Sheet1";
 const DEFAULT_PHOTO = "{{ '/assets/img/person-placeholder.png' | relative_url }}";
 
-const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+const url =
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
 /* =========================
    HELPERS
    ========================= */
 
-function formatSheetDate(v){
-  if (!v) return "";
-  if (v instanceof Date) {
-    return v.toLocaleDateString("en-US");
-  }
-  return v;
+function cleanText(v) {
+  return v ? String(v) : "";
 }
 
-function cleanText(v){
-  return v ? String(v) : "";
+function parseGvizDate(v) {
+  if (!v) return "";
+
+  // Google Sheets returns Date(YYYY,M,D)
+  if (typeof v === "string" && v.startsWith("Date")) {
+    const parts = v.match(/\d+/g).map(Number);
+    const d = new Date(parts[0], parts[1], parts[2]);
+    return d.toLocaleDateString("en-US");
+  }
+
+  return v;
 }
 
 /* =========================
@@ -119,8 +125,8 @@ fetch(url)
       const category = cleanText(r.c[1]?.v);
       const role = cleanText(r.c[2]?.v);
       const photo = cleanText(r.c[3]?.v) || DEFAULT_PHOTO;
-      const start = formatSheetDate(r.c[4]?.v);
-      const end = formatSheetDate(r.c[5]?.v);
+      const start = parseGvizDate(r.c[4]?.v);
+      const end = parseGvizDate(r.c[5]?.v);
       const bio = cleanText(r.c[6]?.v);
 
       const dates = (start || end) ? `${start}–${end}` : "";
@@ -154,12 +160,10 @@ fetch(url)
     if (!collaborators.children.length)
       collaborators.innerHTML = "<p>No collaborators listed.</p>";
   })
-  .catch(() => {
-    document.getElementById("trainees").innerHTML =
-      "<p>Error loading people.</p>";
-    document.getElementById("staff").innerHTML =
-      "<p>Error loading people.</p>";
-    document.getElementById("collaborators").innerHTML =
-      "<p>Error loading people.</p>";
+  .catch(err => {
+    console.error(err);
+    document.getElementById("trainees").innerHTML = "<p>Error loading people.</p>";
+    document.getElementById("staff").innerHTML = "<p>Error loading people.</p>";
+    document.getElementById("collaborators").innerHTML = "<p>Error loading people.</p>";
   });
 </script>
