@@ -225,12 +225,50 @@ main {
 }
 
 /* =========================
-   X twitter
+   LAB UPDATES
    ========================= */
-.x-embed{
-  width: 100%;
-  max-width: 700px;   /* or remove max-width if you want full width */
-  margin-top: 20px;
+
+.updates-list {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.update-item {
+  padding: 18px 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.update-date {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.update-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.update-body {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.45;
+}
+
+.update-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.update-link:hover {
+  color: #111;
 }
 
 /* =========================
