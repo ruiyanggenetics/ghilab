@@ -63,12 +63,11 @@ fetch(url)
       const item = document.createElement("div");
       item.className = "update-item";
 
-      item.innerHTML = `
-        <div class="update-date">${date}</div>
-        <div class="update-title">${title}</div>
-        <div class="update-body">${body}</div>
-        ${link ? `<a class="update-link" href="${link}" target="_blank">Read more →</a>` : ""}
-      `;
+     item.innerHTML = `
+  <div class="update-date">${date}</div>
+  <div class="update-body">${body}</div>
+  ${link ? `<a class="update-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
+`;
 
       container.appendChild(item);
     });
