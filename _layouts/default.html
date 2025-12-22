@@ -11,32 +11,31 @@
   <div class="page">
 
     <!-- LEFT SIDEBAR (shows on ALL pages) -->
-   <aside class="sidebar">
-  <div class="sidebar-title">The Laboratory of Genetics of Human Immunity</div>
+    <aside class="sidebar">
+      <div class="sidebar-title">The Laboratory of Genetics of Human Immunity</div>
 
-  <!-- Contact links (NO uploaded icons) -->
-  <div class="sidebar-links">
-    <a class="sidebar-link" href="mailto:rui.yang@bcm.edu">
-      <span class="icon">✉︎</span>
-      <span>rui.yang@bcm.edu</span>
-    </a>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="mailto:rui.yang@bcm.edu">
+          <span class="icon">✉︎</span>
+          <span>rui.yang@bcm.edu</span>
+        </a>
 
-    <a class="sidebar-link" href="https://twitter.com/ryangrui" target="_blank" rel="noopener">
-      <span class="icon">𝕏</span>
-      <span>@ryangrui</span>
-    </a>
+        <a class="sidebar-link" href="https://twitter.com/ryangrui" target="_blank" rel="noopener">
+          <span class="icon">𝕏</span>
+          <span>@ryangrui</span>
+        </a>
 
-    <a class="sidebar-link" href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">
-      <span class="icon">⌂</span>
-      <span>ruiyanggenetics</span>
-    </a>
-  </div>
-</aside>
-    
+        <a class="sidebar-link" href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">
+          <span class="icon">⌂</span>
+          <span>ruiyanggenetics</span>
+        </a>
+      </div>
+    </aside>
+
     <!-- RIGHT CONTENT -->
     <div class="content">
 
-      <!-- TOP NAV (Yang Lab is "About") -->
+      <!-- TOP NAV -->
       <nav class="topnav">
         <a class="brand" href="{{ '/' | relative_url }}">Yang Lab</a>
         <a href="{{ '/publications' | relative_url }}">Publications</a>
@@ -45,8 +44,20 @@
         <a href="{{ '/people' | relative_url }}">People</a>
         <a href="{{ '/updates' | relative_url }}">Updates</a>
         <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
-        <a href="{{ '/search' | relative_url }}">Search</a>
+
+        <!-- SEARCH (ALWAYS VISIBLE) -->
+        <div class="nav-search">
+          <input
+            id="nav-search-input"
+            type="text"
+            placeholder="Search…"
+            autocomplete="off"
+          />
+        </div>
       </nav>
+
+      <!-- SEARCH RESULTS -->
+      <div id="nav-search-results" class="nav-search-results"></div>
 
       <main>
         {{ content }}
@@ -54,5 +65,8 @@
 
     </div>
   </div>
+
+  <!-- Search logic -->
+  <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
 </body>
 </html>
