@@ -9,7 +9,7 @@ Our publications are maintained externally and updated automatically.
 
 <div class="pub-links">
   <a class="pub-link" href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank" rel="noopener">
-    <img src="{{ '/assets/img/ncbi-logo.png' | relative_url }}" alt="NCBI" class="pub-logo">
+    <img src="{{ '/assets/img/ncbi-logo.jpg' | relative_url }}" alt="NCBI" class="pub-logo">
     <span>NCBI Bibliography</span>
   </a>
 
