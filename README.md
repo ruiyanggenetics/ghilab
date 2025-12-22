@@ -14,7 +14,7 @@ This website presents the research, people, and activities of the GHI Lab, with 
 
 - Human genetics
 - Immunology
-- Severe infectious disease and immune dysregulation
+- Severe infectious disease, immune dysregulation, and malignancy
 - Translational and mechanistic studies using humans as the primary model system
 
 ---
@@ -27,12 +27,11 @@ Top navigation includes:
 
 - About (Home)
 - Publications
-- Projects
+- Research
 - Repositories
-- PI CV
 - People
+- Opportunities
 - Search
-- Light / Dark theme toggle
 
 ---
 
