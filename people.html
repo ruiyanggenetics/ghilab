@@ -64,12 +64,13 @@ permalink: /people/
 
 <script>
 /* =========================
-   GOOGLE SHEET CONFIG
+   CONFIG
    ========================= */
 
 const SHEET_ID = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
 const SHEET_NAME = "Sheet1";
-const DEFAULT_PHOTO = "{{ '/assets/img/person-placeholder.png' | relative_url }}";
+const BASEURL = "{{ site.baseurl }}";
+const DEFAULT_PHOTO = BASEURL + "/assets/img/person-placeholder.png";
 
 const url =
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
@@ -84,14 +85,10 @@ function cleanText(v) {
 
 function parseGvizDate(v) {
   if (!v) return "";
-
-  // Google Sheets returns Date(YYYY,M,D)
   if (typeof v === "string" && v.startsWith("Date")) {
-    const parts = v.match(/\d+/g).map(Number);
-    const d = new Date(parts[0], parts[1], parts[2]);
-    return d.toLocaleDateString("en-US");
+    const p = v.match(/\d+/g).map(Number);
+    return new Date(p[0], p[1], p[2]).toLocaleDateString("en-US");
   }
-
   return v;
 }
 
@@ -113,18 +110,12 @@ fetch(url)
     staff.innerHTML = "";
     collaborators.innerHTML = "";
 
-    if (!rows.length) {
-      trainees.innerHTML = "<p>No trainees listed.</p>";
-      staff.innerHTML = "<p>No research staff listed.</p>";
-      collaborators.innerHTML = "<p>No collaborators listed.</p>";
-      return;
-    }
-
     rows.forEach(r => {
       const name = cleanText(r.c[0]?.v);
       const category = cleanText(r.c[1]?.v);
       const role = cleanText(r.c[2]?.v);
-      const photo = cleanText(r.c[3]?.v) || DEFAULT_PHOTO;
+      const photoPath = cleanText(r.c[3]?.v);
+      const photo = photoPath ? BASEURL + photoPath : DEFAULT_PHOTO;
       const start = parseGvizDate(r.c[4]?.v);
       const end = parseGvizDate(r.c[5]?.v);
       const bio = cleanText(r.c[6]?.v);
@@ -153,17 +144,13 @@ fetch(url)
       }
     });
 
-    if (!trainees.children.length)
-      trainees.innerHTML = "<p>No trainees listed.</p>";
-    if (!staff.children.length)
-      staff.innerHTML = "<p>No research staff listed.</p>";
-    if (!collaborators.children.length)
-      collaborators.innerHTML = "<p>No collaborators listed.</p>";
+    if (!trainees.children.length) trainees.innerHTML = "<p>No trainees listed.</p>";
+    if (!staff.children.length) staff.innerHTML = "<p>No research staff listed.</p>";
+    if (!collaborators.children.length) collaborators.innerHTML = "<p>No collaborators listed.</p>";
   })
   .catch(err => {
     console.error(err);
-    document.getElementById("trainees").innerHTML = "<p>Error loading people.</p>";
-    document.getElementById("staff").innerHTML = "<p>Error loading people.</p>";
-    document.getElementById("collaborators").innerHTML = "<p>Error loading people.</p>";
+    trainees.innerHTML = staff.innerHTML = collaborators.innerHTML =
+      "<p>Error loading people.</p>";
   });
 </script>
