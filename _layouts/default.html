@@ -8,7 +8,14 @@
 <body>
 <nav>
   <a href="{{ '/' | relative_url }}">About</a>
-  <a href="{{ '/publications' | relative_url }}">Publications</a>
+  <!-- Publications dropdown -->
+<span class="nav-dropdown">
+  <span class="nav-dropbtn">Publications ▾</span>
+  <div class="nav-dropdown-content">
+    <a href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank" rel="noopener">NCBI Bibliography</a>
+    <a href="https://scholar.google.com/citations?user=xYZ1Pf4AAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+  </div>
+</span>
   <a href="{{ '/projects' | relative_url }}">Projects</a>
   <a href="{{ '/repositories' | relative_url }}">Repositories</a>
   <a href="{{ '/cv' | relative_url }}">PI CV</a>
