@@ -331,3 +331,9 @@ main {
   color: #444;
   line-height: 1.45;
 }
+
+.person-dates{
+  margin-top: 2px;
+  font-size: 0.86rem;
+  color: #777;
+}
