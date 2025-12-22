@@ -56,40 +56,56 @@ main {
 }
 
 /* Publications page: two horizontal rows */
-.pub-links{
-  display: grid;
-  gap: 16px;
-  margin-top: 18px;
+.pub-list {
+  margin-top: 2rem;
 }
 
-.pub-link{
-  display: flex;
+.pub-card {
+  display: grid;
+  grid-template-columns: 48px 1fr;   /* fixed logo + text */
+  gap: 16px;
   align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border: 1px solid #ddd;
-  border-radius: 14px;
+
+  padding: 14px 18px;
+  margin-bottom: 14px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
   text-decoration: none;
   color: inherit;
+
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
-body.dark .pub-link{
+.pub-card:hover {
+  background: #f7f7f7;
+  transform: translateY(-1px);
+}
+
+body.dark .pub-card {
   border-color: #2a2a2a;
 }
 
-.pub-link:hover{
-  background: rgba(0,0,0,0.04);
-}
-body.dark .pub-link:hover{
-  background: rgba(255,255,255,0.06);
+body.dark .pub-card:hover {
+  background: #161616;
 }
 
-/* Bigger logos */
-.pub-logo{
-  height: 56px;   /* <-- increase/decrease here */
-  width: auto;
+.pub-card img {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
-  display: block;
+}
+
+.pub-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.pub-desc {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin-top: 2px;
 }
 
 .contact-block{
