@@ -337,3 +337,57 @@ main {
   font-size: 0.86rem;
   color: #777;
 }
+
+/* =========================
+   NAV SEARCH
+   ========================= */
+
+.nav-search {
+  margin-left: auto;
+}
+
+.nav-search input {
+  width: 160px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.nav-search input:focus {
+  outline: none;
+  border-color: #999;
+}
+
+/* Results dropdown */
+.nav-search-results {
+  position: absolute;
+  right: 48px;
+  top: 90px;
+  width: 360px;
+  z-index: 50;
+}
+
+.nav-search-item a {
+  display: block;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.nav-search-item a:hover {
+  background: #f7f7f7;
+}
+
+.nav-search-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.nav-search-snippet {
+  font-size: 0.8rem;
+  color: #555;
+}
