@@ -3,50 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ page.title }} | {{ site.title }}</title>
-  <link rel="stylesheet" href="{{ '/assets/style.css?v=3' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
 </head>
-
 <body>
-  <div class="page">
 
-    <!-- LEFT SIDEBAR (shows on every page) -->
-    <aside class="sidebar">
-      <div class="lab-name">
-        <a href="{{ '/' | relative_url }}">Laboratory of Genetics<br>of Human Immunity</a>
+<div class="page">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="lab-name">
+      <a href="{{ '/' | relative_url }}"><strong>Yang Lab</strong></a>
+    </div>
+
+    <div class="lab-links">
+      <div>
+        📧 <a href="mailto:rui.yang@bcm.edu">rui.yang@bcm.edu</a>
       </div>
-
-      <div class="lab-desc">
-        Human Genetics &amp; Immunology
+      <div>
+        𝕏 <a href="https://twitter.com/ryangrui" target="_blank">@ryangrui</a>
       </div>
+    </div>
 
-      <div class="lab-affiliation">
-        Baylor College of Medicine<br>
-        Texas Children’s Hospital<br>
-        Houston, TX
-      </div>
+  </aside>
 
-      <div class="lab-links">
-        <a href="mailto:rui.yang@bcm.edu">Email</a>
-        <a href="https://twitter.com/ryangrui" target="_blank" rel="noopener">𝕏</a>
-        <a href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">GitHub</a>
-      </div>
-    </aside>
+  <!-- RIGHT CONTENT -->
+  <div class="content">
 
-    <!-- RIGHT SIDE -->
-    <main class="content">
-      <nav class="topnav">
-        <a href="{{ '/' | relative_url }}">About</a>
-        <a href="{{ '/publications' | relative_url }}">Publications</a>
-        <a href="{{ '/research' | relative_url }}">Research</a>
-        <a href="{{ '/repositories' | relative_url }}">Repositories</a>
-        <a href="{{ '/people' | relative_url }}">People</a>
-        <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
-        <a href="{{ '/search' | relative_url }}">Search</a>
-      </nav>
+    <!-- TOP NAV -->
+    <nav class="topnav">
+      <a href="{{ '/publications' | relative_url }}">Publications</a>
+      <a href="{{ '/research' | relative_url }}">Research</a>
+      <a href="{{ '/repositories' | relative_url }}">Repositories</a>
+      <a href="{{ '/people' | relative_url }}">People</a>
+      <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
+      <a href="{{ '/search' | relative_url }}">Search</a>
+    </nav>
 
+    <main>
       {{ content }}
     </main>
 
   </div>
+
+</div>
+
 </body>
 </html>
