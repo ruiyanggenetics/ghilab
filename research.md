@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Projects
-permalink: /projects/
+title: Research
+permalink: /research/
 ---
 
-# Projects
+# Research
 🚧 **Under construction.**
