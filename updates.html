@@ -21,7 +21,7 @@ Updates are curated and maintained by the lab.
    ========================= */
 
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
-const SHEET_NAME = "Sheet1"; // change if needed
+const SHEET_NAME = "Sheet1";
 
 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
@@ -32,7 +32,7 @@ const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:
 fetch(url)
   .then(res => res.text())
   .then(text => {
-    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
     const container = document.getElementById("updates");
 
@@ -44,30 +44,21 @@ fetch(url)
     }
 
     rows.forEach(r => {
-      /* --- DATE --- */
-      let date = "";
-      if (r.c[0]?.v) {
-        const d = new Date(r.c[0].v);
-        date = d.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric"
-        });
-      }
+      /* --- DATE (use formatted value directly) --- */
+      const date = r.c[0]?.f || "";
 
       /* --- CONTENT --- */
-      const title = r.c[1]?.v || "";
-      const body  = r.c[2]?.v || "";
-      const link  = r.c[3]?.v || "";
+      const body = r.c[2]?.v || "";
+      const link = r.c[3]?.v || "";
 
       const item = document.createElement("div");
       item.className = "update-item";
 
-     item.innerHTML = `
-  <div class="update-date">${date}</div>
-  <div class="update-body">${body}</div>
-  ${link ? `<a class="update-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
-`;
+      item.innerHTML = `
+        <div class="update-date">${date}</div>
+        <div class="update-body">${body}</div>
+        ${link ? `<a class="update-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
+      `;
 
       container.appendChild(item);
     });
