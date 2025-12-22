@@ -21,7 +21,7 @@ Using *Homo sapiens*  as our primary model system—the one we care about most a
   </a>
 </div>
 
-**Contact**
+**Address**
 <div class="contact-block">
   <div>
     1102 Bates Ave.<br>
