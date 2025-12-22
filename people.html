@@ -22,8 +22,8 @@ permalink: /people/
         Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming
         tenure-track assistant professor at Baylor College of Medicine (BCM).
         He will launch his laboratory at Texas Children’s Hospital in summer 2026.
-        His research focuses on monogenic causes of severe infection,
-        immune dysregulation, and malignancy.
+        His research focuses on monogenic causes of life-threatening infectious diseases,
+        immune dysregulation, and malignancies.
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@ permalink: /people/
    GOOGLE SHEET CONFIG
    ========================= */
 
-const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
+const SHEET_ID = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
 const SHEET_NAME = "Sheet1";
 const DEFAULT_PHOTO = "{{ '/assets/img/person-placeholder.png' | relative_url }}";
 
@@ -77,6 +77,12 @@ fetch(url)
 
     trainees.innerHTML = "";
     collaborators.innerHTML = "";
+
+    if (!rows || rows.length === 0) {
+      trainees.innerHTML = "<p>No trainees listed.</p>";
+      collaborators.innerHTML = "<p>No collaborators listed.</p>";
+      return;
+    }
 
     rows.forEach(r => {
       const name = r.c[0]?.v || "";
@@ -109,5 +115,6 @@ fetch(url)
   })
   .catch(() => {
     document.getElementById("trainees").innerHTML = "<p>Error loading people.</p>";
+    document.getElementById("collaborators").innerHTML = "<p>Error loading people.</p>";
   });
 </script>
