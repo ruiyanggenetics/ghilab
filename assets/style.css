@@ -226,8 +226,9 @@ main {
 /* =========================
    X twitter
    ========================= */
-.x-embed {
-  max-width: 520px;
+.x-embed{
+  width: 100%;
+  max-width: 700px;   /* or remove max-width if you want full width */
   margin-top: 20px;
 }
 
