@@ -55,36 +55,39 @@ main {
   display: block;
 }
 
-/* Publications page cards */
-.pub-links {
+/* Publications page: two horizontal rows */
+.pub-links{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-top: 2rem;
+  gap: 16px;
+  margin-top: 18px;
 }
 
-.pub-card {
+.pub-link{
   display: flex;
-  gap: 16px;
   align-items: center;
-  padding: 20px;
+  gap: 14px;
+  padding: 14px 16px;
   border: 1px solid #ddd;
   border-radius: 14px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.pub-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-.pub-card img {
-  height: 48px;
-  width: auto;
-}
-
-body.dark .pub-card {
+body.dark .pub-link{
   border-color: #2a2a2a;
+}
+
+.pub-link:hover{
+  background: rgba(0,0,0,0.04);
+}
+body.dark .pub-link:hover{
+  background: rgba(255,255,255,0.06);
+}
+
+/* Bigger logos */
+.pub-logo{
+  height: 56px;   /* <-- increase/decrease here */
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
