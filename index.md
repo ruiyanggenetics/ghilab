@@ -22,7 +22,6 @@ Using *Homo sapiens*  as our primary model system—the one we care about most a
 </div>
 
 **Contact**
-
 <div class="contact-block">
   <div>
     1102 Bates Ave.<br>
@@ -31,16 +30,20 @@ Using *Homo sapiens*  as our primary model system—the one we care about most a
     USA
   </div>
 
-  <div>
-    📍 <a href="https://www.google.com/maps?q=1102+Bates+Ave,+Houston,+TX+77030" target="_blank" rel="noopener">
-    View on Google Maps</a>
+  <div class="contact-row">
+    <span class="contact-icon">📍</span>
+    <a href="https://www.google.com/maps?q=1102+Bates+Ave,+Houston,+TX+77030" target="_blank" rel="noopener">
+      View on Google Maps
+    </a>
   </div>
 
-  <div>
-    📧 <a href="mailto:rui.yang@bcm.edu">rui.yang@bcm.edu</a>
+  <div class="contact-row">
+    <span class="contact-icon">📧</span>
+    <a href="mailto:rui.yang@bcm.edu">rui.yang@bcm.edu</a>
   </div>
 
-  <div>
-    𝕏 <a href="https://x.com/ryangrui" target="_blank" rel="noopener">@ryangrui</a>
+  <div class="contact-row">
+    <span class="contact-icon">𝕏</span>
+    <a href="https://x.com/ryangrui" target="_blank" rel="noopener">@ryangrui</a>
   </div>
 </div>
