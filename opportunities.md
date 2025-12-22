@@ -39,7 +39,7 @@ For individuals at any career stage who are interested in gaining hands-on exper
 For students at BCM or external programs who are interested in laboratory rotations, thesis/dissertation research, or collaborative training.
 
 - **BCM PhD students:** please email [rui.yang@bcm.edu](mailto:rui.yang@bcm.edu) directly  
-- **External PhD students:** ****apply via Google Form:**** [Graduate Student Application Form](https://docs.google.com/forms/d/e/1FAIpQLSfje6C1P9pVfuTnsCG49buflPsOicC6nDzRj945rGdXEizWWg/viewform?usp=header)
+- **External PhD students:** ****apply via Google Form:**** [PhD Student Application Form](https://docs.google.com/forms/d/e/1FAIpQLSfje6C1P9pVfuTnsCG49buflPsOicC6nDzRj945rGdXEizWWg/viewform?usp=header)
 
 ---
 
