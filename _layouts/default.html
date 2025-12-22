@@ -12,14 +12,29 @@
 
     <!-- LEFT SIDEBAR (shows on ALL pages) -->
     <aside class="sidebar">
-      <div class="sidebar-title">The Laboratory of Genetics of Human Immunity</div>
+  <div class="sidebar-title">The Laboratory of Genetics of Human Immunity</div>
 
-      <div class="sidebar-links">
-        <div>📧 <a href="mailto:rui.yang@bcm.edu">rui.yang@bcm.edu</a></div>
-        <div>𝕏 <a href="https://twitter.com/ryangrui" target="_blank" rel="noopener">@ryangrui</a></div>
-        <div>🐙 <a href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">ruiyanggenetics</a></div>
-      </div>
-    </aside>
+  <!-- Lab logo -->
+  <img class="sidebar-logo" src="{{ '/assets/img/lab-logo-gray.png' | relative_url }}" alt="Yang Lab logo">
+
+  <!-- Links -->
+  <div class="sidebar-links">
+    <a class="sidebar-link" href="mailto:rui.yang@bcm.edu">
+      <img class="sidebar-icon" src="{{ '/assets/img/icon-email-gray.png' | relative_url }}" alt="Email">
+      <span>rui.yang@bcm.edu</span>
+    </a>
+
+    <a class="sidebar-link" href="https://twitter.com/ryangrui" target="_blank" rel="noopener">
+      <img class="sidebar-icon" src="{{ '/assets/img/icon-x-gray.png' | relative_url }}" alt="X">
+      <span>@ryangrui</span>
+    </a>
+
+    <a class="sidebar-link" href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">
+      <img class="sidebar-icon" src="{{ '/assets/img/icon-github-gray.png' | relative_url }}" alt="GitHub">
+      <span>ruiyanggenetics</span>
+    </a>
+  </div>
+</aside>
 
     <!-- RIGHT CONTENT -->
     <div class="content">
