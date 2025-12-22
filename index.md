@@ -36,14 +36,4 @@ Using *Homo sapiens*  as our primary model system—the one we care about most a
       View on Google Maps
     </a>
   </div>
-
-  <div class="contact-row">
-    <span class="contact-icon">📧</span>
-    <a href="mailto:rui.yang@bcm.edu">rui.yang@bcm.edu</a>
-  </div>
-
-  <div class="contact-row">
-    <span class="contact-icon">𝕏</span>
-    <a href="https://x.com/ryangrui" target="_blank" rel="noopener">@ryangrui</a>
-  </div>
 </div>
