@@ -91,3 +91,32 @@ body.dark .pub-link:hover{
   object-fit: contain;
   display: block;
 }
+
+.contact-block{
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.contact-row{
+  display: grid;
+  grid-template-columns: 1.4em 1fr; /* icon column + text column */
+  column-gap: 10px;
+  align-items: center;
+}
+
+.contact-icon{
+  display: inline-flex;
+  justify-content: center;
+}
+
+.contact-block a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact-block a:hover{
+  text-decoration: underline;
+}
