@@ -37,15 +37,12 @@ a:hover {
 /* =========================
    LEFT SIDEBAR (NO BORDER)
    ========================= */
-
+/* Sidebar */
 .sidebar {
   width: 260px;
   flex-shrink: 0;
   padding-top: 8px;
-  background: transparent;
-
-  /* KILL ANY SEPARATOR */
-  border: none !important;
+  border: none !important; /* removes separator line */
 }
 
 /* Lab name */
@@ -56,17 +53,17 @@ a:hover {
   margin-bottom: 14px;
 }
 
-/* Lab LOGO */
-.sidebar-logo {
-  width: 140px;          /* adjust if you want */
+/* Uploaded lab logo */
+.sidebar-logo{
+  width: 140px;        /* adjust: 120–170px usually looks best */
   height: auto;
   display: block;
-  margin: 6px 0 18px 0;  /* space above/below */
-  opacity: 0.9;          /* slight muted grayscale feel */
+  margin: 6px 0 18px 0;
+  opacity: 0.95;
 }
 
-/* Contact links */
-.sidebar-links {
+/* Links */
+.sidebar-links{
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -74,30 +71,25 @@ a:hover {
   color: #666;
 }
 
-.sidebar-link {
+.sidebar-link{
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
   color: inherit;
-  text-decoration: none;
 }
 
-.sidebar-link:hover {
-  color: #111;
-  text-decoration: none;
+.sidebar-link:hover{ color: #111; }
+
+/* Clean grayscale “built-in” icons */
+.sidebar-link .icon{
+  width: 1.2em;
+  text-align: center;
+  opacity: 0.6;
+  font-size: 0.95rem;
 }
 
-/* grayscale icon look */
-.sidebar-icon {
-  width: 16px;
-  height: 16px;
-  object-fit: contain;
-  opacity: 0.7;
-}
-
-.sidebar-link:hover .sidebar-icon {
-  opacity: 0.95;
-}
+.sidebar-link:hover .icon{ opacity: 0.9; }
 
 /* =========================
    RIGHT CONTENT
