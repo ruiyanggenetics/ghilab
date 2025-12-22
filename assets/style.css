@@ -53,15 +53,6 @@ a:hover {
   margin-bottom: 14px;
 }
 
-/* Uploaded lab logo */
-.sidebar-logo{
-  width: 140px;        /* adjust: 120–170px usually looks best */
-  height: auto;
-  display: block;
-  margin: 6px 0 18px 0;
-  opacity: 0.95;
-}
-
 /* Links */
 .sidebar-links{
   display: flex;
