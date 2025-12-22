@@ -3,19 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ page.title }} | {{ site.title }}</title>
-  <link rel="stylesheet" href="{{ '/assets/style.css?v=2' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/style.css?v=3' | relative_url }}">
 </head>
-<body>
-<nav>
-  <a href="{{ '/' | relative_url }}">About</a>
-  <a href="{{ '/publications' | relative_url }}">Publications</a>
-  <a href="{{ '/research/' | relative_url }}">Research</a>
-  <a href="{{ '/repositories/' | relative_url }}">Repositories</a>
-  <a href="{{ '/people' | relative_url }}">People</a>
-  <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
-  <a href="{{ '/search' | relative_url }}">Search</a>
-</nav>
 
-<main>
-{{ content }}
-</main>
+<body>
+  <div class="page">
+
+    <!-- LEFT SIDEBAR (shows on every page) -->
+    <aside class="sidebar">
+      <div class="lab-name">
+        <a href="{{ '/' | relative_url }}">Laboratory of Genetics<br>of Human Immunity</a>
+      </div>
+
+      <div class="lab-desc">
+        Human Genetics &amp; Immunology
+      </div>
+
+      <div class="lab-affiliation">
+        Baylor College of Medicine<br>
+        Texas Children’s Hospital<br>
+        Houston, TX
+      </div>
+
+      <div class="lab-links">
+        <a href="mailto:rui.yang@bcm.edu">Email</a>
+        <a href="https://twitter.com/ryangrui" target="_blank" rel="noopener">𝕏</a>
+        <a href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <main class="content">
+      <nav class="topnav">
+        <a href="{{ '/' | relative_url }}">About</a>
+        <a href="{{ '/publications' | relative_url }}">Publications</a>
+        <a href="{{ '/research' | relative_url }}">Research</a>
+        <a href="{{ '/repositories' | relative_url }}">Repositories</a>
+        <a href="{{ '/people' | relative_url }}">People</a>
+        <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
+        <a href="{{ '/search' | relative_url }}">Search</a>
+      </nav>
+
+      {{ content }}
+    </main>
+
+  </div>
+</body>
+</html>
