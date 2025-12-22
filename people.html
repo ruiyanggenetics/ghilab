@@ -30,6 +30,17 @@ permalink: /people/
 </section>
 
 <!-- ======================
+     RESEARCH STAFF (AUTO)
+     ====================== -->
+
+<section class="people-section">
+  <h2>Research Staff</h2>
+  <div id="staff" class="people-grid">
+    <p>Loading research staff…</p>
+  </div>
+</section>
+
+<!-- ======================
      TRAINEES (AUTO)
      ====================== -->
 
@@ -41,7 +52,7 @@ permalink: /people/
 </section>
 
 <!-- ======================
-     CLOSE COLLABORATORS
+     CLOSE COLLABORATORS (AUTO)
      ====================== -->
 
 <section class="people-section">
@@ -58,9 +69,37 @@ permalink: /people/
 
 const SHEET_ID = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
 const SHEET_NAME = "Sheet1";
+
+// If a row has empty photo, use your placeholder in repo:
 const DEFAULT_PHOTO = "{{ '/assets/img/person-placeholder.png' | relative_url }}";
 
 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+/* =========================
+   HELPERS
+   ========================= */
+
+function cleanText(v){
+  return (v === null || v === undefined) ? "" : String(v);
+}
+
+// Convert "/assets/..." to include baseurl safely.
+function normalizePhotoPath(photo){
+  const p = cleanText(photo).trim();
+  if (!p) return DEFAULT_PHOTO;
+
+  // If user already put full URL, just use it.
+  if (p.startsWith("http://") || p.startsWith("https://")) return p;
+
+  // If user put "/assets/..." in the sheet, make it respect baseurl.
+  if (p.startsWith("/assets/")) return "{{ '' | relative_url }}" + p;
+
+  // If user put "assets/..." without leading slash, also fix it.
+  if (p.startsWith("assets/")) return "{{ '' | relative_url }}" + "/" + p;
+
+  // Otherwise assume it’s already correct.
+  return p;
+}
 
 /* =========================
    FETCH + RENDER
@@ -70,51 +109,69 @@ fetch(url)
   .then(res => res.text())
   .then(text => {
     const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
+    const rows = json.table.rows || [];
 
+    const staff = document.getElementById("staff");
     const trainees = document.getElementById("trainees");
     const collaborators = document.getElementById("collaborators");
 
+    staff.innerHTML = "";
     trainees.innerHTML = "";
     collaborators.innerHTML = "";
 
-    if (!rows || rows.length === 0) {
+    if (!rows.length) {
+      staff.innerHTML = "<p>No research staff listed.</p>";
       trainees.innerHTML = "<p>No trainees listed.</p>";
       collaborators.innerHTML = "<p>No collaborators listed.</p>";
       return;
     }
 
     rows.forEach(r => {
-      const name = r.c[0]?.v || "";
-      const category = r.c[1]?.v || "";
-      const role = r.c[2]?.v || "";
-      const photo = r.c[3]?.v || DEFAULT_PHOTO;
-      const bio = r.c[6]?.v || "";
+      const name = cleanText(r.c[0]?.v).trim();
+      const category = cleanText(r.c[1]?.v).trim();   // "Research Staff" / "Trainee" / "Close Collaborator"
+      const role = cleanText(r.c[2]?.v).trim();
+      const photoRaw = r.c[3]?.v;
+      const start = cleanText(r.c[4]?.v).trim();
+      const end = cleanText(r.c[5]?.v).trim();
+      const bio = cleanText(r.c[6]?.v).trim();
+
+      if (!name) return;
+
+      const photo = normalizePhotoPath(photoRaw);
+      const dates = (start || end) ? `${start}${start || end ? "–" : ""}${end}` : "";
 
       const card = document.createElement("div");
       card.className = "person-card trainee";
 
       card.innerHTML = `
-        <img src="${photo}" alt="${name}">
+        <img src="${photo}" alt="${name}" loading="lazy" onerror="this.src='${DEFAULT_PHOTO}'">
         <div class="person-info">
           <div class="person-name">${name}</div>
-          <div class="person-role">${role}</div>
-          <div class="person-bio">${bio}</div>
+          ${role ? `<div class="person-role">${role}</div>` : ""}
+          ${dates ? `<div class="person-dates">${dates}</div>` : ""}
+          ${bio ? `<div class="person-bio">${bio}</div>` : ""}
         </div>
       `;
 
-      if (category === "Trainee") {
+      if (category === "Research Staff") {
+        staff.appendChild(card);
+      } else if (category === "Trainee") {
         trainees.appendChild(card);
       } else if (category === "Close Collaborator") {
         collaborators.appendChild(card);
       }
     });
 
+    if (!staff.children.length) staff.innerHTML = "<p>No research staff listed.</p>";
     if (!trainees.children.length) trainees.innerHTML = "<p>No trainees listed.</p>";
     if (!collaborators.children.length) collaborators.innerHTML = "<p>No collaborators listed.</p>";
   })
   .catch(() => {
+    document.getElementById("staff").innerHTML = "<p>Error loading people.</p>";
     document.getElementById("trainees").innerHTML = "<p>Error loading people.</p>";
+    document.getElementById("collaborators").innerHTML = "<p>Error loading people.</p>";
+  });
+</script>
     document.getElementById("collaborators").innerHTML = "<p>Error loading people.</p>";
   });
 </script>
