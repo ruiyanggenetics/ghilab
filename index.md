@@ -22,10 +22,25 @@ Using *Homo sapiens*  as our primary model system—the one we care about most a
 </div>
 
 **Contact**
-1102 Bates Ave.  
-BCM-Feigin Center; C.0340.03E2  
-Houston, TX 77030  
-USA  
-📍 [View on Google Maps](https://www.google.com/maps/search/?api=1&query=1102%20Bates%20Ave%2C%20Houston%2C%20TX%2077030)  
-📧 [rui.yang@bcm.edu](mailto:rui.yang@bcm.edu)
-𝕏 [@ryangrui](https://x.com/ryangrui)
+
+<div class="contact-block">
+  <div>
+    1102 Bates Ave.<br>
+    BCM–Feigin Center; C.0340.03E2<br>
+    Houston, TX 77030<br>
+    USA
+  </div>
+
+  <div>
+    📍 <a href="https://www.google.com/maps?q=1102+Bates+Ave,+Houston,+TX+77030" target="_blank" rel="noopener">
+    View on Google Maps</a>
+  </div>
+
+  <div>
+    📧 <a href="mailto:rui.yang@bcm.edu">rui.yang@bcm.edu</a>
+  </div>
+
+  <div>
+    𝕏 <a href="https://x.com/ryangrui" target="_blank" rel="noopener">@ryangrui</a>
+  </div>
+</div>
