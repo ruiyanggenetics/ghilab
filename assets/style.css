@@ -270,66 +270,64 @@ main {
    ========================= */
 
 .people-section {
-  margin-top: 32px;
+  margin-top: 40px;
 }
 
 .people-section h2 {
   font-size: 1.35rem;
-  margin-bottom: 18px;
   font-weight: 700;
-  color: #111;
+  margin-bottom: 20px;
 }
 
-/* Shared card */
+/* Shared cards */
 .person-card {
   display: flex;
   gap: 18px;
-  align-items: center;
-  margin-bottom: 24px;
+  align-items: flex-start;
 }
 
-/* Head of Lab (larger photo) */
+/* Head of lab */
 .person-card.head img {
-  width: 140px;
-  height: auto;
-  border-radius: 8px;
+  width: 150px;
+  border-radius: 12px;
   object-fit: cover;
 }
 
-/* Trainee grid */
-.trainees-grid {
+/* Grid for trainees / collaborators */
+.people-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 26px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
 }
 
+/* Trainee / collaborator cards */
 .person-card.trainee {
   flex-direction: column;
   text-align: center;
 }
 
 .person-card.trainee img {
-  width: 110px;
-  height: 110px;
-  border-radius: 8px;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
   object-fit: cover;
-}
-
-/* Names + bios */
-.person-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin: 0 auto;
 }
 
 .person-name {
-  font-size: 1.1rem;
   font-weight: 600;
-  color: #111;
+  font-size: 1.05rem;
+  margin-top: 8px;
+}
+
+.person-role {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 6px;
 }
 
 .person-bio {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: #444;
   line-height: 1.45;
 }
