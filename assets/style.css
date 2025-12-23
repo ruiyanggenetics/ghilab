@@ -398,13 +398,17 @@ main {
 
 .footer-inner{
   max-width: 900px;
+  margin: 0 auto;              /* centers the 900px container */
   font-size: 0.85rem;
   color: #888;
+
   display: flex;
+  justify-content: center;     /* centers the footer items */
   gap: 10px;
   align-items: center;
+  text-align: center;
 }
-
+.footer-inner{ flex-wrap: wrap; }
 .footer-sep{ opacity: 0.5; }
 .footer-muted{ color: inherit; text-decoration: none; }
 .footer-muted:hover{ text-decoration: underline; }
