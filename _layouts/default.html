@@ -125,38 +125,3 @@
 
 </body>
 </html>
-
-<!-- =========================
-     GoatCounter
-     ========================= -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <span>© {{ site.time | date: "%Y" }} Yang Lab</span>
-    <span class="footer-sep">·</span>
-    <span id="pageviews" class="footer-muted">Views: —</span>
-  </div>
-</footer>
-
-<script data-goatcounter="https://ryangrui.goatcounter.com/count"
-        async src="https://gc.zgo.at/count.js"></script>
-
-<script>
-  (function () {
-    const el = document.getElementById("pageviews");
-    if (!el) return;
-
-    // build the path the same way GoatCounter stores it
-    const path = location.pathname.replace(/index\.html$/, "");
-    const api = `https://ryangrui.goatcounter.com/counter/${encodeURIComponent(path)}.json`;
-
-    fetch(api, { cache: "no-store" })
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(data => {
-        const n = (data && typeof data.count === "number") ? data.count : 0;
-        el.textContent = `Views: ${n.toLocaleString()}`;
-      })
-      .catch(() => {
-        el.textContent = "Views: —";
-      });
-  })();
-</script>
