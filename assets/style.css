@@ -331,6 +331,53 @@ main {
 }
 
 /* =========================
+   LAB UPDATES – CARDS (RESTORED)
+   ========================= */
+
+.updates-list {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.update-item {
+  padding: 18px 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  background: #ffffff;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.update-item:hover {
+  background: #f7f7f7;
+  transform: translateY(-1px);
+}
+
+.update-date {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.update-body {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.45;
+}
+
+.update-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.update-link:hover {
+  color: #111;
+}
+
+/* =========================
    MOBILE
    ========================= */
 
