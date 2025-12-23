@@ -1,14 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("publications");
 
-  // ⛔ Not on publications page → do nothing
+  // Not on publications page → do nothing
   if (!container) return;
 
-  // Mark container as dynamic publications
-  container.classList.add("pub-dynamic");
-
-  // Initial loading state
-  container.innerHTML = `<div class="pub-desc">Loading publications…</div>`;
+  // ✅ No "Loading..." text
+  container.innerHTML = "";
 
   try {
     const res = await fetch("https://ghilab.ryangrui.workers.dev/");
@@ -19,15 +16,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     pubs.forEach(p => {
       const item = document.createElement("div");
-
-      // IMPORTANT: dynamic class (prevents grid/layout bugs)
-      item.className = "pub-card pub-dynamic-item";
+      item.className = "pub-dynamic-item";
 
       item.innerHTML = `
         <div class="pub-title">
-          <a href="${p.url}" target="_blank" rel="noopener">
-            ${p.title}
-          </a>
+          <a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
         </div>
         <div class="pub-desc">
           ${p.authors}<br>
@@ -39,8 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
   } catch (err) {
-    container.innerHTML =
-      `<div class="pub-desc">Failed to load publications.</div>`;
+    // Optional: show nothing on failure (or keep an error message)
+    container.innerHTML = "";
     console.error(err);
   }
 });
