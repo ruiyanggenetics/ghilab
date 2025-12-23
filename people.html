@@ -35,19 +35,30 @@ permalink: /people/
 
 <section class="people-section">
   <h2>Trainees</h2>
-  <div id="trainees" class="people-grid">
-    <p>Loading trainees…</p>
+  <div id="people-trainees" class="people-grid">
+    <p class="pub-desc">Loading trainees…</p>
   </div>
 </section>
 
 <!-- ======================
-     RESEARCH STAFF
+     TECHNICAL STAFF
      ====================== -->
 
 <section class="people-section">
-  <h2>Research Staff</h2>
-  <div id="staff" class="people-grid">
-    <p>Loading research staff…</p>
+  <h2>Technical Staff</h2>
+  <div id="people-technical-staff" class="people-grid">
+    <p class="pub-desc">Loading technical staff…</p>
+  </div>
+</section>
+
+<!-- ======================
+     ADMINISTRATIVE STAFF
+     ====================== -->
+
+<section class="people-section">
+  <h2>Administrative Staff</h2>
+  <div id="people-administrative-staff" class="people-grid">
+    <p class="pub-desc">Loading administrative staff…</p>
   </div>
 </section>
 
@@ -57,8 +68,8 @@ permalink: /people/
 
 <section class="people-section">
   <h2>Close Collaborators</h2>
-  <div id="collaborators" class="people-grid">
-    <p>Loading collaborators…</p>
+  <div id="people-close-collaborators" class="people-grid">
+    <p class="pub-desc">Loading collaborators…</p>
   </div>
 </section>
 
@@ -66,91 +77,152 @@ permalink: /people/
 /* =========================
    CONFIG
    ========================= */
-
-const SHEET_ID = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
+const SHEET_ID   = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
 const SHEET_NAME = "Sheet1";
-const BASEURL = "{{ site.baseurl }}";
+const BASEURL    = "{{ site.baseurl }}";
 const DEFAULT_PHOTO = BASEURL + "/assets/img/person-placeholder.png";
 
-const url =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+const GVIZ_URL =
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
 /* =========================
    HELPERS
    ========================= */
-
 function cleanText(v) {
-  return v ? String(v) : "";
+  return (v === null || v === undefined) ? "" : String(v).trim();
+}
+
+// Normalize category strings like "Trainees" -> "trainee", "Close Collaborators" -> "close collaborator"
+function normCategory(v) {
+  const s = cleanText(v).toLowerCase();
+  if (!s) return "";
+
+  // collapse whitespace
+  const t = s.replace(/\s+/g, " ");
+
+  // simple plural handling
+  if (t === "trainees") return "trainee";
+  if (t === "close collaborators") return "close collaborator";
+
+  return t;
 }
 
 function parseGvizDate(v) {
+  // gviz sometimes returns Date(YYYY,MM,DD) (MM is 0-based)
   if (!v) return "";
   if (typeof v === "string" && v.startsWith("Date")) {
-    const p = v.match(/\d+/g).map(Number);
-    return new Date(p[0], p[1], p[2]).toLocaleDateString("en-US");
+    const parts = v.match(/\d+/g);
+    if (!parts || parts.length < 3) return "";
+    const y = Number(parts[0]);
+    const m = Number(parts[1]);
+    const d = Number(parts[2]);
+    const dt = new Date(y, m, d);
+    return isNaN(dt.getTime()) ? "" : dt.toLocaleDateString("en-US");
   }
-  return v;
+  return cleanText(v);
+}
+
+function safePhoto(photoPath) {
+  const p = cleanText(photoPath);
+  if (!p) return DEFAULT_PHOTO;
+
+  // If already absolute URL, keep it
+  if (/^https?:\/\//i.test(p)) return p;
+
+  // If sheet stores "/assets/..." keep it under baseurl
+  if (p.startsWith("/")) return BASEURL + p;
+
+  // Otherwise treat as relative to baseurl
+  return BASEURL + "/" + p;
+}
+
+function makeCard({ name, role, photo, dates, bio }) {
+  const card = document.createElement("div");
+  card.className = "person-card trainee";
+
+  card.innerHTML = `
+    <img src="${photo}" alt="${name}">
+    <div class="person-info">
+      <div class="person-name">${name}</div>
+      ${role ? `<div class="person-role">${role}</div>` : ""}
+      ${dates ? `<div class="person-dates">${dates}</div>` : ""}
+      ${bio ? `<div class="person-bio">${bio}</div>` : ""}
+    </div>
+  `;
+  return card;
+}
+
+function setEmpty(container, msg) {
+  container.innerHTML = `<p class="pub-desc">${msg}</p>`;
 }
 
 /* =========================
    FETCH + RENDER
    ========================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  const traineesEl = document.getElementById("people-trainees");
+  const techEl     = document.getElementById("people-technical-staff");
+  const adminEl    = document.getElementById("people-administrative-staff");
+  const collabEl   = document.getElementById("people-close-collaborators");
 
-fetch(url)
-  .then(res => res.text())
-  .then(text => {
-    const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows || [];
+  // Safety
+  if (!traineesEl || !techEl || !adminEl || !collabEl) return;
 
-    const trainees = document.getElementById("trainees");
-    const staff = document.getElementById("staff");
-    const collaborators = document.getElementById("collaborators");
+  try {
+    const res = await fetch(GVIZ_URL);
+    const text = await res.text();
 
-    trainees.innerHTML = "";
-    staff.innerHTML = "";
-    collaborators.innerHTML = "";
+    // Robust GViz JSON extraction
+    const m = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
+    if (!m || !m[1]) throw new Error("Could not parse GViz response.");
+    const json = JSON.parse(m[1]);
+
+    const rows = (json.table && json.table.rows) ? json.table.rows : [];
+
+    traineesEl.innerHTML = "";
+    techEl.innerHTML = "";
+    adminEl.innerHTML = "";
+    collabEl.innerHTML = "";
 
     rows.forEach(r => {
-      const name = cleanText(r.c[0]?.v);
-      const category = cleanText(r.c[1]?.v);
-      const role = cleanText(r.c[2]?.v);
-      const photoPath = cleanText(r.c[3]?.v);
-      const photo = photoPath ? BASEURL + photoPath : DEFAULT_PHOTO;
-      const start = parseGvizDate(r.c[4]?.v);
-      const end = parseGvizDate(r.c[5]?.v);
-      const bio = cleanText(r.c[6]?.v);
+      const name      = cleanText(r.c?.[0]?.v);
+      const category  = normCategory(r.c?.[1]?.v);
+      const role      = cleanText(r.c?.[2]?.v);
+      const photo     = safePhoto(r.c?.[3]?.v);
+      const start     = parseGvizDate(r.c?.[4]?.v);
+      const end       = parseGvizDate(r.c?.[5]?.v);
+      const bio       = cleanText(r.c?.[6]?.v);
 
-      const dates = (start || end) ? `${start}–${end}` : "";
+      if (!name) return;
 
-      const card = document.createElement("div");
-      card.className = "person-card trainee";
+      const dates = (start || end)
+        ? `${start || ""}${(start || end) ? "–" : ""}${end || ""}`.replace(/^–|–$/g, "")
+        : "";
 
-      card.innerHTML = `
-        <img src="${photo}" alt="${name}">
-        <div class="person-info">
-          <div class="person-name">${name}</div>
-          <div class="person-role">${role}</div>
-          ${dates ? `<div class="person-dates">${dates}</div>` : ""}
-          <div class="person-bio">${bio}</div>
-        </div>
-      `;
+      const card = makeCard({ name, role, photo, dates, bio });
 
-      if (category === "Trainee") {
-        trainees.appendChild(card);
-      } else if (category === "Research Staff") {
-        staff.appendChild(card);
-      } else if (category === "Close Collaborator") {
-        collaborators.appendChild(card);
+      if (category === "trainee") {
+        traineesEl.appendChild(card);
+      } else if (category === "technical staff") {
+        techEl.appendChild(card);
+      } else if (category === "administrative staff") {
+        adminEl.appendChild(card);
+      } else if (category === "close collaborator") {
+        collabEl.appendChild(card);
       }
     });
 
-    if (!trainees.children.length) trainees.innerHTML = "<p>No trainees listed.</p>";
-    if (!staff.children.length) staff.innerHTML = "<p>No research staff listed.</p>";
-    if (!collaborators.children.length) collaborators.innerHTML = "<p>No collaborators listed.</p>";
-  })
-  .catch(err => {
+    if (!traineesEl.children.length) setEmpty(traineesEl, "No trainees listed.");
+    if (!techEl.children.length)     setEmpty(techEl, "No technical staff listed.");
+    if (!adminEl.children.length)    setEmpty(adminEl, "No administrative staff listed.");
+    if (!collabEl.children.length)   setEmpty(collabEl, "No close collaborators listed.");
+
+  } catch (err) {
     console.error(err);
-    trainees.innerHTML = staff.innerHTML = collaborators.innerHTML =
-      "<p>Error loading people.</p>";
-  });
+    setEmpty(traineesEl, "Error loading people.");
+    setEmpty(techEl, "Error loading people.");
+    setEmpty(adminEl, "Error loading people.");
+    setEmpty(collabEl, "Error loading people.");
+  }
+});
 </script>
