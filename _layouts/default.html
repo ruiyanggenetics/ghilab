@@ -126,21 +126,37 @@
 </body>
 </html>
 
-  <!-- =========================
-       GoatCounter
-       ========================= -->
+<!-- =========================
+     GoatCounter
+     ========================= -->
 <footer class="site-footer">
   <div class="footer-inner">
     <span>© {{ site.time | date: "%Y" }} Yang Lab</span>
     <span class="footer-sep">·</span>
-    <a href="#" id="pageviews" class="footer-muted">Views: —</a>
+    <span id="pageviews" class="footer-muted">Views: —</span>
   </div>
 </footer>
 
 <script data-goatcounter="https://YOURCODE.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+        async src="https://gc.zgo.at/count.js"></script>
 
 <script>
-  // GoatCounter exposes counts via its API; simplest is to show total site visits in their dashboard.
-  // If you want per-page view number displayed, tell me your GoatCounter site code and I’ll wire it cleanly.
+  (function () {
+    const el = document.getElementById("pageviews");
+    if (!el) return;
+
+    // build the path the same way GoatCounter stores it
+    const path = location.pathname.replace(/index\.html$/, "");
+    const api = `https://YOURCODE.goatcounter.com/counter/${encodeURIComponent(path)}.json`;
+
+    fetch(api, { cache: "no-store" })
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(data => {
+        const n = (data && typeof data.count === "number") ? data.count : 0;
+        el.textContent = `Views: ${n.toLocaleString()}`;
+      })
+      .catch(() => {
+        el.textContent = "Views: —";
+      });
+  })();
 </script>
