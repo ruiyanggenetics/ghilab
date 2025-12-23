@@ -1,5 +1,3 @@
-const API_URL = "https://ghilab.ryangrui.workers.dev/";
-
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("publications");
 
@@ -9,38 +7,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   container.innerHTML = `<div class="pub-desc">Loading publications…</div>`;
 
   try {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error("Failed to load publications");
+    const res = await fetch("https://ghilab.ryangrui.workers.dev/");
+    if (!res.ok) throw new Error("Fetch failed");
 
     const pubs = await res.json();
     container.innerHTML = "";
 
-    pubs.forEach(pub => {
-      const card = document.createElement("a");
-      card.className = "pub-card";
-      card.href = pub.url;
-      card.target = "_blank";
-      card.rel = "noopener";
+    pubs.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "pub-card";
 
-      card.innerHTML = `
-        <div>
-          <div class="pub-title">${pub.title}</div>
-          <div class="pub-desc">
-            ${pub.authors}<br>
-            <em>${pub.journal}</em> (${pub.year})
-          </div>
+      item.innerHTML = `
+        <div class="pub-title">
+          <a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
+        </div>
+        <div class="pub-desc">
+          ${p.authors}<br>
+          <em>${p.journal}</em> (${p.year})
         </div>
       `;
 
-      container.appendChild(card);
+      container.appendChild(item);
     });
 
   } catch (err) {
-    container.innerHTML = `
-      <div class="pub-desc">
-        Failed to load publications.
-      </div>
-    `;
+    container.innerHTML =
+      `<div class="pub-desc">Failed to load publications.</div>`;
     console.error(err);
   }
 });
