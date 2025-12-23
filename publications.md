@@ -3,24 +3,20 @@ layout: default
 title: Publications
 ---
 
-# Publications
+## Publications
 
 <p class="pub-desc">
   Publications are automatically synced from ORCID and Crossref.
 </p>
 
-<!-- =========================
-     ORCID PUBLICATIONS
-     ========================= -->
+<!-- ORCID publications -->
 <div id="publications" class="pub-list pub-dynamic">
   <div class="pub-desc">Loading publications…</div>
 </div>
 
 <hr class="pub-divider">
 
-<!-- =========================
-     EXTERNAL LINKS
-     ========================= -->
+<!-- External links -->
 <div class="pub-list pub-external">
 
   <a class="pub-card" href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank">
