@@ -137,7 +137,7 @@
   </div>
 </footer>
 
-<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+<script data-goatcounter="https://ryangrui.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 
 <script>
@@ -147,7 +147,7 @@
 
     // build the path the same way GoatCounter stores it
     const path = location.pathname.replace(/index\.html$/, "");
-    const api = `https://YOURCODE.goatcounter.com/counter/${encodeURIComponent(path)}.json`;
+    const api = `https://ryangrui.goatcounter.com/counter/${encodeURIComponent(path)}.json`;
 
     fetch(api, { cache: "no-store" })
       .then(r => r.ok ? r.json() : Promise.reject(r.status))
