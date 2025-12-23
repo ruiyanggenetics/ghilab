@@ -38,7 +38,15 @@
       <!-- TOP NAV -->
       <nav class="topnav">
         <a class="brand" href="{{ '/' | relative_url }}">Yang Lab</a>
-        <a href="{{ '/publications' | relative_url }}">Publications</a>
+        <h1>Publications</h1>
+
+<p class="pub-desc">
+  Publications are automatically synced from ORCID and Crossref.
+</p>
+
+<div id="publications" class="pub-list">
+  <div class="pub-loading">Loading publications…</div>
+</div>
         <a href="{{ '/research' | relative_url }}">Research</a>
         <a href="{{ '/repositories' | relative_url }}">Repositories</a>
         <a href="{{ '/people' | relative_url }}">People</a>
