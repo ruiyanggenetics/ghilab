@@ -4,7 +4,7 @@ title: Publications
 ---
 
 <p class="pub-desc" style="margin-top:0;">
-  Publications are automatically synced from ORCID and Crossref.
+  Key publications are automatically synced from ORCID and Crossref.
 </p>
 
 ## Publications
