@@ -396,26 +396,25 @@ main {
    PUBLICATIONS – DYNAMIC (ORCID)
    ========================= */
 
-.pub-dynamic .pub-card {
-  display: block;
-  padding: 14px 18px;
-  margin-bottom: 14px;
-  border: none;
-  border-left: 3px solid #eee;
-  border-radius: 0;
-  background: transparent;
-  transition: border-color 0.15s ease;
+.pub-dynamic {
+  margin-top: 28px;
 }
 
-.pub-dynamic .pub-card:hover {
-  border-left-color: #111;
-  background: transparent;
-  transform: none;
+.pub-dynamic .pub-card {
+  display: block;
+  margin-bottom: 22px;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.pub-dynamic .pub-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .pub-dynamic .pub-title a {
-  font-weight: 600;
-  font-size: 1rem;
   color: #111;
   text-decoration: none;
 }
@@ -427,25 +426,6 @@ main {
 .pub-dynamic .pub-desc {
   font-size: 0.88rem;
   color: #555;
-  line-height: 1.4;
+  line-height: 1.45;
   margin-top: 4px;
-}
-
-/* =========================
-   PUBLICATIONS – DIVIDER
-   ========================= */
-
-.pub-divider {
-  border: none;
-  border-top: 1px solid #e6e6e6;
-  margin: 40px 0;
-}
-
-/* =========================
-   PUBLICATIONS – EXTERNAL LINKS
-   ========================= */
-
-.pub-external .pub-card {
-  display: grid;
-  grid-template-columns: 56px 1fr;
 }
