@@ -3,23 +3,21 @@ layout: default
 title: Publications
 ---
 
-## Publications
-
-<p class="pub-desc">
+<p class="pub-desc" style="margin-top:0;">
   Publications are automatically synced from ORCID and Crossref.
 </p>
 
-<!-- ORCID publications -->
-<div id="publications" class="pub-list pub-dynamic">
-  <div class="pub-desc">Loading publications…</div>
-</div>
+## Publications
+
+<!-- ORCID publications (dynamic) -->
+<div id="publications" class="pub-list pub-dynamic"></div>
 
 <hr class="pub-divider">
 
-<!-- External links -->
+<!-- External links (logos) -->
 <div class="pub-list pub-external">
 
-  <a class="pub-card" href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank">
+  <a class="pub-card" href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank" rel="noopener">
     <img src="{{ '/assets/img/ncbi-logo.jpg' | relative_url }}" alt="NCBI">
     <div>
       <div class="pub-title">NCBI Bibliography</div>
@@ -27,7 +25,7 @@ title: Publications
     </div>
   </a>
 
-  <a class="pub-card" href="https://scholar.google.com/citations?user=xYZ1Pf4AAAAJ&hl=en" target="_blank">
+  <a class="pub-card" href="https://scholar.google.com/citations?user=xYZ1Pf4AAAAJ&hl=en" target="_blank" rel="noopener">
     <img src="{{ '/assets/img/google-scholar-logo.png' | relative_url }}" alt="Google Scholar">
     <div>
       <div class="pub-title">Google Scholar</div>
