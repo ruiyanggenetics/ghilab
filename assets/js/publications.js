@@ -1,7 +1,12 @@
 const API_URL = "https://ghilab.ryangrui.workers.dev/";
 
-async function loadPublications() {
+document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("publications");
+
+  // ⛔ Not on publications page → do nothing
+  if (!container) return;
+
+  container.innerHTML = `<div class="pub-desc">Loading publications…</div>`;
 
   try {
     const res = await fetch(API_URL);
@@ -38,6 +43,4 @@ async function loadPublications() {
     `;
     console.error(err);
   }
-}
-
-document.addEventListener("DOMContentLoaded", loadPublications);
+});
