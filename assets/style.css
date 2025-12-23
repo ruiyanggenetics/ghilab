@@ -22,6 +22,13 @@ a:hover {
   text-decoration: underline;
 }
 
+/* 🔒 GLOBAL IMAGE SAFETY (CRITICAL FIX) */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* =========================
    PAGE LAYOUT
    ========================= */
@@ -130,10 +137,10 @@ main {
 }
 
 /* =========================
-   PUBLICATIONS – EXTERNAL (LOGO CARDS)
+   PUBLICATIONS – EXTERNAL (LOGO CARDS ONLY)
    ========================= */
 
-.pub-card {
+.pub-external .pub-card {
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: 18px;
@@ -145,11 +152,12 @@ main {
   transition: background 0.15s ease;
 }
 
-.pub-card:hover {
+.pub-external .pub-card:hover {
   background: #f7f7f7;
 }
 
-.pub-card img {
+/* 🔒 LOGO SIZE IS NOW SAFELY SCOPED */
+.pub-external .pub-card img {
   width: 56px;
   height: 56px;
   object-fit: contain;
@@ -167,34 +175,46 @@ main {
 }
 
 /* =========================
-   PUBLICATIONS – DYNAMIC (ORCID)
+   PUBLICATIONS – DYNAMIC (ORCID, TEXT ONLY)
    ========================= */
 
 .pub-dynamic {
   margin-top: 28px;
 }
 
-.pub-dynamic-item {
+.pub-dynamic .pub-card {
+  display: block;
   margin-bottom: 22px;
   padding-left: 14px;
   border-left: 3px solid #eee;
+  border-radius: 0;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  background: none;
 }
 
-.pub-dynamic-item:hover {
+.pub-dynamic .pub-card:hover {
   border-left-color: #111;
+  background: none;
 }
 
-.pub-dynamic-item .pub-title {
+/* 🚫 NO IMAGES IN ORCID LIST */
+.pub-dynamic img {
+  display: none;
+}
+
+.pub-dynamic .pub-title {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.35;
 }
 
-.pub-dynamic-item .pub-title a {
+.pub-dynamic .pub-title a {
   color: #111;
 }
 
-.pub-dynamic-item .pub-desc {
+.pub-dynamic .pub-desc {
   font-size: 0.88rem;
   color: #555;
   line-height: 1.45;
