@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ⛔ Not on publications page → do nothing
   if (!container) return;
 
+  // Mark container as dynamic publications
+  container.classList.add("pub-dynamic");
+
+  // Initial loading state
   container.innerHTML = `<div class="pub-desc">Loading publications…</div>`;
 
   try {
@@ -15,11 +19,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     pubs.forEach(p => {
       const item = document.createElement("div");
-      item.className = "pub-card";
+
+      // IMPORTANT: dynamic class (prevents grid/layout bugs)
+      item.className = "pub-card pub-dynamic-item";
 
       item.innerHTML = `
         <div class="pub-title">
-          <a href="${p.url}" target="_blank" rel="noopener">${p.title}</a>
+          <a href="${p.url}" target="_blank" rel="noopener">
+            ${p.title}
+          </a>
         </div>
         <div class="pub-desc">
           ${p.authors}<br>
