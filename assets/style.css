@@ -58,6 +58,16 @@ img {
   margin-bottom: 14px;
 }
 
+.sidebar-label {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #888;
+  text-transform: uppercase;
+}
+
 .sidebar-links {
   display: flex;
   flex-direction: column;
