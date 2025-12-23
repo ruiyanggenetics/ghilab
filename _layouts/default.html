@@ -10,9 +10,13 @@
 <body>
   <div class="page">
 
-    <!-- LEFT SIDEBAR (shows on ALL pages) -->
+    <!-- =========================
+         LEFT SIDEBAR (ALL PAGES)
+         ========================= -->
     <aside class="sidebar">
-      <div class="sidebar-title">The Laboratory of Genetics of Human Immunity</div>
+      <div class="sidebar-title">
+        The Laboratory of Genetics of Human Immunity
+      </div>
 
       <div class="sidebar-links">
         <a class="sidebar-link" href="mailto:rui.yang@bcm.edu">
@@ -20,40 +24,43 @@
           <span>rui.yang@bcm.edu</span>
         </a>
 
-        <a class="sidebar-link" href="https://twitter.com/ryangrui" target="_blank" rel="noopener">
+        <a class="sidebar-link"
+           href="https://twitter.com/ryangrui"
+           target="_blank"
+           rel="noopener">
           <span class="icon">𝕏</span>
           <span>@ryangrui</span>
         </a>
 
-        <a class="sidebar-link" href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">
+        <a class="sidebar-link"
+           href="https://github.com/ruiyanggenetics"
+           target="_blank"
+           rel="noopener">
           <span class="icon">⌂</span>
           <span>ruiyanggenetics</span>
         </a>
       </div>
     </aside>
 
-    <!-- RIGHT CONTENT -->
+    <!-- =========================
+         RIGHT CONTENT
+         ========================= -->
     <div class="content">
 
-      <!-- TOP NAV -->
+      <!-- =========================
+           TOP NAVIGATION
+           ========================= -->
       <nav class="topnav">
         <a class="brand" href="{{ '/' | relative_url }}">Yang Lab</a>
-        <h1>Publications</h1>
 
-<p class="pub-desc">
-  Publications are automatically synced from ORCID and Crossref.
-</p>
-
-<div id="publications" class="pub-list">
-  <div class="pub-loading">Loading publications…</div>
-</div>
+        <a href="{{ '/publications' | relative_url }}">Publications</a>
         <a href="{{ '/research' | relative_url }}">Research</a>
         <a href="{{ '/repositories' | relative_url }}">Repositories</a>
         <a href="{{ '/people' | relative_url }}">People</a>
         <a href="{{ '/updates' | relative_url }}">Updates</a>
         <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
 
-        <!-- SEARCH (ALWAYS VISIBLE) -->
+        <!-- SEARCH (GLOBAL, SAFE) -->
         <div class="nav-search">
           <input
             id="nav-search-input"
@@ -64,9 +71,12 @@
         </div>
       </nav>
 
-      <!-- SEARCH RESULTS -->
+      <!-- SEARCH RESULTS DROPDOWN -->
       <div id="nav-search-results" class="nav-search-results"></div>
 
+      <!-- =========================
+           PAGE CONTENT
+           ========================= -->
       <main>
         {{ content }}
       </main>
@@ -74,7 +84,10 @@
     </div>
   </div>
 
-  <!-- Search logic -->
+  <!-- =========================
+       GLOBAL SCRIPTS
+       ========================= -->
   <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+
 </body>
 </html>
