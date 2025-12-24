@@ -13,8 +13,8 @@ and to translate these insights into better diagnosis and therapy.
 
 <div class="research-grid research-grid-3">
 
-  <a href="/research/novel-iei" class="research-card">
-    <img src="/assets/img/research/novel-iei.jpg" alt="Exploration of novel IEIs">
+  <a href="{{ '/research/novel-iei' | relative_url }}" class="research-card">
+    <img src="{{ '/assets/img/research/novel-iei.jpg' | relative_url }}" alt="Exploration of novel IEIs">
     <div class="research-card-body">
       <h3>Exploration of Novel IEIs</h3>
       <p>
@@ -25,20 +25,20 @@ and to translate these insights into better diagnosis and therapy.
     </div>
   </a>
 
-  <a href="/research/maves" class="research-card">
-    <img src="/assets/img/research/maves.jpg" alt="MAVEs for key IEI and cancer genes">
+  <a href="{{ '/research/maves' | relative_url }}" class="research-card">
+    <img src="{{ '/assets/img/research/maves.jpg' | relative_url }}" alt="MAVEs for key IEI and cancer genes">
     <div class="research-card-body">
-      <h3>MAVEs for Key IEI & Cancer Genes</h3>
+      <h3>MAVEs for Key IEI &amp; Cancer Genes</h3>
       <p>
-        Multiplexed assays of variant effect to map genotype–function relationships and enable 
+        Multiplexed assays of variant effect to map genotype–function relationships and enable
         accurate, timely genetic diagnosis.
       </p>
       <span class="research-link">Learn more →</span>
     </div>
   </a>
 
-  <a href="/research/therapeutics" class="research-card">
-    <img src="/assets/img/research/therapeutics.jpg" alt="Therapeutics for IEIs and beyond">
+  <a href="{{ '/research/therapeutics' | relative_url }}" class="research-card">
+    <img src="{{ '/assets/img/research/therapeutics.jpg' | relative_url }}" alt="Therapeutics for IEIs and beyond">
     <div class="research-card-body">
       <h3>Therapeutics for IEIs and Beyond</h3>
       <p>
