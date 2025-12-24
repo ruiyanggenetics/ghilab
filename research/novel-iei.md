@@ -77,23 +77,18 @@ followed by rigorous functional validation in relevant immune systems.
 **Yang R**, Mele F, Worley L, Langlais D, Rosain J, Benhsaien I, *et al.*  
 **Human T-bet governs innate and innate-like adaptive IFN-γ immunity against mycobacteria.**  
 *Cell.* 2020;183(7):1826–1847.e31.  
-https://doi.org/10.1016/j.cell.2020.10.046
-
----
+DOI: [10.1016/j.cell.2020.10.046](https://doi.org/10.1016/j.cell.2020.10.046)
 
 **Yang R**, Avery DT, Jackson KJL, Ogishi M, Benhsaien I, Du L, *et al.*  
 **Human T-bet governs the generation of a distinct subset of CD11c^high^ CD21^low^ B cells.**  
 *Science Immunology.* 2022;7(73):eabq3277.  
-https://doi.org/10.1126/sciimmunol.abq3277
-
----
+DOI: [10.1126/sciimmunol.abq3277](https://doi.org/10.1126/sciimmunol.abq3277)
 
 **Yang R**, Weisshaar M, Mele F, Benhsaien I, Dorgham K, Han J, *et al.*  
 **High Th2 cytokine levels and upper airway inflammation in human inherited T-bet deficiency.**  
 *Journal of Experimental Medicine.* 2021;218(8):e20202726.  
-https://doi.org/10.1084/jem.20202726
+DOI: [10.1084/jem.20202726](https://doi.org/10.1084/jem.20202726)
 
----
 
 <p style="margin-top:32px;">
 ← <a href="{{ '/research' | relative_url }}">Back to Research</a>
