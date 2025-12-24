@@ -28,7 +28,7 @@ primary bottleneck in genetic diagnosis. For IEIs in particular, many patients h
 or private variants whose functional consequences cannot be inferred from sequence data alone.
 
 - The majority of variants submitted to clinical databases such as ClinVar are classified as
-  **variants of uncertain significance (VUS)**.
+  variants of uncertain significance (VUS).
 - The number of reported VUS continues to grow exponentially as sequencing expands  
   (<a href="https://pubmed.ncbi.nlm.nih.gov/40691352/" target="_blank">PMID: 40691352</a>).
 - Testing variants individually is resource-intensive, time-consuming, and impractical at scale.
@@ -53,10 +53,10 @@ for patients with suspected IEIs.
 
 Our MAVE platform integrates:
 
-- **High-throughput variant generation**, enabling near-saturation mutagenesis
-- **Physiologically relevant cellular systems** tailored to gene-specific function
-- **Quantitative functional readouts** that directly reflect immune phenotypes
-- **Rigorous statistical and computational analysis** for reproducibility and clinical translation
+- High-throughput variant generation, enabling near-saturation mutagenesis
+- Physiologically relevant cellular systems tailored to gene-specific function
+- Quantitative functional readouts that directly reflect immune phenotypes
+- Rigorous statistical and computational analysis for reproducibility and clinical translation
 
 By coupling human genetics with scalable functional genomics, we aim to convert uncertain
 genetic variation into actionable biological and clinical insight.
@@ -67,16 +67,13 @@ genetic variation into actionable biological and clinical insight.
 *(As we are building our independent MAVE portfolio, representative publications below illustrate
 conceptual and methodological approaches aligned with our work.)*
 
-**Tabet DR**, Coté AG, Lancaster MC, *et al.*  
+Tabet DR, Coté AG, Lancaster MC, *et al.*  
 **The functional landscape of coding variation in the familial hypercholesterolemia gene LDLR.**  
 *Science.* 2025;eady7186.  
 <a href="https://www.science.org/doi/10.1126/science.ady7186" target="_blank">
 https://doi.org/10.1126/science.ady7186
 </a>
-
----
-
-**Walsh ZH**, Frangieh CJ, Kothapalli N, *et al.*  
+Walsh ZH, Frangieh CJ, Kothapalli N, *et al.*  
 **Scalable generation and functional classification of genetic variants in inborn errors of immunity.**  
 *Cell.* 2025;188(18):4861–4879.e27.  
 <a href="https://doi.org/10.1016/j.cell.2025.05.037" target="_blank">
