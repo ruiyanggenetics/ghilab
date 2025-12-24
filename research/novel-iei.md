@@ -74,17 +74,24 @@ followed by rigorous functional validation in relevant immune systems.
 ## Selected Publications  
 *(As we are in the process of building our independent research program, representative publications are drawn from the PI’s prior training.)*
 
-- **Cell (2020)**  
-  Human T-bet governs innate and innate-like adaptive IFN-γ immunity against mycobacteria  
-  https://www.cell.com/cell/fulltext/S0092-8674(20)31453-7
+**Yang R**, Mele F, Worley L, Langlais D, Rosain J, Benhsaien I, *et al.*  
+**Human T-bet governs innate and innate-like adaptive IFN-γ immunity against mycobacteria.**  
+*Cell.* 2020;183(7):1826–1847.e31.  
+https://doi.org/10.1016/j.cell.2020.10.046
 
-- **Science Immunology (2022)**  
-  Human T-bet governs the generation of a distinct subset of CD11c⁺ CD21⁻ B cells  
-  https://www.science.org/doi/full/10.1126/sciimmunol.abq3277
+---
 
-- **Journal of Experimental Medicine (2021)**  
-  High Th2 cytokine levels and upper airway inflammation in human inherited T-bet deficiency  
-  https://rupress.org/jem/article/218/8/e20202726/212431
+**Yang R**, Avery DT, Jackson KJL, Ogishi M, Benhsaien I, Du L, *et al.*  
+**Human T-bet governs the generation of a distinct subset of CD11c^high^ CD21^low^ B cells.**  
+*Science Immunology.* 2022;7(73):eabq3277.  
+https://doi.org/10.1126/sciimmunol.abq3277
+
+---
+
+**Yang R**, Weisshaar M, Mele F, Benhsaien I, Dorgham K, Han J, *et al.*  
+**High Th2 cytokine levels and upper airway inflammation in human inherited T-bet deficiency.**  
+*Journal of Experimental Medicine.* 2021;218(8):e20202726.  
+https://doi.org/10.1084/jem.20202726
 
 ---
 
