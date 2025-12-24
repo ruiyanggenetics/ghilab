@@ -64,23 +64,18 @@ genetic variation into actionable biological and clinical insight.
 ---
 
 ## Selected Publications  
-*(As we are building our independent MAVE portfolio, representative publications below illustrate
+*(As we are in the process of building our independent research program, representative publications illustrate
 conceptual and methodological approaches aligned with our work.)*
 
-Tabet DR, Coté AG, Lancaster MC, *et al.*  
+Tabet DR, Coté AG, Lancaster MC, Weile J, Rayhan A, Fotiadou I, *et al.*  
 **The functional landscape of coding variation in the familial hypercholesterolemia gene LDLR.**  
 *Science.* 2025;eady7186.  
-<a href="https://www.science.org/doi/10.1126/science.ady7186" target="_blank">
-https://doi.org/10.1126/science.ady7186
-</a>
-Walsh ZH, Frangieh CJ, Kothapalli N, *et al.*  
-**Scalable generation and functional classification of genetic variants in inborn errors of immunity.**  
-*Cell.* 2025;188(18):4861–4879.e27.  
-<a href="https://doi.org/10.1016/j.cell.2025.05.037" target="_blank">
-https://doi.org/10.1016/j.cell.2025.05.037
-</a>
+DOI: [10.1126/science.ady7186](https://doi.org/10.1126/science.ady7186)
 
----
+Walsh ZH, Frangieh CJ, Kothapalli N, Levy J, Heck CK, Melms JC, *et al.*  
+**Scalable generation and functional classification of genetic variants in inborn errors of immunity to accelerate clinical diagnosis and treatment.**  
+*Cell.* 2025;188(18):4861–4879.e27.  
+DOI: [10.1016/j.cell.2025.05.037](https://doi.org/10.1016/j.cell.2025.05.037)
 
 <p style="margin-top:32px;">
 ← <a href="{{ '/research' | relative_url }}">Back to Research</a>
