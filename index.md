@@ -4,7 +4,7 @@ title: About
 ---
 <img src="{{ '/assets/img/lab_banner.jpg' | relative_url }}" class="site-banner" alt="">
 
-# The Laboratory of Genetics of Human Immunity
+# Genetics of Human Immunity
 
 We’re a vigorous and rigorous group of physicians and scientists seeking to answer a simple question: 
 why do only a small subset of *Homo sapiens* develop life-threatening infections or immune dysregulation, while most remain asymptomatic or experience only mild disease? 
