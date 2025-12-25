@@ -29,7 +29,7 @@ or private variants whose functional consequences cannot be inferred from sequen
 
 - The majority of variants submitted to clinical databases such as ClinVar are classified as
   variants of uncertain significance (VUS).
-- The number of reported VUS continues to grow exponentially as sequencing expands ([Nat Rev Genet, 2025](https://pubmed.ncbi.nlm.nih.gov/40691352/))
+- The number of reported VUS continues to grow exponentially as sequencing expands ([Nat Rev Genet, 2025](https://pubmed.ncbi.nlm.nih.gov/40691352/)).
 - Testing variants individually is resource-intensive, time-consuming, and impractical at scale.
 - Functional studies performed across different laboratories often yield inconsistent or
   non-comparable results.
@@ -63,7 +63,7 @@ genetic variation into actionable biological and clinical insight.
 ---
 
 ## Selected Publications  
-*(As we are in the process of building our independent research program, representative publications illustrate
+*(As we are in the process of building our independent research program, representative publications from other groups illustrate
 conceptual and methodological approaches aligned with our work.)*
 
 Tabet DR, Coté AG, Lancaster MC, Weile J, Rayhan A, Fotiadou I, *et al.*  
