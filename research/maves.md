@@ -55,13 +55,10 @@ for patients with suspected IEIs.
 
 Our MAVE platform integrates:
 
-- High-throughput variant generation, enabling near-saturation mutagenesis
+- High-throughput variant generation, enabling saturation scale
 - Physiologically relevant cellular systems tailored to gene-specific function
 - Quantitative functional readouts that directly reflect immune phenotypes
 - Rigorous statistical and computational analysis for reproducibility and clinical translation
-
-By coupling human genetics with scalable functional genomics, we aim to convert uncertain
-genetic variation into actionable biological and clinical insight.
 
 ---
 
