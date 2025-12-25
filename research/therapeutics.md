@@ -44,9 +44,9 @@ and disease phenotypes—offering a blueprint for precision therapy.
   ([Circulation, 2024](https://pubmed.ncbi.nlm.nih.gov/38227713/)).
 
 - Despite this promise, translation from genetic discovery to targeted therapy remains fragmented,
-  and many IEIs still lack rational, mechanism-based treatments.
+  and most IEIs still lack  mechanism-based treatments.
 
-- Guided by the Brown–Goldstein paradigm, we aim to leverage insights from rare genetic
+- Guided by a Brown–Goldstein approach, we aim to leverage insights from rare genetic
   disorders to inform therapies for broader populations who share dysregulation of the same
   immune pathways.
 
@@ -54,8 +54,7 @@ and disease phenotypes—offering a blueprint for precision therapy.
 
 ## Therapeutic Areas of Focus
 
-- CD40–CD40L pathway dysregulation, spanning immune deficiency, immune dysregulation,
-  and lymphoproliferative disease
+- CD40–CD40L pathway dysregulation, spanning immune deficiency and immune dysregulation
 - Life-threatening Epstein–Barr virus (EBV) disease, including immunodeficiency,
   lymphoproliferation, and malignancy
 
