@@ -13,7 +13,7 @@ permalink: /research/maves/
 <p class="page-intro">
 Despite widespread use of clinical sequencing—including targeted gene panels, whole-exome
 sequencing (WES), and whole-genome sequencing (WGS)—the diagnostic yield for inborn errors
-of immunity (IEIs) remains limited (~30%). A major barrier is the interpretation of variants
+of immunity (IEIs) remains limited (~30%) ([Frontiers in Pediatrics, 2024](https://doi.org/10.3389/fped.2024.1279112)). A major barrier is the interpretation of variants
 of uncertain significance (VUS). Our laboratory leverages multiplexed assays of variant effect
 (MAVEs) to systematically map genotype–function relationships and generate comprehensive
 functional atlases for key IEI genes.
