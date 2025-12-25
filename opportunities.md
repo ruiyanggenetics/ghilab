@@ -44,7 +44,7 @@ For students at BCM or external programs who are interested in laboratory rotati
 ---
 
 ### 🧬 Postdoctoral Fellows, Clinical Fellows, & Instructors
-For trainees with strong backgrounds in immunology, genetics, molecular biology, biochemistry, or related fields who are ready to develop independent research programs.
+For trainees with strong backgrounds in immunology, genetics, molecular biology, biochemistry, or related fields who are ready to explore inborn errors of immunity with a high degree of autonomy.
 
 👉 **Apply via Google Form:**  
 [Postdoctoral / Clinical Fellow / Instructor Application Form](https://docs.google.com/forms/d/e/1FAIpQLSdVOZsmvcRQ1QGoTMUzY7-7MdrgDEZS74CySSs2M2k3Sap4-w/viewform?usp=publish-editor)
@@ -60,4 +60,4 @@ If you are energetic, curious, and motivated to do work that truly matters, we w
 
 ---
 
-*The Laboratory of Genetics of Human Immunity is committed to fostering a diverse, inclusive, and supportive training environment.*
+*We are committed to fostering a diverse, inclusive, and supportive training environment.*
