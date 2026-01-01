@@ -7,7 +7,7 @@ permalink: /resources/vectors-plasmids/
 <h1>Vectors &amp; Plasmids</h1>
 
 <p class="page-intro">
-Shared reagents and plasmids used by the Yang Lab.
+Shared reagents and plasmids.
 </p>
 
 - **Addgene (under construction)**  
