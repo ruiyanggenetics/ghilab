@@ -89,7 +89,15 @@
 
         <a href="{{ '/research' | relative_url }}">Research</a>
         <a href="{{ '/people' | relative_url }}">People</a>
-        <a href="{{ '/resources' | relative_url }}">Resources</a>
+       <div class="nav-dropdown">
+  <a class="nav-dropdown-toggle" href="{{ '/resources' | relative_url }}">Resources</a>
+
+  <div class="nav-dropdown-menu">
+    <a href="{{ '/resources/lab-metabase' | relative_url }}">Lab Metabase</a>
+    <a href="{{ '/resources/computational-tools' | relative_url }}">Computational tools</a>
+    <a href="{{ '/resources/vectors-plasmids' | relative_url }}">Vectors &amp; Plasmids</a>
+  </div>
+</div>
         <a href="{{ '/publications' | relative_url }}">Publications</a>
         <a href="{{ '/updates' | relative_url }}">Updates</a>
         <a href="{{ '/opportunities' | relative_url }}">Opportunities</a>
