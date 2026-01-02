@@ -6,9 +6,9 @@ title: About
 
 # Genetics of Human Immunity
 
-We’re a vigorous and rigorous group of physicians and scientists seeking to answer a simple question: 
-why do only a small subset of *Homo sapiens* develop life-threatening infections or immune dysregulation, while most remain asymptomatic or experience only mild disease? 
-Using *Homo sapiens*  as our primary model system—the one we care about most and understand best—we integrate human genetics and immunology to uncover the mechanisms that shape protective and pathological immune responses, with the goal of translating discovery into better diagnosis and therapy.
+We’re an energetic group of physicians and scientists seeking to answer a simple question: 
+why do only a small subset of humans develop life-threatening infections or immune dysregulation, while most remain asymptomatic or experience only mild disease? 
+Using *Homo sapiens*  as our primary model system—the one that matters most and that we understand best—we integrate human genetics and immunology to uncover the mechanisms that shape protective and pathological immune responses, with the goal of translating discovery into better diagnosis and therapy.
 
 
 **Affiliation**
