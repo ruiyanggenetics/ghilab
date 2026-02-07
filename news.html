@@ -1,18 +1,18 @@
 ---
 layout: default
-title: Lab Updates
-permalink: /updates/
+title: Lab News
+permalink: /news/
 ---
 
-<h1>Lab Updates</h1>
+<h1>Lab News</h1>
 
 <p>
 Announcements, preprints, publications, and lab news from the Yang Lab.
-Updates are curated and maintained by the lab.
+News items are curated and maintained by the lab.
 </p>
 
-<div id="updates" class="updates-list">
-  <p>Loading updates…</p>
+<div id="news" class="news-list">
+  <p>Loading news…</p>
 </div>
 
 <script>
@@ -34,12 +34,12 @@ fetch(url)
   .then(text => {
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
-    const container = document.getElementById("updates");
+    const container = document.getElementById("news");
 
     container.innerHTML = "";
 
     if (!rows || rows.length === 0) {
-      container.innerHTML = "<p>No updates yet.</p>";
+      container.innerHTML = "<p>No news yet.</p>";
       return;
     }
 
@@ -52,19 +52,19 @@ fetch(url)
       const link = r.c[3]?.v || "";
 
       const item = document.createElement("div");
-      item.className = "update-item";
+      item.className = "news-item";
 
       item.innerHTML = `
-        <div class="update-date">${date}</div>
-        <div class="update-body">${body}</div>
-        ${link ? `<a class="update-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
+        <div class="news-date">${date}</div>
+        <div class="news-body">${body}</div>
+        ${link ? `<a class="news-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
       `;
 
       container.appendChild(item);
     });
   })
   .catch(() => {
-    document.getElementById("updates").innerHTML =
-      "<p>Unable to load updates. Please check sheet permissions.</p>";
+    document.getElementById("news").innerHTML =
+      "<p>Unable to load news. Please check sheet permissions.</p>";
   });
 </script>
