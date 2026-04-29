@@ -49,4 +49,16 @@ and to translate these insights into better diagnosis and therapy.
     </div>
   </a>
 
+  <a href="{{ '/research/aab-discovery' | relative_url }}" class="research-card research-card-vertical">
+    <img src="{{ '/assets/img/research/aAb_discovery.png' | relative_url }}" alt="Disease-causing autoantibody discovery">
+    <div class="research-card-body">
+      <h3>Disease-causing Autoantibody (aAb) Discovery</h3>
+      <p>
+        Discovering novel disease-causing autoantibodies by leveraging existing platforms
+        and developing new screening technologies.
+      </p>
+      <span class="research-link">Learn more →</span>
+    </div>
+  </a>
+
 </div>

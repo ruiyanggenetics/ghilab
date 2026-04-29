@@ -340,6 +340,41 @@ main {
   border-color: #999;
 }
 
+.nav-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.nav-search-item a {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.nav-search-item a:hover {
+  border-color: #d8d8d8;
+  background: #fafafa;
+}
+
+.nav-search-title {
+  margin-bottom: 4px;
+  color: #222;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.nav-search-snippet {
+  color: #666;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 /* =========================
    LAB NEWS – CARDS (LOW-KEY ELEVATION)
    ========================= */
