@@ -52,12 +52,17 @@ This repository intentionally avoids complex templates and heavy plugins to ensu
 
 ### Prerequisites
 
-- **Ruby** (version 2.7 or higher)
+- **Ruby** (version 2.7 or higher) - macOS includes Ruby by default, but it may be outdated
 - **Bundler** (install with `gem install bundler` if needed)
 
 Check your Ruby version:
 ```bash
 ruby --version
+```
+
+If Ruby is outdated (< 2.7), install a newer version using Homebrew:
+```bash
+brew install ruby
 ```
 
 ### Install Steps
@@ -97,14 +102,25 @@ sudo gem install bundler
 bundle install
 ```
 
+**macOS - Xcode Command Line Tools missing:**
+```bash
+xcode-select --install
+```
+
 **Windows:** Install Ruby via [RubyInstaller](https://rubyinstaller.org/) with DevKit.
 
 #### If `jekyll serve` fails:
 
-**Port 4000 already in use:**
+**Port 4000 already in use (macOS):**
 ```bash
 lsof -i :4000 | grep LISTEN  # Find process
 kill <PID>                   # Kill it, then retry
+```
+
+**Permission denied on port (macOS):**
+```bash
+sudo lsof -i :4000 | grep LISTEN
+sudo kill <PID>
 ```
 
 **Liquid Exception errors:**
