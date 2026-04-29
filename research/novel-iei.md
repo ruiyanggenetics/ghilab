@@ -16,8 +16,6 @@ immune dysregulation, or malignancy reveals fundamental principles and non-redun
 pathways governing disease pathogenicity in humans.
 </p>
 
----
-
 ## Background
 
 Interindividual variability in susceptibility to infection, immune dysregulation,
@@ -40,23 +38,17 @@ and pathological immunity.
   patients we study, but also uncovers essential immune pathways that govern host defense,
   immune regulation, and malignancy risk in humans.
 
----
-
 ## Key Questions We Ask
 
 - Why do some individuals develop severe or life-threatening disease after otherwise common infections?
 - Which immune pathways are non-redundant in humans causing or preventing patients from diseases of interests?
 - How do monogenic defects predispose to immune dysregulation and cancer?
 
----
-
 ## Disease Phenotypes We Study
 
 - **Life-threatening infections**, with a particular focus on Epstein–Barr virus (EBV)
 - **Immune dysregulation and malignancy** in the context of EBV infection
 - **Broader spectra of immune dysregulation**, including autoimmunity and autoinflammation
-
----
 
 ## Our Approach
 
@@ -68,8 +60,6 @@ Our work is grounded in patient-oriented research and integrates:
 
 Rather than beginning with predefined pathways, we prioritize unbiased discovery in humans,
 followed by rigorous functional validation in relevant immune systems.
-
----
 
 ## Selected Publications  
 *(As we are in the process of building our independent research program, representative publications are drawn from the PI’s prior training.)*

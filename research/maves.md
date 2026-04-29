@@ -22,8 +22,6 @@ Our laboratory leverages multiplexed assays of variant effect (MAVEs) to systema
 genotype–function relationships and generate comprehensive functional atlases for key IEI genes.
 </p>
 
----
-
 ## Background
 
 Although sequencing technologies have rapidly advanced, interpretation has become the
@@ -40,16 +38,12 @@ or private variants whose functional consequences cannot be inferred from sequen
 Together, these challenges limit the clinical utility of sequencing and delay diagnosis
 for patients with suspected IEIs.
 
----
-
 ## Genes and Pathways of Interest
 
 - Our group is actively developing MAVEs for several high-yield IEI genes, selected based on
   clinical relevance, genetic constraint, and unmet diagnostic need.
 - These genes span pathways involved in immune activation, regulation, and malignancy risk,
   and are frequently associated with high rates of VUS in clinical testing.
-
----
 
 ## Our Approach
 
@@ -59,8 +53,6 @@ Our MAVE platform integrates:
 - Physiologically relevant cellular systems tailored to gene-specific function
 - Quantitative functional readouts that directly reflect immune phenotypes
 - Rigorous statistical and computational analysis for reproducibility and clinical translation
-
----
 
 ## Selected Publications  
 *(As we are in the process of building our independent research program, representative publications from other groups illustrate

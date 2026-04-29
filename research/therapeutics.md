@@ -18,8 +18,6 @@ and to extend these insights beyond rare monogenic disorders to patients with mo
 modest, or even mild clinical disease arising from dysregulation of the same pathways.
 </p>
 
----
-
 ## Background
 
 <img src="{{ '/assets/img/research/therapeutics2.jpg' | relative_url }}"
@@ -50,15 +48,11 @@ and disease phenotypes—offering a blueprint for precision therapy.
   disorders to inform therapies for broader populations who share dysregulation of the same
   immune pathways.
 
----
-
 ## Therapeutic Areas of Focus
 
 - CD40–CD40L pathway dysregulation, spanning immune deficiency and immune dysregulation
 - Life-threatening Epstein–Barr virus (EBV) disease, including immunodeficiency,
   lymphoproliferation, and malignancy
-
----
 
 ## Our Approach
 
@@ -68,12 +62,8 @@ Our therapeutic strategy is grounded in genetics-first reasoning and integrates:
 - Functional immunology to identify precise therapeutic leverage
 - Pathway-informed intervention, prioritizing specificity, safety, and durability
 
----
-
 ## Selected Publications  
 *(The laboratory is currently in the process of establishing its independent research program. Publications arising from this work are expected in the coming years.)*
-
----
 
 <p style="margin-top:32px;">
 ← <a href="{{ '/research' | relative_url }}">Back to Research</a>
