@@ -109,14 +109,15 @@
         <a href="{{ '/people' | relative_url }}">People</a>
 
         <div class="nav-dropdown">
-          <a href="{{ '/resources' | relative_url }}" class="nav-parent">
+          <span class="nav-parent" tabindex="0">
             Resources <span class="nav-caret">▾</span>
-          </a>
+          </span>
 
           <div class="nav-menu" role="menu" aria-label="Resources submenu">
             <a role="menuitem" href="{{ '/resources/lab-metabase' | relative_url }}">Lab Metabase</a>
             <a role="menuitem" href="{{ '/resources/computational-tools' | relative_url }}">Computational tools</a>
             <a role="menuitem" href="{{ '/resources/vectors-plasmids' | relative_url }}">Vectors &amp; Plasmids</a>
+            <a role="menuitem" href="https://www.wts-chi.org/booked/Web/index.php" target="_blank" rel="noopener">Lab equipment booking</a>
           </div>
         </div>
 

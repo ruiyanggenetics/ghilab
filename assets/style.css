@@ -118,7 +118,8 @@ img {
   margin-bottom: 32px;
 }
 
-.topnav a {
+.topnav a,
+.topnav .nav-parent {
   font-size: 0.95rem;
   color: #777;
   font-weight: 500;
@@ -129,7 +130,9 @@ img {
   color: #111;
 }
 
-.topnav a:hover {
+.topnav a:hover,
+.topnav .nav-parent:hover,
+.topnav .nav-parent:focus {
   color: #111;
 }
 
@@ -570,6 +573,7 @@ main .page-intro + h2 {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  cursor: default;
 }
 
 .nav-caret{
