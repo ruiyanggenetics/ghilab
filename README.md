@@ -48,10 +48,67 @@ This repository intentionally avoids complex templates and heavy plugins to ensu
 
 ---
 
-## Local development (optional)
+## Local Development
 
-If you want to preview locally:
+### Prerequisites
 
+- **Ruby** (version 2.7 or higher)
+- **Bundler** (install with `gem install bundler` if needed)
+
+Check your Ruby version:
 ```bash
-bundle install
+ruby --version
+```
+
+### Install Steps
+
+1. Navigate to the project directory:
+   ```bash
+   cd github/ghilab
+   ```
+
+2. Install dependencies:
+   ```bash
+   bundle install
+   ```
+
+### Run Locally
+
+Start the development server:
+```bash
 bundle exec jekyll serve
+```
+
+Then open your browser and visit: **http://localhost:4000/ghilab/**
+
+### Troubleshooting
+
+#### If `bundle install` fails:
+
+**Missing gems error:**
+```bash
+gem install jekyll bundler
+bundle install
+```
+
+**Permission errors (macOS/Linux):**
+```bash
+sudo gem install bundler
+bundle install
+```
+
+**Windows:** Install Ruby via [RubyInstaller](https://rubyinstaller.org/) with DevKit.
+
+#### If `jekyll serve` fails:
+
+**Port 4000 already in use:**
+```bash
+lsof -i :4000 | grep LISTEN  # Find process
+kill <PID>                   # Kill it, then retry
+```
+
+**Liquid Exception errors:**
+```bash
+bundle update
+bundle install
+```
