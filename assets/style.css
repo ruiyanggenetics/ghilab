@@ -265,7 +265,7 @@ main .page-intro + h2 {
 }
 
 /* =========================
-   PEOPLE PAGE (RESTORED)
+   PEOPLE PAGE
    ========================= */
 
 .people-section {
@@ -280,58 +280,60 @@ main .page-intro + h2 {
 
 .people-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
 }
 
-/* Head of lab */
-.person-card.head {
+.person-card {
   display: flex;
-  gap: 18px;
-  align-items: flex-start;
-}
-
-.person-card.head img {
-  width: 150px;
-  height: auto;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 18px 16px;
+  border: 1px solid #e6e6e6;
   border-radius: 12px;
-  object-fit: cover;
-}
-
-/* Trainees / collaborators */
-.person-card.trainee {
+  background: #fff;
   text-align: center;
 }
 
-.person-card.trainee img {
+.person-card img {
   width: 120px;
   height: 120px;
   border-radius: 12px;
   object-fit: cover;
-  margin: 0 auto;
+  margin: 0 auto 12px auto;
+}
+
+.person-info {
+  width: 100%;
 }
 
 .person-name {
   font-weight: 600;
   font-size: 1.05rem;
-  margin-top: 8px;
+  line-height: 1.3;
 }
 
 .person-role {
   font-size: 0.85rem;
   color: #777;
-  margin-bottom: 6px;
+  line-height: 1.35;
+  margin-top: 5px;
 }
 
 .person-bio {
   font-size: 0.92rem;
   color: #444;
   line-height: 1.45;
+  margin-top: 10px;
 }
 
 .person-dates {
   font-size: 0.86rem;
   color: #777;
+  line-height: 1.35;
+  margin-top: 5px;
 }
 
 /* =========================
@@ -668,10 +670,20 @@ main .page-intro + h2 {
   .affiliations img {
     height: 56px;
   }
+
+  .people-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 900px){
   .research-card.research-card-vertical img{
     height: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .people-grid {
+    grid-template-columns: 1fr;
   }
 }
