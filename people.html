@@ -33,8 +33,18 @@ permalink: /people/
    ========================= */
 const SHEET_ID   = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
 const SHEET_NAME = "Sheet1";
-const BASEURL    = "{{ site.baseurl }}";
-const DEFAULT_PHOTO = BASEURL + "/assets/img/person-placeholder.png";
+const RAW_BASEURL = "{{ site.baseurl }}";
+const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
+const DEFAULT_PHOTO = BASEURL ? BASEURL + "/assets/img/person-placeholder.png" : "assets/img/person-placeholder.png";
+const STATIC_PI = {
+  name: "Rui (Ray) Yang, MD, PhD",
+  category: "Principal Investigator",
+  title: "Principal Investigator",
+  photo: "/assets/img/rui-yang-photo.png",
+  startDate: "",
+  endDate: "",
+  biography: "Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming tenure-track assistant professor at Baylor College of Medicine (BCM). He will launch his laboratory at Texas Children's Hospital in summer 2026. His research focuses on monogenic causes of life-threatening infectious diseases, immune dysregulation, and malignancies."
+};
 
 const GVIZ_URL =
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
@@ -94,7 +104,10 @@ function safePhoto(photoPath) {
   if (!p) return DEFAULT_PHOTO;
 
   if (/^https?:\/\//i.test(p)) return p;
+  if (!BASEURL && window.location.protocol === "file:" && p.startsWith("/")) return p.replace(/^\/+/, "");
+  if (!BASEURL && p.startsWith("/")) return p;
   if (p.startsWith("/")) return BASEURL + p;
+  if (!BASEURL) return p;
   return BASEURL + "/" + p;
 }
 
@@ -142,6 +155,11 @@ function compareLabMembers(a, b) {
   if (aPi && !bPi) return -1;
   if (!aPi && bPi) return 1;
   return compareByFirstName(a, b);
+}
+
+function ensurePrincipalInvestigator(people) {
+  const hasRui = people.some(person => normCategory(person.name).includes("rui") && normCategory(person.name).includes("yang"));
+  return hasRui ? people : [STATIC_PI, ...people];
 }
 
 function makeCard(person) {
@@ -235,9 +253,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       biography: cleanText(cellValue(row, map, "biography"))
     })).filter(person => person.name);
 
-    const labMembers = people
-      .filter(person => !isAlumni(person) && !isCloseCollaborator(person))
-      .sort(compareLabMembers);
+    const labMembers = ensurePrincipalInvestigator(
+      people.filter(person => !isAlumni(person) && !isCloseCollaborator(person))
+    ).sort(compareLabMembers);
 
     const alumni = people
       .filter(isAlumni)
@@ -253,7 +271,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   } catch (err) {
     console.error(err);
-    setEmpty(labMembersEl, "Error loading people.");
+    renderPeople(labMembersEl, [STATIC_PI], "Error loading people.");
     setEmpty(alumniEl, "Error loading people.");
     setEmpty(collabEl, "Error loading people.");
   }

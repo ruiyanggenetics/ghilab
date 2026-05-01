@@ -14,6 +14,9 @@ News items are curated and maintained by the lab.
 <div id="news" class="news-list">
   <p>Loading news…</p>
 </div>
+<button id="news-show-more" class="news-show-more" type="button" hidden>
+  Show more
+</button>
 
 <script>
 /* =========================
@@ -22,8 +25,55 @@ News items are curated and maintained by the lab.
 
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
 const SHEET_NAME = "Sheet1";
+const NEWS_PREVIEW_LIMIT = 5;
 
 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+function cleanText(value) {
+  return value === null || value === undefined ? "" : String(value).trim();
+}
+
+function parseGvizDate(value, formattedValue) {
+  if (value instanceof Date) return value;
+
+  if (typeof value === "string" && value.startsWith("Date")) {
+    const parts = value.match(/\d+/g);
+    if (parts && parts.length >= 3) {
+      const dt = new Date(Number(parts[0]), Number(parts[1]), Number(parts[2]));
+      if (!isNaN(dt.getTime())) return dt;
+    }
+  }
+
+  const fallback = Date.parse(cleanText(formattedValue || value));
+  return isNaN(fallback) ? new Date(0) : new Date(fallback);
+}
+
+function makeNewsItem(news) {
+  const item = document.createElement("div");
+  item.className = "news-item";
+
+  const date = document.createElement("div");
+  date.className = "news-date";
+  date.textContent = news.dateLabel;
+  item.appendChild(date);
+
+  const body = document.createElement("div");
+  body.className = "news-body";
+  body.textContent = news.body;
+  item.appendChild(body);
+
+  if (news.link) {
+    const link = document.createElement("a");
+    link.className = "news-link";
+    link.href = news.link;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Read more →";
+    item.appendChild(link);
+  }
+
+  return item;
+}
 
 /* =========================
    FETCH + RENDER
@@ -32,36 +82,54 @@ const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:
 fetch(url)
   .then(res => res.text())
   .then(text => {
-    const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
+    const m = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
+    if (!m || !m[1]) throw new Error("Could not parse GViz response.");
+
+    const json = JSON.parse(m[1]);
+    const rows = json.table?.rows || [];
     const container = document.getElementById("news");
+    const showMore = document.getElementById("news-show-more");
 
     container.innerHTML = "";
+    showMore.hidden = true;
 
     if (!rows || rows.length === 0) {
       container.innerHTML = "<p>No news yet.</p>";
       return;
     }
 
-    rows.forEach(r => {
-      /* --- DATE (use formatted value directly) --- */
-      const date = r.c[0]?.f || "";
+    const newsItems = rows.map(r => {
+      const dateCell = r.c?.[0];
 
-      /* --- CONTENT --- */
-      const body = r.c[2]?.v || "";
-      const link = r.c[3]?.v || "";
+      return {
+        dateLabel: cleanText(dateCell?.f || dateCell?.v),
+        sortDate: parseGvizDate(dateCell?.v, dateCell?.f),
+        body: cleanText(r.c?.[2]?.v),
+        link: cleanText(r.c?.[3]?.v)
+      };
+    }).filter(item => item.body);
 
-      const item = document.createElement("div");
-      item.className = "news-item";
+    newsItems.sort((a, b) => b.sortDate - a.sortDate);
 
-      item.innerHTML = `
-        <div class="news-date">${date}</div>
-        <div class="news-body">${body}</div>
-        ${link ? `<a class="news-link" href="${link}" target="_blank" rel="noopener">Read more →</a>` : ""}
-      `;
+    function renderNews(showAll = false) {
+      container.innerHTML = "";
 
-      container.appendChild(item);
-    });
+      const visibleItems = showAll
+        ? newsItems
+        : newsItems.slice(0, NEWS_PREVIEW_LIMIT);
+
+      visibleItems.forEach(item => {
+        container.appendChild(makeNewsItem(item));
+      });
+
+      showMore.hidden = showAll || newsItems.length <= NEWS_PREVIEW_LIMIT;
+    }
+
+    showMore.addEventListener("click", () => {
+      renderNews(true);
+    }, { once: true });
+
+    renderNews(false);
   })
   .catch(() => {
     document.getElementById("news").innerHTML =
