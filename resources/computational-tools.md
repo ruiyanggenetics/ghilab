@@ -10,5 +10,13 @@ permalink: /resources/computational-tools/
 Code repositories and computational resources maintained by the Yang Lab.
 </p>
 
-- **GitHub**  
-  <a href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">https://github.com/ruiyanggenetics</a>
+<div class="resource-card-grid">
+
+  <a class="resource-card" href="https://github.com/ruiyanggenetics" target="_blank" rel="noopener">
+    <div class="resource-card-title">GitHub</div>
+    <div class="resource-card-desc">
+      Public code repositories, analysis tools, and computational resources from the Yang Lab.
+    </div>
+  </a>
+
+</div>

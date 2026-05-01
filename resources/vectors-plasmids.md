@@ -10,5 +10,20 @@ permalink: /resources/vectors-plasmids/
 Shared reagents and plasmids.
 </p>
 
-- **Addgene (under construction)**  
-  Plasmids will be made available via Addgene as they are finalized.
+<div class="resource-card-grid">
+
+  <a class="resource-card" href="http://ghi.lab.txfc.bcm.edu/dashboard" target="_blank" rel="noopener">
+    <div class="resource-card-title">Plasmid inventory</div>
+    <div class="resource-card-desc">
+      Plasmid inventory and corresponding maps are available through the GHI Dashboard Metabase.
+    </div>
+  </a>
+
+  <div class="resource-card">
+    <div class="resource-card-title">Addgene</div>
+    <div class="resource-card-desc">
+      Lab Addgene repository is under construction.
+    </div>
+  </div>
+
+</div>
