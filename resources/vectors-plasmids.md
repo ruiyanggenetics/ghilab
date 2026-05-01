@@ -19,11 +19,11 @@ Shared reagents and plasmids.
     </div>
   </a>
 
-  <div class="resource-card">
+  <a class="resource-card" href="https://www.addgene.org/" target="_blank" rel="noopener">
     <div class="resource-card-title">Addgene</div>
     <div class="resource-card-desc">
       Lab Addgene repository is under construction.
     </div>
-  </div>
+  </a>
 
 </div>
