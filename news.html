@@ -33,6 +33,42 @@ function cleanText(value) {
   return value === null || value === undefined ? "" : String(value).trim();
 }
 
+function normKey(value) {
+  return cleanText(value).toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function makeHeaderMap(cols) {
+  const fallback = {
+    date: 0,
+    body: 2,
+    link: 3
+  };
+
+  const aliases = {
+    date: "date",
+    sortdate: "date",
+    news: "body",
+    body: "body",
+    content: "body",
+    announcement: "body",
+    description: "body",
+    link: "link",
+    url: "link"
+  };
+
+  const map = {};
+  cols.forEach((col, index) => {
+    const key = aliases[normKey(col.label || col.id)];
+    if (key) map[key] = index;
+  });
+
+  return { ...fallback, ...map };
+}
+
+function cell(row, map, key) {
+  return row.c?.[map[key]];
+}
+
 function parseGvizDate(value, formattedValue) {
   if (value instanceof Date) return value;
 
@@ -98,18 +134,22 @@ fetch(url)
       return;
     }
 
+    const map = makeHeaderMap(json.table?.cols || []);
+
     const newsItems = rows.map(r => {
-      const dateCell = r.c?.[0];
+      const dateCell = cell(r, map, "date");
+      const bodyCell = cell(r, map, "body");
+      const linkCell = cell(r, map, "link");
 
       return {
         dateLabel: cleanText(dateCell?.f || dateCell?.v),
         sortDate: parseGvizDate(dateCell?.v, dateCell?.f),
-        body: cleanText(r.c?.[2]?.v),
-        link: cleanText(r.c?.[3]?.v)
+        body: cleanText(bodyCell?.v),
+        link: cleanText(linkCell?.v)
       };
     }).filter(item => item.body);
 
-    newsItems.sort((a, b) => b.sortDate - a.sortDate);
+    newsItems.sort((a, b) => b.sortDate.getTime() - a.sortDate.getTime());
 
     function renderNews(showAll = false) {
       container.innerHTML = "";
