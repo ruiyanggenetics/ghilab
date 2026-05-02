@@ -2,6 +2,7 @@
 layout: default
 title: Join us!
 description: Training and employment opportunities in the Yang Lab for research assistants, students, postdoctoral fellows, clinical fellows, and instructors.
+permalink: /opportunities/
 ---
 
 # Join us!
