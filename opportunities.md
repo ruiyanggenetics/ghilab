@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Opportunities
+title: Join us!
 description: Training and employment opportunities in the Yang Lab for research assistants, students, postdoctoral fellows, clinical fellows, and instructors.
 ---
 
-# Opportunities
+# Join us!
 
 As a new and growing lab, we are looking for **talented, curious, and energetic trainees**—including postdoctoral fellows, graduate students, and undergraduate students—who are excited to push the frontiers of discovery and improve the lives of children and families affected by devastating inborn errors of immunity.
 
