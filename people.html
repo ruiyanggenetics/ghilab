@@ -84,6 +84,14 @@ function isPrincipalInvestigator(person) {
   return category === "principal investigator" || title.includes("principal investigator");
 }
 
+function fallbackTitle(person) {
+  if (person.title) return person.title;
+  if (isPrincipalInvestigator(person)) return "Principal Investigator";
+  if (isAlumni(person)) return "Alumni";
+  if (isCloseCollaborator(person)) return "Close collaborator";
+  return "Lab member";
+}
+
 function parseGvizDate(v) {
   // gviz sometimes returns Date(YYYY,MM,DD) (MM is 0-based)
   if (!v) return "";
@@ -178,12 +186,10 @@ function makeCard(person) {
   name.textContent = person.name;
   info.appendChild(name);
 
-  if (person.title) {
-    const role = document.createElement("div");
-    role.className = "person-role";
-    role.textContent = person.title;
-    info.appendChild(role);
-  }
+  const role = document.createElement("div");
+  role.className = "person-role";
+  role.textContent = fallbackTitle(person);
+  info.appendChild(role);
 
   const dates = datesFor(person);
   if (dates) {

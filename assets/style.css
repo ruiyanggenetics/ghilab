@@ -166,6 +166,35 @@ main .page-intro + h2 {
   margin-bottom: 22px;
 }
 
+.home-focus-grid {
+  margin-bottom: 26px;
+}
+
+.contact-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 26px 0;
+  padding: 16px 18px;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  background: #fff;
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.contact-callout strong {
+  color: #111;
+}
+
+.contact-callout a {
+  color: #111;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 /* =========================
    AFFILIATIONS (FIXED)
    ========================= */

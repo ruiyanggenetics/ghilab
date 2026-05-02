@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description | strip_html | strip_newlines }}">
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
 </head>
 
@@ -41,57 +42,6 @@
     </a>
   </div>
 
-  <!-- =========================
-       SHARE
-       ========================= -->
-  <div class="sidebar-label">
-    Share with friends
-  </div>
-
-  <div class="sidebar-links sidebar-share">
-
-    <!-- Email -->
-    <a class="sidebar-link"
-       href="mailto:?subject=Yang Lab – Genetics of Human Immunity&body=Check out the Yang Lab website:%0Ahttps://ruiyanggenetics.github.io/ghilab/">
-      <span class="icon">✉︎</span>
-      <span>Email</span>
-    </a>
-
-    <!-- Text / Phone (works on mobile) -->
-    <a class="sidebar-link"
-       href="sms:?&body=Check out the Yang Lab website: https://ruiyanggenetics.github.io/ghilab/">
-      <span class="icon">☎︎</span>
-      <span>Text</span>
-    </a>
-
-    <!-- X (Twitter) -->
-    <a class="sidebar-link"
-       href="https://twitter.com/intent/tweet?text=Check%20out%20the%20Yang%20Lab%20–%20Genetics%20of%20Human%20Immunity&url=https://ruiyanggenetics.github.io/ghilab/"
-       target="_blank"
-       rel="noopener">
-      <span class="icon">𝕏</span>
-      <span>X</span>
-    </a>
-
-    <!-- LinkedIn (share) -->
-    <a class="sidebar-link"
-       href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fruiyanggenetics.github.io%2Fghilab%2F"
-       target="_blank"
-       rel="noopener">
-      <span class="icon">in</span>
-      <span>LinkedIn</span>
-    </a>
-
-    <!-- WhatsApp -->
-    <a class="sidebar-link"
-       href="https://wa.me/?text=Check%20out%20the%20Yang%20Lab%20website:%20https%3A%2F%2Fruiyanggenetics.github.io%2Fghilab%2F"
-       target="_blank"
-       rel="noopener">
-      <span class="icon">WA</span>
-      <span>WhatsApp</span>
-    </a>
-
-  </div>
 </aside>
     
     <!-- =========================
@@ -150,6 +100,16 @@
     </div>
   </div>
 
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© {{ site.time | date: "%Y" }} Genetics of Human Immunity</span>
+      <span class="footer-sep">|</span>
+      <span>Baylor College of Medicine / Texas Children's Hospital</span>
+      <span class="footer-sep">|</span>
+      <a class="footer-muted" href="mailto:rui.yang@bcm.edu">rui.yang[at]bcm.edu</a>
+    </div>
+  </footer>
+
   <!-- =========================
        GLOBAL SCRIPTS
        ========================= -->
@@ -157,12 +117,3 @@
 
 </body>
 </html>
-
-<!-- =========================
-     FOOTER
-     ========================= -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <span>© {{ site.time | date: "%Y" }} Genetics of Human Immunity</span>
-  </div>
-</footer>

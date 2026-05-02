@@ -1,6 +1,7 @@
 ---
 layout: default
 title: About
+description: Yang Lab studies human genetics of immunity to understand severe infection, immune dysregulation, malignancy, and mechanism-driven diagnosis and therapy.
 ---
 <img src="{{ '/assets/img/lab_banner.jpg' | relative_url }}" class="site-banner" alt="">
 
@@ -10,6 +11,37 @@ We’re an energetic group of physicians and scientists seeking to answer a simp
 why do only a small subset of humans develop life-threatening infections or immune dysregulation, while most remain asymptomatic or experience only mild disease? 
 Using *Homo sapiens*  as our primary model system—the one that matters most and that we understand best—we integrate human genetics and immunology to uncover the mechanisms that shape protective and pathological immune responses, with the goal of translating discovery into better diagnosis and therapy.
 
+## What We Do
+
+<div class="resource-card-grid home-focus-grid">
+
+  <a class="resource-card" href="{{ '/research/novel-iei' | relative_url }}">
+    <div class="resource-card-title">Human genetics of severe infection</div>
+    <div class="resource-card-desc">
+      Discovering genetic and immunological mechanisms that explain life-threatening infectious disease.
+    </div>
+  </a>
+
+  <a class="resource-card" href="{{ '/research/aab-discovery' | relative_url }}">
+    <div class="resource-card-title">Immune dysregulation and malignancy</div>
+    <div class="resource-card-desc">
+      Studying immune pathways that shape autoimmunity, autoinflammation, EBV disease, and cancer risk.
+    </div>
+  </a>
+
+  <a class="resource-card" href="{{ '/research/therapeutics' | relative_url }}">
+    <div class="resource-card-title">Mechanism-driven diagnosis and therapy</div>
+    <div class="resource-card-desc">
+      Translating human discoveries into sharper diagnosis and rational therapeutic strategies.
+    </div>
+  </a>
+
+</div>
+
+<div class="contact-callout">
+  <strong>Contact</strong>
+  <span>For collaboration, recruitment, or referral inquiries: <a href="mailto:rui.yang@bcm.edu">rui.yang[at]bcm.edu</a></span>
+</div>
 
 **Affiliation**
 <div class="affiliations">
