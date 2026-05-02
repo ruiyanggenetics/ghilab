@@ -12,7 +12,7 @@ Ordering and purchasing resources for lab members.
 
 <div class="resource-card-grid">
 
-  <a class="resource-card" href="https://solutions.sciquest.com/apps/Router/ShoppingDashboardUserDetails?tmstmp=1777619207661" target="_blank" rel="noopener">
+  <a class="resource-card" href="https://solutions.sciquest.com/apps/Router/ShoppingDashboardUserDetails?tmstmp=1777619207661">
     <div class="resource-card-title">Procurement</div>
     <div class="resource-card-desc">
       Access the purchasing dashboard for lab orders and procurement workflows.
