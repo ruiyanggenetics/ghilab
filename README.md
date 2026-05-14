@@ -4,7 +4,7 @@ This repository hosts the official website for the
 **Laboratory of Genetics of Human Immunity (GHI Lab)**.
 
 🌐 **Live site:**  
-[https://ruiyanggenetics.github.io/ghilab/](https://bcm-rui-yang-genetics.github.io/ghilab/)
+[https://bcm-rui-yang-genetics.github.io/ghilab/](https://bcm-rui-yang-genetics.github.io/ghilab/)
 
 ---
 
