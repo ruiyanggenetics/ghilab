@@ -24,12 +24,12 @@ News items are curated and maintained by the lab.
    ========================= */
 
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
-const SHEET_NAME = "Sheet1";
+const SHEET_NAME = "YangLab_updates";
 const NEWS_PREVIEW_LIMIT = 5;
 const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
 
-const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
 function cleanText(value) {
   return value === null || value === undefined ? "" : String(value).trim();
