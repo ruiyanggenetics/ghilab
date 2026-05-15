@@ -26,18 +26,6 @@ News items are curated and maintained by the lab.
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
 const SHEET_FALLBACK_NAMES = ["YangLab_updates", "Sheet1"];
 const NEWS_PREVIEW_LIMIT = 5;
-const RAW_BASEURL = "{{ site.baseurl }}";
-const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
-const FALLBACK_NEWS_ITEMS = [
-  {
-    dateLabel: "12/18/2025",
-    sortDate: new Date(2025, 11, 18),
-    title: "New Funding",
-    body: "CD40LG copy number variation study was funded by Jeffrey Modell Foundation.",
-    photo: safePhoto("assets/img/news/news_JMF_2025.png"),
-    link: "https://info4pi.org/medical/specific-defect-research/"
-  }
-];
 
 function cleanText(value) {
   return value === null || value === undefined ? "" : String(value).trim();
@@ -52,7 +40,6 @@ function makeHeaderMap(cols) {
     date: 0,
     title: 1,
     body: 2,
-    photo: 3,
     link: 4
   };
 
@@ -67,9 +54,6 @@ function makeHeaderMap(cols) {
     content: "body",
     announcement: "body",
     description: "body",
-    photo: "photo",
-    image: "photo",
-    picture: "photo",
     link: "link",
     url: "link"
   };
@@ -109,9 +93,6 @@ function mapFromHeaderRow(row) {
     content: "body",
     announcement: "body",
     description: "body",
-    photo: "photo",
-    image: "photo",
-    picture: "photo",
     link: "link",
     url: "link"
   };
@@ -122,7 +103,7 @@ function mapFromHeaderRow(row) {
     if (key) map[key] = index;
   });
 
-  return { date: 0, title: 1, body: 2, photo: 3, link: 4, ...map };
+  return { date: 0, title: 1, body: 2, link: 4, ...map };
 }
 
 function parseGvizDate(value, formattedValue) {
@@ -140,48 +121,9 @@ function parseGvizDate(value, formattedValue) {
   return isNaN(fallback) ? new Date(0) : new Date(fallback);
 }
 
-function safePhoto(photoPath) {
-  const p = cleanText(photoPath);
-  if (!p) return "";
-
-  if (/^https?:\/\//i.test(p)) return p;
-  if (!BASEURL && window.location.hostname.endsWith("github.io") && p.startsWith("assets/")) return "/ghilab/" + p;
-  if (!BASEURL && window.location.protocol === "file:" && p.startsWith("/")) return p.replace(/^\/+/, "");
-  if (!BASEURL && p.startsWith("/")) return p;
-  if (p.startsWith("/")) return BASEURL + p;
-  if (!BASEURL) return p;
-  return BASEURL + "/" + p;
-}
-
-function cacheBustedImage(src) {
-  if (!src || /^data:/i.test(src)) return src;
-  const separator = src.includes("?") ? "&" : "?";
-  return `${src}${separator}v=20260514`;
-}
-
 function makeNewsItem(news) {
   const item = document.createElement("div");
   item.className = "news-item";
-
-  if (news.photo) {
-    item.classList.add("has-photo");
-
-    const media = document.createElement("div");
-    media.className = "news-photo";
-
-    const img = document.createElement("img");
-    img.src = cacheBustedImage(news.photo);
-    img.alt = news.title || "News photo";
-    img.onerror = () => {
-      if (!img.dataset.retry && !news.photo.startsWith("/ghilab/") && news.photo.startsWith("assets/")) {
-        img.dataset.retry = "true";
-        img.src = cacheBustedImage("/ghilab/" + news.photo);
-      }
-    };
-    media.appendChild(img);
-
-    item.appendChild(media);
-  }
 
   const content = document.createElement("div");
   content.className = "news-content";
@@ -215,17 +157,6 @@ function makeNewsItem(news) {
 
   item.appendChild(content);
   return item;
-}
-
-function mergeFallbackNews(newsItems) {
-  const seen = new Set(newsItems.map(item => `${item.title}|${item.body}|${item.link}`));
-
-  FALLBACK_NEWS_ITEMS.forEach(item => {
-    const key = `${item.title}|${item.body}|${item.link}`;
-    if (!seen.has(key)) newsItems.push(item);
-  });
-
-  return newsItems;
 }
 
 async function fetchSheetJson(sheetName) {
@@ -280,14 +211,7 @@ loadNewsSheet()
 
     if (firstDataRowIsHeader) rows = rows.slice(1);
 
-    console.info("News sheet loaded", {
-      sheetName,
-      columns: (json.table?.cols || []).map(col => col.label || col.id),
-      map,
-      rowCount: rows.length
-    });
-
-    const newsItems = mergeFallbackNews(rows.map(r => {
+    const newsItems = rows.map(r => {
       const dateCell = cell(r, map, "date");
 
       return {
@@ -295,12 +219,9 @@ loadNewsSheet()
         sortDate: parseGvizDate(dateCell?.v, dateCell?.f),
         title: cellText(r, map, "title"),
         body: cellText(r, map, "body"),
-        photo: safePhoto(cellText(r, map, "photo")),
         link: cellText(r, map, "link")
       };
-    }).filter(item => item.body));
-
-    console.info("News items parsed", newsItems);
+    }).filter(item => item.body);
 
     if (!newsItems.length) {
       container.innerHTML = "<p>No news yet.</p>";
@@ -329,18 +250,8 @@ loadNewsSheet()
 
     renderNews(false);
   })
-  .catch(err => {
-    console.error("Unable to load news from Google Sheets.", err);
-
-    const container = document.getElementById("news");
-    const showMore = document.getElementById("news-show-more");
-    const newsItems = [...FALLBACK_NEWS_ITEMS].sort((a, b) => b.sortDate.getTime() - a.sortDate.getTime());
-
-    container.innerHTML = "";
-    if (showMore) showMore.hidden = true;
-
-    newsItems.forEach(item => {
-      container.appendChild(makeNewsItem(item));
-    });
+  .catch(() => {
+    document.getElementById("news").innerHTML =
+      "<p>Unable to load news. Please check sheet permissions.</p>";
   });
 </script>
