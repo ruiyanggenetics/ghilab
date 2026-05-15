@@ -15,7 +15,7 @@ News items are curated and maintained by the lab.
   <p>Loading news…</p>
 </div>
 <button id="news-show-more" class="news-show-more" type="button" hidden>
-  Show more
+  Show older news
 </button>
 
 <script>
@@ -26,6 +26,8 @@ News items are curated and maintained by the lab.
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
 const SHEET_NAME = "Sheet1";
 const NEWS_PREVIEW_LIMIT = 5;
+const RAW_BASEURL = "{{ site.baseurl }}";
+const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
 
 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
 
@@ -40,18 +42,26 @@ function normKey(value) {
 function makeHeaderMap(cols) {
   const fallback = {
     date: 0,
+    title: 1,
     body: 2,
-    link: 3
+    photo: 3,
+    link: 4
   };
 
   const aliases = {
     date: "date",
     sortdate: "date",
+    title: "title",
+    headline: "title",
+    update: "body",
     news: "body",
     body: "body",
     content: "body",
     announcement: "body",
     description: "body",
+    photo: "photo",
+    image: "photo",
+    picture: "photo",
     link: "link",
     url: "link"
   };
@@ -84,19 +94,55 @@ function parseGvizDate(value, formattedValue) {
   return isNaN(fallback) ? new Date(0) : new Date(fallback);
 }
 
+function safePhoto(photoPath) {
+  const p = cleanText(photoPath);
+  if (!p) return "";
+
+  if (/^https?:\/\//i.test(p)) return p;
+  if (!BASEURL && window.location.protocol === "file:" && p.startsWith("/")) return p.replace(/^\/+/, "");
+  if (!BASEURL && p.startsWith("/")) return p;
+  if (p.startsWith("/")) return BASEURL + p;
+  if (!BASEURL) return p;
+  return BASEURL + "/" + p;
+}
+
 function makeNewsItem(news) {
   const item = document.createElement("div");
   item.className = "news-item";
 
+  if (news.photo) {
+    item.classList.add("has-photo");
+
+    const media = document.createElement("div");
+    media.className = "news-photo";
+
+    const img = document.createElement("img");
+    img.src = news.photo;
+    img.alt = news.title || "News photo";
+    media.appendChild(img);
+
+    item.appendChild(media);
+  }
+
+  const content = document.createElement("div");
+  content.className = "news-content";
+
   const date = document.createElement("div");
   date.className = "news-date";
   date.textContent = news.dateLabel;
-  item.appendChild(date);
+  content.appendChild(date);
+
+  if (news.title) {
+    const title = document.createElement("div");
+    title.className = "news-title";
+    title.textContent = news.title;
+    content.appendChild(title);
+  }
 
   const body = document.createElement("div");
   body.className = "news-body";
   body.textContent = news.body;
-  item.appendChild(body);
+  content.appendChild(body);
 
   if (news.link) {
     const link = document.createElement("a");
@@ -105,9 +151,10 @@ function makeNewsItem(news) {
     link.target = "_blank";
     link.rel = "noopener";
     link.textContent = "Read more →";
-    item.appendChild(link);
+    content.appendChild(link);
   }
 
+  item.appendChild(content);
   return item;
 }
 
@@ -138,16 +185,25 @@ fetch(url)
 
     const newsItems = rows.map(r => {
       const dateCell = cell(r, map, "date");
+      const titleCell = cell(r, map, "title");
       const bodyCell = cell(r, map, "body");
+      const photoCell = cell(r, map, "photo");
       const linkCell = cell(r, map, "link");
 
       return {
         dateLabel: cleanText(dateCell?.f || dateCell?.v),
         sortDate: parseGvizDate(dateCell?.v, dateCell?.f),
+        title: cleanText(titleCell?.v),
         body: cleanText(bodyCell?.v),
+        photo: safePhoto(photoCell?.v),
         link: cleanText(linkCell?.v)
       };
     }).filter(item => item.body);
+
+    if (!newsItems.length) {
+      container.innerHTML = "<p>No news yet.</p>";
+      return;
+    }
 
     newsItems.sort((a, b) => b.sortDate.getTime() - a.sortDate.getTime());
 
