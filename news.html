@@ -28,6 +28,16 @@ const SHEET_FALLBACK_NAMES = ["YangLab_updates", "Sheet1"];
 const NEWS_PREVIEW_LIMIT = 5;
 const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
+const FALLBACK_NEWS_ITEMS = [
+  {
+    dateLabel: "12/18/2025",
+    sortDate: new Date(2025, 11, 18),
+    title: "New Funding",
+    body: "CD40LG copy number variation study was funded by Jeffrey Modell Foundation.",
+    photo: safePhoto("assets/img/news/news_JMF_2025.png"),
+    link: "https://info4pi.org/medical/specific-defect-research/"
+  }
+];
 
 function cleanText(value) {
   return value === null || value === undefined ? "" : String(value).trim();
@@ -75,6 +85,11 @@ function makeHeaderMap(cols) {
 
 function cell(row, map, key) {
   return row.c?.[map[key]];
+}
+
+function cellText(row, map, key) {
+  const value = cell(row, map, key);
+  return cleanText(value?.v || value?.f);
 }
 
 function isHeaderRow(row) {
@@ -202,6 +217,17 @@ function makeNewsItem(news) {
   return item;
 }
 
+function mergeFallbackNews(newsItems) {
+  const seen = new Set(newsItems.map(item => `${item.title}|${item.body}|${item.link}`));
+
+  FALLBACK_NEWS_ITEMS.forEach(item => {
+    const key = `${item.title}|${item.body}|${item.link}`;
+    if (!seen.has(key)) newsItems.push(item);
+  });
+
+  return newsItems;
+}
+
 async function fetchSheetJson(sheetName) {
   const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
   const res = await fetch(sheetUrl);
@@ -219,14 +245,14 @@ async function loadNewsSheet() {
     try {
       const json = await fetchSheetJson(sheetName);
       const rows = json.table?.rows || [];
-      if (rows.length) return json;
+      if (rows.length) return { json, sheetName };
     } catch (err) {
       lastError = err;
     }
   }
 
   if (lastError) throw lastError;
-  return { table: { cols: [], rows: [] } };
+  return { json: { table: { cols: [], rows: [] } }, sheetName: "" };
 }
 
 /* =========================
@@ -234,7 +260,7 @@ async function loadNewsSheet() {
    ========================= */
 
 loadNewsSheet()
-  .then(json => {
+  .then(({ json, sheetName }) => {
     let rows = json.table?.rows || [];
     const container = document.getElementById("news");
     const showMore = document.getElementById("news-show-more");
@@ -254,22 +280,27 @@ loadNewsSheet()
 
     if (firstDataRowIsHeader) rows = rows.slice(1);
 
-    const newsItems = rows.map(r => {
+    console.info("News sheet loaded", {
+      sheetName,
+      columns: (json.table?.cols || []).map(col => col.label || col.id),
+      map,
+      rowCount: rows.length
+    });
+
+    const newsItems = mergeFallbackNews(rows.map(r => {
       const dateCell = cell(r, map, "date");
-      const titleCell = cell(r, map, "title");
-      const bodyCell = cell(r, map, "body");
-      const photoCell = cell(r, map, "photo");
-      const linkCell = cell(r, map, "link");
 
       return {
         dateLabel: cleanText(dateCell?.f || dateCell?.v),
         sortDate: parseGvizDate(dateCell?.v, dateCell?.f),
-        title: cleanText(titleCell?.v),
-        body: cleanText(bodyCell?.v),
-        photo: safePhoto(photoCell?.v),
-        link: cleanText(linkCell?.v)
+        title: cellText(r, map, "title"),
+        body: cellText(r, map, "body"),
+        photo: safePhoto(cellText(r, map, "photo")),
+        link: cellText(r, map, "link")
       };
-    }).filter(item => item.body);
+    }).filter(item => item.body));
+
+    console.info("News items parsed", newsItems);
 
     if (!newsItems.length) {
       container.innerHTML = "<p>No news yet.</p>";
