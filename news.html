@@ -329,8 +329,18 @@ loadNewsSheet()
 
     renderNews(false);
   })
-  .catch(() => {
-    document.getElementById("news").innerHTML =
-      "<p>Unable to load news. Please check sheet permissions.</p>";
+  .catch(err => {
+    console.error("Unable to load news from Google Sheets.", err);
+
+    const container = document.getElementById("news");
+    const showMore = document.getElementById("news-show-more");
+    const newsItems = [...FALLBACK_NEWS_ITEMS].sort((a, b) => b.sortDate.getTime() - a.sortDate.getTime());
+
+    container.innerHTML = "";
+    if (showMore) showMore.hidden = true;
+
+    newsItems.forEach(item => {
+      container.appendChild(makeNewsItem(item));
+    });
   });
 </script>
