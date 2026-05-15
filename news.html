@@ -24,12 +24,10 @@ News items are curated and maintained by the lab.
    ========================= */
 
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
-const SHEET_NAME = "YangLab_updates";
+const SHEET_FALLBACK_NAMES = ["YangLab_updates", "Sheet1"];
 const NEWS_PREVIEW_LIMIT = 5;
 const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
-
-const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
 
 function cleanText(value) {
   return value === null || value === undefined ? "" : String(value).trim();
@@ -77,6 +75,39 @@ function makeHeaderMap(cols) {
 
 function cell(row, map, key) {
   return row.c?.[map[key]];
+}
+
+function isHeaderRow(row) {
+  const keys = (row.c || []).map(cell => normKey(cell?.f || cell?.v));
+  return keys.includes("date") && keys.includes("title") && (keys.includes("update") || keys.includes("news"));
+}
+
+function mapFromHeaderRow(row) {
+  const aliases = {
+    date: "date",
+    sortdate: "date",
+    title: "title",
+    headline: "title",
+    update: "body",
+    news: "body",
+    body: "body",
+    content: "body",
+    announcement: "body",
+    description: "body",
+    photo: "photo",
+    image: "photo",
+    picture: "photo",
+    link: "link",
+    url: "link"
+  };
+  const map = {};
+
+  (row.c || []).forEach((cell, index) => {
+    const key = aliases[normKey(cell?.f || cell?.v)];
+    if (key) map[key] = index;
+  });
+
+  return { date: 0, title: 1, body: 2, photo: 3, link: 4, ...map };
 }
 
 function parseGvizDate(value, formattedValue) {
@@ -158,18 +189,40 @@ function makeNewsItem(news) {
   return item;
 }
 
+async function fetchSheetJson(sheetName) {
+  const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  const res = await fetch(sheetUrl);
+  const text = await res.text();
+  const m = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
+
+  if (!m || !m[1]) throw new Error(`Could not parse GViz response for ${sheetName}.`);
+  return JSON.parse(m[1]);
+}
+
+async function loadNewsSheet() {
+  let lastError;
+
+  for (const sheetName of SHEET_FALLBACK_NAMES) {
+    try {
+      const json = await fetchSheetJson(sheetName);
+      const rows = json.table?.rows || [];
+      if (rows.length) return json;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  if (lastError) throw lastError;
+  return { table: { cols: [], rows: [] } };
+}
+
 /* =========================
    FETCH + RENDER
    ========================= */
 
-fetch(url)
-  .then(res => res.text())
-  .then(text => {
-    const m = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
-    if (!m || !m[1]) throw new Error("Could not parse GViz response.");
-
-    const json = JSON.parse(m[1]);
-    const rows = json.table?.rows || [];
+loadNewsSheet()
+  .then(json => {
+    let rows = json.table?.rows || [];
     const container = document.getElementById("news");
     const showMore = document.getElementById("news-show-more");
 
@@ -181,7 +234,12 @@ fetch(url)
       return;
     }
 
-    const map = makeHeaderMap(json.table?.cols || []);
+    const firstDataRowIsHeader = rows[0] && isHeaderRow(rows[0]);
+    const map = firstDataRowIsHeader
+      ? mapFromHeaderRow(rows[0])
+      : makeHeaderMap(json.table?.cols || []);
+
+    if (firstDataRowIsHeader) rows = rows.slice(1);
 
     const newsItems = rows.map(r => {
       const dateCell = cell(r, map, "date");
