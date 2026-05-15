@@ -130,11 +130,18 @@ function safePhoto(photoPath) {
   if (!p) return "";
 
   if (/^https?:\/\//i.test(p)) return p;
+  if (!BASEURL && window.location.hostname.endsWith("github.io") && p.startsWith("assets/")) return "/ghilab/" + p;
   if (!BASEURL && window.location.protocol === "file:" && p.startsWith("/")) return p.replace(/^\/+/, "");
   if (!BASEURL && p.startsWith("/")) return p;
   if (p.startsWith("/")) return BASEURL + p;
   if (!BASEURL) return p;
   return BASEURL + "/" + p;
+}
+
+function cacheBustedImage(src) {
+  if (!src || /^data:/i.test(src)) return src;
+  const separator = src.includes("?") ? "&" : "?";
+  return `${src}${separator}v=20260514`;
 }
 
 function makeNewsItem(news) {
@@ -148,8 +155,14 @@ function makeNewsItem(news) {
     media.className = "news-photo";
 
     const img = document.createElement("img");
-    img.src = news.photo;
+    img.src = cacheBustedImage(news.photo);
     img.alt = news.title || "News photo";
+    img.onerror = () => {
+      if (!img.dataset.retry && !news.photo.startsWith("/ghilab/") && news.photo.startsWith("assets/")) {
+        img.dataset.retry = "true";
+        img.src = cacheBustedImage("/ghilab/" + news.photo);
+      }
+    };
     media.appendChild(img);
 
     item.appendChild(media);
