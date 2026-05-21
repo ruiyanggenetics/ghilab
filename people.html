@@ -282,6 +282,7 @@ function makeGhiMarker(point) {
   marker.setAttribute("aria-label", GHI_LOCATION.label);
   marker.innerHTML = `
     <span class="people-map-ghi-dot"></span>
+    <span class="people-map-ghi-label">${GHI_LOCATION.label}</span>
   `;
   return marker;
 }

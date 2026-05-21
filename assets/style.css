@@ -648,6 +648,23 @@ main .page-intro + h2 {
   box-shadow: 0 3px 8px rgba(92, 42, 28, 0.3);
 }
 
+.people-map-ghi-label {
+  position: absolute;
+  left: clamp(44px, 8vw, 112px);
+  top: 50%;
+  padding: 3px 7px;
+  border: 1px solid rgba(180, 77, 45, 0.26);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #8f351e;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(92, 42, 28, 0.12);
+  transform: translateY(-50%);
+}
+
 .people-map-tooltip-content {
   position: absolute;
   left: 50%;
