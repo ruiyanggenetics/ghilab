@@ -431,6 +431,10 @@ main .page-intro + h2 {
   margin-top: 40px;
 }
 
+.people-map-section {
+  margin-top: 24px;
+}
+
 .people-section h2 {
   font-size: 1.35rem;
   font-weight: 700;
@@ -500,9 +504,10 @@ main .page-intro + h2 {
   width: 100%;
   min-height: 360px;
   overflow: hidden;
-  border: 1px solid #e6e6e6;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #f8faf8 0%, #f2f5f2 100%);
+  border: 1px solid #dce8e2;
+  border-radius: 18px;
+  background: #f7fbf8;
+  box-shadow: 0 14px 34px rgba(39, 78, 60, 0.08);
 }
 
 .people-map .pub-desc {
@@ -511,63 +516,138 @@ main .page-intro + h2 {
 
 .people-map-canvas {
   position: relative;
+  isolation: isolate;
   width: 100%;
   aspect-ratio: 2 / 1;
   min-height: 360px;
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg");
+  background-color: #edf6f2;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(232, 242, 236, 0.38) 100%),
+    url("https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+.people-map-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(247, 251, 248, 0.34), rgba(217, 236, 227, 0.12));
+}
+
+.people-map-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  z-index: 1;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px rgba(43, 111, 90, 0.05);
+}
+
 .people-map-pin {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  z-index: 2;
+  width: 28px;
+  height: 32px;
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -78%);
+  transition: transform 0.18s ease;
 }
 
 .people-map-pin-dot {
   display: block;
-  width: 13px;
-  height: 13px;
-  margin: 2px auto;
-  border: 2px solid #fff;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin: 4px auto 0;
+  border: 3px solid #fff;
   border-radius: 999px;
   background: #2b6f5a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 5px 14px rgba(20, 53, 40, 0.28);
+  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.people-map-pin-dot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 8px;
+  height: 8px;
+  border-right: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  background: #2b6f5a;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.people-map-pin-dot::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(43, 111, 90, 0.24);
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(0.72);
+  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
 .people-map-pin:hover .people-map-pin-dot,
 .people-map-pin:focus .people-map-pin-dot {
-  background: #111;
-  transform: scale(1.15);
+  background: #1f5d49;
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 8px 18px rgba(20, 53, 40, 0.3);
+}
+
+.people-map-pin:hover .people-map-pin-dot::before,
+.people-map-pin:focus .people-map-pin-dot::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.people-map-pin:hover .people-map-pin-dot::after,
+.people-map-pin:focus .people-map-pin-dot::after {
+  background: #1f5d49;
+}
+
+.people-map-pin:hover,
+.people-map-pin:focus {
+  transform: translate(-50%, -84%);
+}
+
+.people-map-pin:focus-visible {
+  outline: 2px solid #2b6f5a;
+  outline-offset: 5px;
 }
 
 .people-map-tooltip-content {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px);
   z-index: 3;
   display: none;
   grid-template-columns: 42px minmax(0, 1fr);
   gap: 10px;
   align-items: center;
-  min-width: 150px;
-  padding: 8px 10px;
-  border: 1px solid #e3e3e3;
-  border-radius: 10px;
-  background: #fff;
+  min-width: 168px;
+  padding: 9px 11px;
+  border: 1px solid rgba(220, 232, 226, 0.95);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
   color: #222;
   font-size: 0.86rem;
   font-weight: 600;
   line-height: 1.25;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 26px rgba(24, 46, 36, 0.14);
   transform: translateX(-50%);
+  backdrop-filter: blur(8px);
 }
 
 .people-map-pin:hover .people-map-tooltip-content,
@@ -578,7 +658,8 @@ main .page-intro + h2 {
 .people-map-tooltip-content img {
   width: 42px;
   height: 42px;
-  border-radius: 8px;
+  border: 2px solid #edf6f2;
+  border-radius: 999px;
   object-fit: cover;
 }
 
