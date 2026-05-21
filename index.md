@@ -17,6 +17,9 @@ We are an energetic group of physicians and scientists seeking to answer a simpl
   <a href="https://www.texaschildrens.org/" target="_blank" rel="noopener">
     <img src="{{ '/assets/img/tch-logo.png' | relative_url }}" alt="Texas Children’s Hospital">
   </a>
+  <a href="https://www.texaschildrens.org/departments/william-t-shearer-center-for-human-immunobiology" target="_blank" rel="noopener">
+    <img src="{{ '/assets/img/WTSCHI.png' | relative_url }}" alt="William T. Shearer Center for Human Immunobiology">
+  </a>
 </div>
 
 **Address**
