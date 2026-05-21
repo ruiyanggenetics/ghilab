@@ -1,0 +1,314 @@
+---
+layout: default
+title: Funding
+description: Funding support for the Laboratory of Genetics of Human Immunity.
+permalink: /funding/
+---
+
+<h1>Funding</h1>
+
+<p class="page-intro">
+Current, upcoming, and past support for the Laboratory of Genetics of Human Immunity.
+</p>
+
+<section class="funding-section">
+  <h2>Active and Upcoming</h2>
+  <div id="funding-active" class="funding-list">
+    <p class="pub-desc">Loading funding...</p>
+  </div>
+</section>
+
+<section class="funding-section">
+  <h2>Past</h2>
+  <div id="funding-past" class="funding-list">
+    <p class="pub-desc">Loading past funding...</p>
+  </div>
+</section>
+
+<script>
+const FUNDING_SHEET_ID = "14akO4ySVQkBDd-4hWA4DsBCZ-cNjlpxKd_lsSTSjw1E";
+const FUNDING_SHEET_NAMES = ["Sheet1", "Funding"];
+const RAW_BASEURL = "{{ site.baseurl }}";
+const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
+
+function cleanText(value) {
+  return value === null || value === undefined ? "" : String(value).trim();
+}
+
+function normKey(value) {
+  return cleanText(value).toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function safeAsset(assetPath) {
+  const p = cleanText(assetPath);
+  if (!p) return "";
+
+  if (/^https?:\/\//i.test(p)) return p;
+  if (!BASEURL && window.location.protocol === "file:" && p.startsWith("/")) return p.replace(/^\/+/, "");
+  if (!BASEURL && p.startsWith("/")) return p;
+  if (p.startsWith("/")) return BASEURL + p;
+  if (!BASEURL) return p;
+  return BASEURL + "/" + p;
+}
+
+function makeHeaderMap(cols) {
+  const fallback = {
+    organization: 0,
+    award: 1,
+    start: 2,
+    end: 3,
+    picture: 4
+  };
+
+  const aliases = {
+    fundingorganization: "organization",
+    organization: "organization",
+    funder: "organization",
+    awardname: "award",
+    award: "award",
+    grant: "award",
+    startdate: "start",
+    start: "start",
+    enddate: "end",
+    end: "end",
+    picture: "picture",
+    logo: "picture",
+    image: "picture"
+  };
+
+  const map = {};
+  cols.forEach((col, index) => {
+    const key = aliases[normKey(col.label || col.id)];
+    if (key) map[key] = index;
+  });
+
+  return { ...fallback, ...map };
+}
+
+function cell(row, map, key) {
+  return row.c?.[map[key]];
+}
+
+function cellText(row, map, key) {
+  const value = cell(row, map, key);
+  return cleanText(value?.f || value?.v);
+}
+
+function isHeaderRow(row) {
+  const keys = (row.c || []).map(value => normKey(value?.f || value?.v));
+  return keys.includes("fundingorganization") && keys.includes("awardname");
+}
+
+function mapFromHeaderRow(row) {
+  return makeHeaderMap((row.c || []).map(value => ({
+    label: value?.f || value?.v
+  })));
+}
+
+function parseSheetDate(cellValue, formattedValue) {
+  if (typeof cellValue === "string" && cellValue.startsWith("Date")) {
+    const parts = cellValue.match(/\d+/g);
+    if (parts && parts.length >= 3) {
+      const date = new Date(Number(parts[0]), Number(parts[1]), Number(parts[2]));
+      if (!isNaN(date.getTime())) return date;
+    }
+  }
+
+  const text = cleanText(formattedValue || cellValue);
+  const parsed = Date.parse(text);
+  return isNaN(parsed) ? null : new Date(parsed);
+}
+
+function formatDate(date) {
+  if (!date) return "";
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+function progressPercent(startDate, endDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (!startDate || !endDate || endDate <= startDate) return 3;
+  if (today < startDate) return 3;
+  if (today > endDate) return 100;
+
+  const elapsed = today.getTime() - startDate.getTime();
+  const total = endDate.getTime() - startDate.getTime();
+  return Math.max(3, Math.min(100, Math.round((elapsed / total) * 100)));
+}
+
+function fundingStatus(item) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (item.endDate && item.endDate < today) return "past";
+  if (item.startDate && item.startDate > today) return "upcoming";
+  return "active";
+}
+
+function makeLogo(item) {
+  const logo = document.createElement("div");
+  logo.className = "funding-logo";
+
+  if (item.picture) {
+    const img = document.createElement("img");
+    img.src = item.picture;
+    img.alt = `${item.organization} logo`;
+    logo.appendChild(img);
+  } else {
+    logo.textContent = item.organization.slice(0, 2).toUpperCase();
+  }
+
+  return logo;
+}
+
+function makeFundingCard(item) {
+  const card = document.createElement("div");
+  card.className = "funding-card";
+
+  const logo = makeLogo(item);
+  const body = document.createElement("div");
+  body.className = "funding-card-body";
+
+  const organization = document.createElement("div");
+  organization.className = "funding-organization";
+  organization.textContent = item.organization;
+
+  const award = document.createElement("div");
+  award.className = "funding-award";
+  award.textContent = item.award;
+
+  body.appendChild(organization);
+  body.appendChild(award);
+
+  if (item.status === "past") {
+    const dates = document.createElement("div");
+    dates.className = "funding-past-dates";
+    dates.textContent = `${formatDate(item.startDate)} - ${formatDate(item.endDate)}`;
+    body.appendChild(dates);
+  } else {
+    const timeline = document.createElement("div");
+    timeline.className = "funding-timeline";
+
+    const dateRow = document.createElement("div");
+    dateRow.className = "funding-date-row";
+
+    const start = document.createElement("span");
+    start.textContent = formatDate(item.startDate);
+
+    const end = document.createElement("span");
+    end.textContent = formatDate(item.endDate);
+
+    const track = document.createElement("div");
+    track.className = "funding-progress-track";
+
+    const bar = document.createElement("div");
+    bar.className = "funding-progress-bar";
+    bar.style.width = `${progressPercent(item.startDate, item.endDate)}%`;
+
+    track.appendChild(bar);
+    dateRow.appendChild(start);
+    dateRow.appendChild(end);
+    timeline.appendChild(dateRow);
+    timeline.appendChild(track);
+    body.appendChild(timeline);
+  }
+
+  card.appendChild(logo);
+  card.appendChild(body);
+  return card;
+}
+
+async function fetchFundingSheet(sheetName) {
+  const url = `https://docs.google.com/spreadsheets/d/${FUNDING_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  const res = await fetch(url);
+  const text = await res.text();
+  const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
+
+  if (!match || !match[1]) throw new Error(`Could not parse funding sheet: ${sheetName}`);
+  return JSON.parse(match[1]);
+}
+
+async function loadFundingSheet() {
+  let lastError;
+
+  for (const sheetName of FUNDING_SHEET_NAMES) {
+    try {
+      const json = await fetchFundingSheet(sheetName);
+      const rows = json.table?.rows || [];
+      if (rows.length) return json;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  if (lastError) throw lastError;
+  return { table: { cols: [], rows: [] } };
+}
+
+function renderFunding(container, items, emptyMessage) {
+  container.innerHTML = "";
+
+  if (!items.length) {
+    container.innerHTML = `<p class="pub-desc">${emptyMessage}</p>`;
+    return;
+  }
+
+  items.forEach(item => {
+    container.appendChild(makeFundingCard(item));
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const activeEl = document.getElementById("funding-active");
+  const pastEl = document.getElementById("funding-past");
+
+  if (!activeEl || !pastEl) return;
+
+  try {
+    const json = await loadFundingSheet();
+    let rows = json.table?.rows || [];
+    const headerRow = rows[0] && isHeaderRow(rows[0]);
+    const map = headerRow ? mapFromHeaderRow(rows[0]) : makeHeaderMap(json.table?.cols || []);
+
+    if (headerRow) rows = rows.slice(1);
+
+    const items = rows.map(row => {
+      const startCell = cell(row, map, "start");
+      const endCell = cell(row, map, "end");
+      const startDate = parseSheetDate(startCell?.v, startCell?.f);
+      const endDate = parseSheetDate(endCell?.v, endCell?.f);
+
+      const item = {
+        organization: cellText(row, map, "organization"),
+        award: cellText(row, map, "award"),
+        startDate,
+        endDate,
+        picture: safeAsset(cellText(row, map, "picture"))
+      };
+
+      item.status = fundingStatus(item);
+      return item;
+    }).filter(item => item.organization && item.award);
+
+    const activeAndUpcoming = items
+      .filter(item => item.status !== "past")
+      .sort((a, b) => (a.startDate || 0) - (b.startDate || 0));
+
+    const past = items
+      .filter(item => item.status === "past")
+      .sort((a, b) => (b.endDate || 0) - (a.endDate || 0));
+
+    renderFunding(activeEl, activeAndUpcoming, "No active or upcoming funding listed.");
+    renderFunding(pastEl, past, "No past funding listed.");
+  } catch (err) {
+    console.error(err);
+    activeEl.innerHTML = "<p class=\"pub-desc\">Unable to load funding data.</p>";
+    pastEl.innerHTML = "";
+  }
+});
+</script>
