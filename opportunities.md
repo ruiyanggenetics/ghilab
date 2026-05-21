@@ -9,6 +9,8 @@ permalink: /opportunities/
 
 As a new and growing lab, we are looking for **talented, curious, and energetic trainees**—including postdoctoral fellows, graduate students, and undergraduate students—who are excited to push the frontiers of discovery and improve the lives of children and families affected by devastating inborn errors of immunity.
 
+**We are hiring now!! Please email Rui, if you are interested.**
+
 <div class="resource-card-grid">
 
   <a class="resource-card" href="{{ '/news' | relative_url }}">
