@@ -50,6 +50,7 @@ const STATIC_PI = {
   photo: "/assets/img/rui-yang-photo.png",
   startDate: "",
   endDate: "",
+  cityOfOrigin: "30.647643816147752, 111.34987189261312",
   biography: "Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming tenure-track assistant professor at Baylor College of Medicine (BCM). He will launch his laboratory at Texas Children's Hospital in summer 2026. His research focuses on monogenic causes of life-threatening infectious diseases, immune dysregulation, and malignancies."
 };
 
@@ -89,6 +90,24 @@ function isPrincipalInvestigator(person) {
   const category = normCategory(person.category);
   const title = normCategory(person.title);
   return category === "principal investigator" || title.includes("principal investigator");
+}
+
+function isRuiYang(person) {
+  const name = normCategory(person.name);
+  return name.includes("rui") && name.includes("yang");
+}
+
+function withPrincipalInvestigatorFallback(person) {
+  if (!isRuiYang(person)) return person;
+
+  return {
+    ...person,
+    category: person.category || STATIC_PI.category,
+    title: person.title || STATIC_PI.title,
+    photo: person.photo || STATIC_PI.photo,
+    cityOfOrigin: person.cityOfOrigin || STATIC_PI.cityOfOrigin,
+    biography: person.biography || STATIC_PI.biography
+  };
 }
 
 function fallbackTitle(person) {
@@ -233,7 +252,7 @@ function compareLabMembers(a, b) {
 }
 
 function ensurePrincipalInvestigator(people) {
-  const hasRui = people.some(person => normCategory(person.name).includes("rui") && normCategory(person.name).includes("yang"));
+  const hasRui = people.some(isRuiYang);
   return hasRui ? people : [STATIC_PI, ...people];
 }
 
@@ -350,7 +369,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!labMembersEl || !alumniEl || !collabEl || !mapEl) return;
 
   try {
-    const res = await fetch(GVIZ_URL);
+    const freshUrl = GVIZ_URL + `&cacheBust=${Date.now()}`;
+    const res = await fetch(freshUrl, { cache: "no-store" });
     const text = await res.text();
 
     const m = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
@@ -374,7 +394,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       endDate: cellValue(row, map, "enddate"),
       biography: cleanText(cellValue(row, map, "biography")),
       cityOfOrigin: cleanText(cellValue(row, map, "cityoforigin")) || findCoordinateCell(row)
-    })).filter(person => person.name);
+    })).filter(person => person.name).map(withPrincipalInvestigatorFallback);
 
     const labMembers = ensurePrincipalInvestigator(
       people.filter(person => !isAlumni(person) && !isCloseCollaborator(person))
@@ -387,10 +407,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const collaborators = people
       .filter(isCloseCollaborator)
       .sort(compareByFirstName);
+    const mapPeople = [...labMembers, ...alumni, ...collaborators];
 
     renderPeople(labMembersEl, labMembers, "No lab members listed.");
     renderPeople(alumniEl, alumni, "No alumni listed.");
-    renderOriginMap(people);
+    renderOriginMap(mapPeople);
     renderPeople(collabEl, collaborators, "No close collaborators listed.");
 
   } catch (err) {
