@@ -57,7 +57,8 @@ function makeHeaderMap(cols) {
     award: 1,
     start: 2,
     end: 3,
-    picture: 4
+    picture: 4,
+    link: 5
   };
 
   const aliases = {
@@ -73,7 +74,10 @@ function makeHeaderMap(cols) {
     end: "end",
     picture: "picture",
     logo: "picture",
-    image: "picture"
+    image: "picture",
+    link: "link",
+    url: "link",
+    website: "link"
   };
 
   const map = {};
@@ -167,8 +171,12 @@ function makeLogo(item) {
 }
 
 function makeFundingCard(item) {
-  const card = document.createElement("div");
+  const card = document.createElement(item.link ? "a" : "div");
   card.className = "funding-card";
+
+  if (item.link) {
+    card.href = item.link;
+  }
 
   const logo = makeLogo(item);
   const body = document.createElement("div");
@@ -288,7 +296,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         award: cellText(row, map, "award"),
         startDate,
         endDate,
-        picture: safeAsset(cellText(row, map, "picture"))
+        picture: safeAsset(cellText(row, map, "picture")),
+        link: cellText(row, map, "link")
       };
 
       item.status = fundingStatus(item);
