@@ -634,7 +634,16 @@ main .page-intro + h2 {
   z-index: 4;
   width: 18px;
   height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   transform: translate(-50%, -50%);
+}
+
+.people-map-ghi-marker:focus-visible {
+  outline: 2px solid #b44d2d;
+  outline-offset: 5px;
 }
 
 .people-map-ghi-dot {
@@ -650,7 +659,7 @@ main .page-intro + h2 {
 
 .people-map-ghi-label {
   position: absolute;
-  left: clamp(44px, 8vw, 112px);
+  left: calc(100% + 6px);
   top: 50%;
   padding: 3px 7px;
   border: 1px solid rgba(180, 77, 45, 0.26);
@@ -662,7 +671,15 @@ main .page-intro + h2 {
   line-height: 1;
   white-space: nowrap;
   box-shadow: 0 4px 10px rgba(92, 42, 28, 0.12);
+  opacity: 0;
+  pointer-events: none;
   transform: translateY(-50%);
+  transition: opacity 0.16s ease;
+}
+
+.people-map-ghi-marker:hover .people-map-ghi-label,
+.people-map-ghi-marker:focus .people-map-ghi-label {
+  opacity: 1;
 }
 
 .people-map-tooltip-content {

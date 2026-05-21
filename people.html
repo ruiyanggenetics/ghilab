@@ -275,8 +275,9 @@ function appendRoute(svg, start, end, index) {
 }
 
 function makeGhiMarker(point) {
-  const marker = document.createElement("div");
+  const marker = document.createElement("button");
   marker.className = "people-map-ghi-marker";
+  marker.type = "button";
   marker.style.left = `${point.x}%`;
   marker.style.top = `${point.y}%`;
   marker.setAttribute("aria-label", GHI_LOCATION.label);
