@@ -496,34 +496,99 @@ main .page-intro + h2 {
 }
 
 .people-map {
+  position: relative;
   width: 100%;
-  height: 420px;
+  min-height: 360px;
   overflow: hidden;
   border: 1px solid #e6e6e6;
   border-radius: 12px;
-  background: #f7f7f7;
+  background: linear-gradient(180deg, #f8faf8 0%, #f2f5f2 100%);
 }
 
 .people-map .pub-desc {
   padding: 18px;
 }
 
-.people-map-tooltip {
-  border: 1px solid #e3e3e3;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+.people-map-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  min-height: 360px;
+}
+
+.people-map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.people-map-svg rect {
+  fill: #f7faf7;
+}
+
+.people-map-svg path {
+  fill: none;
+  stroke: #d5ded6;
+  stroke-width: 18;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+
+.people-map-pin {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.people-map-pin-dot {
+  display: block;
+  width: 13px;
+  height: 13px;
+  margin: 2px auto;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #2b6f5a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+}
+
+.people-map-pin:hover .people-map-pin-dot,
+.people-map-pin:focus .people-map-pin-dot {
+  background: #111;
+  transform: scale(1.15);
 }
 
 .people-map-tooltip-content {
-  display: grid;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 3;
+  display: none;
   grid-template-columns: 42px minmax(0, 1fr);
   gap: 10px;
   align-items: center;
   min-width: 150px;
+  padding: 8px 10px;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  background: #fff;
   color: #222;
   font-size: 0.86rem;
   font-weight: 600;
   line-height: 1.25;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transform: translateX(-50%);
+}
+
+.people-map-pin:hover .people-map-tooltip-content,
+.people-map-pin:focus .people-map-tooltip-content {
+  display: grid;
 }
 
 .people-map-tooltip-content img {

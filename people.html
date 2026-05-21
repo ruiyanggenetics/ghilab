@@ -4,8 +4,6 @@ title: People
 permalink: /people/
 ---
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
 <h1>People</h1>
 
 <section class="people-section">
@@ -35,8 +33,6 @@ permalink: /people/
     <p class="pub-desc">Loading collaborators...</p>
   </div>
 </section>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 /* =========================
@@ -175,6 +171,13 @@ function parseCoordinates(value) {
   return { lat, lng };
 }
 
+function coordinateToPoint(lat, lng) {
+  return {
+    x: ((lng + 180) / 360) * 100,
+    y: ((90 - lat) / 180) * 100
+  };
+}
+
 function datesFor(person) {
   const start = parseGvizDate(person.startDate);
   const end = parseGvizDate(person.endDate);
@@ -273,55 +276,42 @@ function renderOriginMap(people) {
     return;
   }
 
-  if (!window.L) {
-    mapEl.innerHTML = `<p class="pub-desc">Map could not be loaded.</p>`;
-    return;
-  }
-
   mapEl.innerHTML = "";
 
-  const map = L.map(mapEl, {
-    scrollWheelZoom: false,
-    worldCopyJump: true
-  });
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 18,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
-
-  const bounds = [];
+  const mapCanvas = document.createElement("div");
+  mapCanvas.className = "people-map-canvas";
+  mapCanvas.innerHTML = `
+    <svg class="people-map-svg" viewBox="0 0 1000 500" aria-hidden="true" focusable="false">
+      <rect x="0" y="0" width="1000" height="500" rx="18"></rect>
+      <path d="M122 186 C146 150 190 143 235 163 C276 181 297 208 337 201 C382 194 414 164 457 174 C501 184 531 220 574 211 C621 201 659 169 708 180 C765 193 801 241 856 229 C894 221 928 202 960 216"></path>
+      <path d="M68 285 C116 261 160 267 204 295 C250 325 288 331 337 304 C386 277 432 274 478 302 C527 332 570 331 622 303 C674 275 718 275 768 303 C820 332 871 339 924 312"></path>
+      <path d="M151 377 C208 358 264 359 318 383 C372 407 431 412 492 390 C551 369 611 369 668 394 C724 419 788 424 852 402"></path>
+    </svg>
+  `;
 
   peopleWithCoordinates.forEach(person => {
     const { lat, lng } = person.coordinates;
+    const { x, y } = coordinateToPoint(lat, lng);
     const photo = safePhoto(person.photo);
-    const tooltip = `
+
+    const pin = document.createElement("button");
+    pin.className = "people-map-pin";
+    pin.type = "button";
+    pin.style.left = `${x}%`;
+    pin.style.top = `${y}%`;
+    pin.setAttribute("aria-label", person.name);
+    pin.innerHTML = `
+      <span class="people-map-pin-dot"></span>
       <div class="people-map-tooltip-content">
         <img src="${escapeHtml(photo)}" alt="${escapeHtml(person.name)}">
         <div>${escapeHtml(person.name)}</div>
       </div>
     `;
 
-    L.marker([lat, lng])
-      .addTo(map)
-      .bindTooltip(tooltip, {
-        direction: "top",
-        opacity: 1,
-        sticky: true,
-        className: "people-map-tooltip"
-      });
-
-    bounds.push([lat, lng]);
+    mapCanvas.appendChild(pin);
   });
 
-  if (bounds.length === 1) {
-    map.setView(bounds[0], 4);
-  } else {
-    map.fitBounds(bounds, {
-      padding: [28, 28],
-      maxZoom: 4
-    });
-  }
+  mapEl.appendChild(mapCanvas);
 }
 
 /* =========================
