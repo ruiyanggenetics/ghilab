@@ -134,8 +134,8 @@ function makeHeaderMap(cols) {
     photo: 3,
     startdate: 4,
     enddate: 5,
-    biography: 6,
-    cityoforigin: 7
+    cityoforigin: 6,
+    biography: 7
   };
 
   const map = {};
@@ -190,6 +190,17 @@ function parseCoordinates(value) {
   if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
 
   return { lat, lng };
+}
+
+function findCoordinateCell(row) {
+  const cells = row.c || [];
+
+  for (const cell of cells) {
+    const value = cleanText(cell?.v || cell?.f);
+    if (parseCoordinates(value)) return value;
+  }
+
+  return "";
 }
 
 function coordinateToPoint(lat, lng) {
@@ -362,7 +373,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       startDate: cellValue(row, map, "startdate"),
       endDate: cellValue(row, map, "enddate"),
       biography: cleanText(cellValue(row, map, "biography")),
-      cityOfOrigin: cleanText(cellValue(row, map, "cityoforigin"))
+      cityOfOrigin: cleanText(cellValue(row, map, "cityoforigin")) || findCoordinateCell(row)
     })).filter(person => person.name);
 
     const labMembers = ensurePrincipalInvestigator(
