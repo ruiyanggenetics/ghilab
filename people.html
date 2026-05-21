@@ -4,6 +4,8 @@ title: People
 permalink: /people/
 ---
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <h1>People</h1>
 
 <section class="people-section">
@@ -21,11 +23,20 @@ permalink: /people/
 </section>
 
 <section class="people-section">
+  <h2>Where We Come From</h2>
+  <div id="people-origin-map" class="people-map">
+    <p class="pub-desc">Loading map...</p>
+  </div>
+</section>
+
+<section class="people-section">
   <h2>Close collaborators</h2>
   <div id="people-close-collaborators" class="people-grid">
     <p class="pub-desc">Loading collaborators...</p>
   </div>
 </section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 /* =========================
@@ -127,7 +138,8 @@ function makeHeaderMap(cols) {
     photo: 3,
     startdate: 4,
     enddate: 5,
-    biography: 6
+    biography: 6,
+    cityoforigin: 7
   };
 
   const map = {};
@@ -141,6 +153,26 @@ function makeHeaderMap(cols) {
 
 function cellValue(row, map, key) {
   return row.c?.[map[key]]?.v;
+}
+
+function escapeHtml(value) {
+  return cleanText(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function parseCoordinates(value) {
+  const parts = cleanText(value).split(",").map(part => Number(part.trim()));
+  if (parts.length < 2 || parts.some(Number.isNaN)) return null;
+
+  const lat = parts[0];
+  const lng = parts[1];
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+
+  return { lat, lng };
 }
 
 function datesFor(person) {
@@ -228,6 +260,70 @@ function renderPeople(container, people, emptyMessage) {
   });
 }
 
+function renderOriginMap(people) {
+  const mapEl = document.getElementById("people-origin-map");
+  if (!mapEl) return;
+
+  const peopleWithCoordinates = people
+    .map(person => ({ ...person, coordinates: parseCoordinates(person.cityOfOrigin) }))
+    .filter(person => person.coordinates);
+
+  if (!peopleWithCoordinates.length) {
+    mapEl.innerHTML = `<p class="pub-desc">No origins listed yet.</p>`;
+    return;
+  }
+
+  if (!window.L) {
+    mapEl.innerHTML = `<p class="pub-desc">Map could not be loaded.</p>`;
+    return;
+  }
+
+  mapEl.innerHTML = "";
+
+  const map = L.map(mapEl, {
+    scrollWheelZoom: false,
+    worldCopyJump: true
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  const bounds = [];
+
+  peopleWithCoordinates.forEach(person => {
+    const { lat, lng } = person.coordinates;
+    const photo = safePhoto(person.photo);
+    const tooltip = `
+      <div class="people-map-tooltip-content">
+        <img src="${escapeHtml(photo)}" alt="${escapeHtml(person.name)}">
+        <div>${escapeHtml(person.name)}</div>
+      </div>
+    `;
+
+    L.marker([lat, lng])
+      .addTo(map)
+      .bindTooltip(tooltip, {
+        direction: "top",
+        opacity: 1,
+        sticky: true,
+        className: "people-map-tooltip"
+      });
+
+    bounds.push([lat, lng]);
+  });
+
+  if (bounds.length === 1) {
+    map.setView(bounds[0], 4);
+  } else {
+    map.fitBounds(bounds, {
+      padding: [28, 28],
+      maxZoom: 4
+    });
+  }
+}
+
 /* =========================
    FETCH + RENDER
    ========================= */
@@ -235,8 +331,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const labMembersEl = document.getElementById("people-lab-members");
   const alumniEl     = document.getElementById("people-alumni");
   const collabEl     = document.getElementById("people-close-collaborators");
+  const mapEl        = document.getElementById("people-origin-map");
 
-  if (!labMembersEl || !alumniEl || !collabEl) return;
+  if (!labMembersEl || !alumniEl || !collabEl || !mapEl) return;
 
   try {
     const res = await fetch(GVIZ_URL);
@@ -256,7 +353,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       photo: cleanText(cellValue(row, map, "photo")),
       startDate: cellValue(row, map, "startdate"),
       endDate: cellValue(row, map, "enddate"),
-      biography: cleanText(cellValue(row, map, "biography"))
+      biography: cleanText(cellValue(row, map, "biography")),
+      cityOfOrigin: cleanText(cellValue(row, map, "cityoforigin"))
     })).filter(person => person.name);
 
     const labMembers = ensurePrincipalInvestigator(
@@ -273,12 +371,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     renderPeople(labMembersEl, labMembers, "No lab members listed.");
     renderPeople(alumniEl, alumni, "No alumni listed.");
+    renderOriginMap(people);
     renderPeople(collabEl, collaborators, "No close collaborators listed.");
 
   } catch (err) {
     console.error(err);
     renderPeople(labMembersEl, [STATIC_PI], "Error loading people.");
     setEmpty(alumniEl, "Error loading people.");
+    setEmpty(mapEl, "Error loading map.");
     setEmpty(collabEl, "Error loading people.");
   }
 });
