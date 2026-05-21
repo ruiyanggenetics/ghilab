@@ -572,40 +572,27 @@ main .page-intro + h2 {
 .people-map-pin {
   position: absolute;
   z-index: 3;
-  width: 28px;
-  height: 32px;
+  width: 18px;
+  height: 18px;
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
-  transform: translate(-50%, -78%);
+  transform: translate(-50%, -50%);
   transition: transform 0.18s ease;
 }
 
 .people-map-pin-dot {
   display: block;
   position: relative;
-  width: 18px;
-  height: 18px;
-  margin: 4px auto 0;
-  border: 3px solid #fff;
+  width: 10px;
+  height: 10px;
+  margin: 4px auto;
+  border: 2px solid #fff;
   border-radius: 999px;
   background: #2b6f5a;
-  box-shadow: 0 5px 14px rgba(20, 53, 40, 0.28);
+  box-shadow: 0 3px 8px rgba(20, 53, 40, 0.28);
   transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.people-map-pin-dot::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -7px;
-  width: 8px;
-  height: 8px;
-  border-right: 3px solid #fff;
-  border-bottom: 3px solid #fff;
-  background: #2b6f5a;
-  transform: translateX(-50%) rotate(45deg);
 }
 
 .people-map-pin-dot::before {
@@ -622,8 +609,8 @@ main .page-intro + h2 {
 .people-map-pin:hover .people-map-pin-dot,
 .people-map-pin:focus .people-map-pin-dot {
   background: #1f5d49;
-  transform: translateY(-2px) scale(1.08);
-  box-shadow: 0 8px 18px rgba(20, 53, 40, 0.3);
+  transform: scale(1.2);
+  box-shadow: 0 4px 10px rgba(20, 53, 40, 0.3);
 }
 
 .people-map-pin:hover .people-map-pin-dot::before,
@@ -632,14 +619,9 @@ main .page-intro + h2 {
   transform: scale(1);
 }
 
-.people-map-pin:hover .people-map-pin-dot::after,
-.people-map-pin:focus .people-map-pin-dot::after {
-  background: #1f5d49;
-}
-
 .people-map-pin:hover,
 .people-map-pin:focus {
-  transform: translate(-50%, -84%);
+  transform: translate(-50%, -50%);
 }
 
 .people-map-pin:focus-visible {
@@ -650,32 +632,20 @@ main .page-intro + h2 {
 .people-map-ghi-marker {
   position: absolute;
   z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 5px 2px 3px;
-  border: 1px solid #fff;
-  border-radius: 999px;
-  background: #b44d2d;
-  color: #fff;
-  font-size: 0.62rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0;
-  box-shadow: 0 4px 10px rgba(92, 42, 28, 0.26);
-  transform: translate(-18%, -50%);
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
 }
 
 .people-map-ghi-dot {
-  width: 6px;
-  height: 6px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 4px auto;
+  border: 2px solid #fff;
   border-radius: 999px;
-  background: #fff3d8;
-  box-shadow: 0 0 0 2px rgba(255, 243, 216, 0.22);
-}
-
-.people-map-ghi-label {
-  white-space: nowrap;
+  background: #b44d2d;
+  box-shadow: 0 3px 8px rgba(92, 42, 28, 0.3);
 }
 
 .people-map-tooltip-content {
