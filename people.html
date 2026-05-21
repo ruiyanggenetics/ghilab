@@ -156,8 +156,20 @@ function makeHeaderMap(cols) {
   return { ...fallback, ...map };
 }
 
+function isPeopleHeaderRow(row) {
+  const keys = (row.c || []).map(cell => normKey(cell?.f || cell?.v));
+  return keys.includes("name") && keys.includes("category");
+}
+
+function makeHeaderMapFromRow(row) {
+  return makeHeaderMap((row.c || []).map(cell => ({
+    label: cell?.f || cell?.v
+  })));
+}
+
 function cellValue(row, map, key) {
-  return row.c?.[map[key]]?.v;
+  const value = row.c?.[map[key]];
+  return value?.v || value?.f;
 }
 
 function escapeHtml(value) {
@@ -334,8 +346,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!m || !m[1]) throw new Error("Could not parse GViz response.");
     const json = JSON.parse(m[1]);
 
-    const rows = json.table?.rows || [];
-    const map = makeHeaderMap(json.table?.cols || []);
+    let rows = json.table?.rows || [];
+    const headerRow = rows[0] && isPeopleHeaderRow(rows[0]);
+    const map = headerRow
+      ? makeHeaderMapFromRow(rows[0])
+      : makeHeaderMap(json.table?.cols || []);
+
+    if (headerRow) rows = rows.slice(1);
 
     const people = rows.map(row => ({
       name: cleanText(cellValue(row, map, "name")),
