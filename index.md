@@ -7,9 +7,7 @@ description: Yang Lab studies human genetics of immunity to understand severe in
 
 # Genetics of Human Immunity
 
-We’re an energetic group of physicians and scientists seeking to answer a simple question: 
-why do only a small subset of humans develop life-threatening infections or immune dysregulation, while most remain asymptomatic or experience only mild disease? 
-Using *Homo sapiens*  as our primary model system—the one that matters most and that we understand best—we integrate human genetics and immunology to uncover the mechanisms that shape protective and pathological immune responses, with the goal of translating discovery into better diagnosis and therapy.
+We are an energetic group of physicians and scientists seeking to answer a simple question: why do only a small subset of humans develop life-threatening infections or immune dysregulation? Using *Homo sapiens* as our primary model system, the one that matters most, we integrate human genetics and immunology to uncover the mechanisms that shape protective and pathological immune responses, with the goal of translating discovery into better diagnosis and therapy.
 
 **Affiliation**
 <div class="affiliations">
