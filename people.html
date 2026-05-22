@@ -274,20 +274,6 @@ function appendRoute(svg, start, end, index) {
   addPath(start, end);
 }
 
-function makeGhiMarker(point) {
-  const marker = document.createElement("button");
-  marker.className = "people-map-ghi-marker";
-  marker.type = "button";
-  marker.style.left = `${point.x}%`;
-  marker.style.top = `${point.y}%`;
-  marker.setAttribute("aria-label", GHI_LOCATION.label);
-  marker.innerHTML = `
-    <span class="people-map-ghi-dot"></span>
-    <span class="people-map-ghi-label">${GHI_LOCATION.label}</span>
-  `;
-  return marker;
-}
-
 function datesFor(person) {
   const start = parseGvizDate(person.startDate);
   const end = parseGvizDate(person.endDate);
@@ -419,8 +405,6 @@ function renderOriginMap(people) {
 
     mapCanvas.appendChild(pin);
   });
-
-  mapCanvas.appendChild(makeGhiMarker(ghiPoint));
 
   mapEl.appendChild(mapCanvas);
 }
