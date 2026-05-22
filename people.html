@@ -42,12 +42,6 @@ const SHEET_NAME = "Sheet1";
 const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
 const DEFAULT_PHOTO = BASEURL ? BASEURL + "/assets/img/people/default-turtle.png" : "assets/img/people/default-turtle.png";
-const SVG_NS = "http://www.w3.org/2000/svg";
-const GHI_LOCATION = {
-  label: "GHI",
-  lat: 29.7104,
-  lng: -95.3972
-};
 const STATIC_PI = {
   name: "Rui (Ray) Yang, MD, PhD",
   category: "Principal Investigator",
@@ -234,46 +228,6 @@ function coordinateToPoint(lat, lng) {
   };
 }
 
-function routePath(start, end, index) {
-  const dx = end.x - start.x;
-  const dy = end.y - start.y;
-  const length = Math.hypot(dx, dy) || 1;
-  const midX = (start.x + end.x) / 2;
-  const midY = (start.y + end.y) / 2;
-  const curve = Math.min(14, Math.max(5, length * 0.18)) * (index % 2 ? -1 : 1);
-  const controlX = midX - (dy / length) * curve;
-  const controlY = midY + (dx / length) * curve;
-
-  return [
-    `M ${start.x.toFixed(2)} ${start.y.toFixed(2)}`,
-    `Q ${controlX.toFixed(2)} ${controlY.toFixed(2)} ${end.x.toFixed(2)} ${end.y.toFixed(2)}`
-  ].join(" ");
-}
-
-function appendRoute(svg, start, end, index) {
-  const addPath = (routeStart, routeEnd) => {
-    const path = document.createElementNS(SVG_NS, "path");
-    path.setAttribute("class", "people-map-route");
-    path.setAttribute("d", routePath(routeStart, routeEnd, index));
-    svg.appendChild(path);
-  };
-
-  const dx = end.x - start.x;
-
-  if (Math.abs(dx) > 50) {
-    if (dx < 0) {
-      addPath(start, { ...end, x: end.x + 100 });
-      addPath({ ...start, x: start.x - 100 }, end);
-    } else {
-      addPath(start, { ...end, x: end.x - 100 });
-      addPath({ ...start, x: start.x + 100 }, end);
-    }
-    return;
-  }
-
-  addPath(start, end);
-}
-
 function datesFor(person) {
   const start = parseGvizDate(person.startDate);
   const end = parseGvizDate(person.endDate);
@@ -371,18 +325,6 @@ function renderOriginMap(people) {
 
   const mapCanvas = document.createElement("div");
   mapCanvas.className = "people-map-canvas";
-  const ghiPoint = coordinateToPoint(GHI_LOCATION.lat, GHI_LOCATION.lng);
-  const routeLayer = document.createElementNS(SVG_NS, "svg");
-  routeLayer.setAttribute("class", "people-map-routes");
-  routeLayer.setAttribute("viewBox", "0 0 100 100");
-  routeLayer.setAttribute("preserveAspectRatio", "none");
-
-  peopleWithCoordinates.forEach((person, index) => {
-    const originPoint = coordinateToPoint(person.coordinates.lat, person.coordinates.lng);
-    appendRoute(routeLayer, originPoint, ghiPoint, index);
-  });
-
-  mapCanvas.appendChild(routeLayer);
 
   peopleWithCoordinates.forEach(person => {
     const { lat, lng } = person.coordinates;
