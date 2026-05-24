@@ -42,6 +42,16 @@ const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
 const DEFAULT_PHOTO = BASEURL ? BASEURL + "/assets/img/people/default-turtle.png" : "assets/img/people/default-turtle.png";
 const MAP_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg";
+const STATIC_PI = {
+  name: "Rui (Ray) Yang, MD, PhD",
+  category: "Principal Investigator",
+  title: "Principal Investigator",
+  photo: "/assets/img/rui-yang-photo.png",
+  startDate: "",
+  endDate: "",
+  cityOfOrigin: "30.647643816147752, 111.34987189261312",
+  biography: "Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming tenure-track assistant professor at Baylor College of Medicine (BCM). He will launch his laboratory at Texas Children's Hospital in summer 2026. His research focuses on monogenic causes of life-threatening infectious diseases, immune dysregulation, and malignancies."
+};
 
 const GVIZ_URL =
   `https://docs.google.com/spreadsheets/d/${PEOPLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(PEOPLE_SHEET_NAME)}`;
@@ -78,6 +88,24 @@ function isPrincipalInvestigator(person) {
   const category = normCategory(person.category);
   const title = normCategory(person.title);
   return category === "principal investigator" || title.includes("principal investigator");
+}
+
+function isRuiYang(person) {
+  const name = normCategory(person.name);
+  return name.includes("rui") && name.includes("yang");
+}
+
+function withPrincipalInvestigatorFallback(person) {
+  if (!isRuiYang(person)) return person;
+
+  return {
+    ...person,
+    category: person.category || STATIC_PI.category,
+    title: person.title || STATIC_PI.title,
+    photo: person.photo || STATIC_PI.photo,
+    cityOfOrigin: person.cityOfOrigin || STATIC_PI.cityOfOrigin,
+    biography: person.biography || STATIC_PI.biography
+  };
 }
 
 function fallbackTitle(person) {
@@ -224,6 +252,11 @@ function compareLabMembers(a, b) {
   return compareByFirstName(a, b);
 }
 
+function ensurePrincipalInvestigator(people) {
+  const hasRui = people.some(isRuiYang);
+  return hasRui ? people : [STATIC_PI, ...people];
+}
+
 // ### Person cards ###
 // Cards are built in JavaScript because the people list comes from the sheet.
 function makeCard(person) {
@@ -366,11 +399,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       endDate: cellValue(row, map, "enddate"),
       biography: cleanText(cellValue(row, map, "biography")),
       cityOfOrigin: cleanText(cellValue(row, map, "cityoforigin")) || findCoordinateCell(row)
-    })).filter(person => person.name);
+    })).filter(person => person.name).map(withPrincipalInvestigatorFallback);
 
-    const labMembers = people
-      .filter(person => !isAlumni(person) && !isCloseCollaborator(person))
-      .sort(compareLabMembers);
+    const labMembers = ensurePrincipalInvestigator(
+      people.filter(person => !isAlumni(person) && !isCloseCollaborator(person))
+    ).sort(compareLabMembers);
 
     const alumni = people
       .filter(isAlumni)
@@ -388,7 +421,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   } catch (err) {
     console.error(err);
-    setEmpty(labMembersEl, "Error loading people.");
+    renderPeople(labMembersEl, [STATIC_PI], "Error loading people.");
     setEmpty(alumniEl, "Error loading people.");
     setEmpty(mapEl, "Error loading map.");
     setEmpty(collabEl, "Error loading people.");
