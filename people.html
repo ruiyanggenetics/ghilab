@@ -42,6 +42,7 @@ const SHEET_NAME = "Sheet1";
 const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
 const DEFAULT_PHOTO = BASEURL ? BASEURL + "/assets/img/people/default-turtle.png" : "assets/img/people/default-turtle.png";
+const MAP_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg";
 const STATIC_PI = {
   name: "Rui (Ray) Yang, MD, PhD",
   category: "Principal Investigator",
@@ -325,6 +326,13 @@ function renderOriginMap(people) {
 
   const mapCanvas = document.createElement("div");
   mapCanvas.className = "people-map-canvas";
+
+  const mapImage = document.createElement("img");
+  mapImage.className = "people-map-image";
+  mapImage.src = MAP_IMAGE_URL;
+  mapImage.alt = "";
+  mapImage.setAttribute("aria-hidden", "true");
+  mapCanvas.appendChild(mapImage);
 
   peopleWithCoordinates.forEach(person => {
     const { lat, lng } = person.coordinates;

@@ -519,12 +519,17 @@ main .page-intro + h2 {
   width: 100%;
   aspect-ratio: 2 / 1;
   background-color: #edf6f2;
-  background-image:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(232, 242, 236, 0.12) 100%),
-    url("https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+}
+
+.people-map-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
 }
 
 .people-map-canvas::before {
@@ -533,7 +538,9 @@ main .page-intro + h2 {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(135deg, rgba(247, 251, 248, 0.1), rgba(217, 236, 227, 0.04));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(232, 242, 236, 0.12) 100%),
+    linear-gradient(135deg, rgba(247, 251, 248, 0.1), rgba(217, 236, 227, 0.04));
 }
 
 .people-map-canvas::after {
