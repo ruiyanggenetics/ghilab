@@ -2,7 +2,8 @@
 // ORCID owns the full list. Crossref fills in cleaner author and journal metadata.
 (function () {
   const ORCID_ID = "0000-0003-4427-2158";
-  const ORCID_WORKS_URL = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`;
+  const ORCID_RECORD_URL = `https://pub.orcid.org/v3.0/${ORCID_ID}`;
+  const ORCID_WORKS_URL = `${ORCID_RECORD_URL}/works`;
   const CROSSREF_WORKS_URL = "https://api.crossref.org/works";
 
   let publicationsPromise = null;
@@ -10,7 +11,10 @@
   function cleanText(value) {
     const div = document.createElement("div");
     div.innerHTML = String(value || "");
-    return div.textContent.replace(/\s+/g, " ").trim();
+    return div.textContent
+      .replace(/\s+/g, " ")
+      .replace(/\s+([,.;:])/g, "$1")
+      .trim();
   }
 
   function normalizeDoi(doi) {
@@ -40,6 +44,24 @@
       .map(Number);
   }
 
+  function nameToPubMedStyle(name) {
+    const cleanName = cleanText(name);
+    if (!cleanName) return "";
+
+    if (cleanName.includes(",")) {
+      const [family, ...givenParts] = cleanName.split(",").map(part => part.trim());
+      const initials = initialsFromGivenName(givenParts.join(" "));
+      return initials ? `${family} ${initials}` : family;
+    }
+
+    const parts = cleanName.split(/\s+/).filter(Boolean);
+    if (parts.length < 2) return cleanName;
+
+    const family = parts.pop();
+    const initials = initialsFromGivenName(parts.join(" "));
+    return initials ? `${family} ${initials}` : family;
+  }
+
   function crossrefDateParts(item) {
     const dateFields = [
       "published-print",
@@ -61,6 +83,18 @@
   function dateScore(parts) {
     const [year = 0, month = 1, day = 1] = parts.map(Number);
     return (year * 10000) + (month * 100) + day;
+  }
+
+  function workTypeLabel(type) {
+    const labels = {
+      "book-chapter": "Book chapter",
+      "conference-paper": "Conference paper",
+      "journal-article": "Journal article",
+      "posted-content": "Preprint",
+      "preprint": "Preprint"
+    };
+
+    return labels[cleanText(type).toLowerCase()] || "Publication";
   }
 
   function externalIds(container) {
@@ -111,17 +145,32 @@
     return {
       title,
       authors: "",
-      journal: orcidValue(summary?.["journal-title"]) || cleanText(summary?.type),
+      journal: orcidValue(summary?.["journal-title"]) || workTypeLabel(summary?.type),
       year: dateParts[0] ? String(dateParts[0]) : "",
       url: cleanText(summary?.url?.value) || firstExternalUrl(group?.["external-ids"]) || doiUrl(doi),
       doi,
+      putCode: summary?.["put-code"],
       sortDate: dateScore(dateParts)
     };
   }
 
+  function initialsFromGivenName(given) {
+    return cleanText(given)
+      .replace(/\./g, " ")
+      .split(/[\s-]+/)
+      .map(part => part.charAt(0).toUpperCase())
+      .filter(Boolean)
+      .join("");
+  }
+
   function formatAuthor(author) {
-    return cleanText([author.given, author.family].filter(Boolean).join(" ")) ||
-      cleanText(author.name);
+    const family = cleanText(author.family);
+    const initials = initialsFromGivenName(author.given);
+
+    if (family && initials) return `${family} ${initials}`;
+    if (family) return family;
+
+    return cleanText(author.name);
   }
 
   function formatAuthors(authors) {
@@ -129,6 +178,43 @@
       .map(formatAuthor)
       .filter(Boolean)
       .join(", ");
+  }
+
+  function orcidContributorName(contributor) {
+    return orcidValue(contributor?.["credit-name"]);
+  }
+
+  function formatOrcidContributors(contributors) {
+    return (contributors?.contributor || [])
+      .map(orcidContributorName)
+      .map(nameToPubMedStyle)
+      .filter(Boolean)
+      .join(", ");
+  }
+
+  function compactAuthors(authors) {
+    const names = cleanText(authors)
+      .split(/\s*,\s*/)
+      .map(name => name.trim())
+      .filter(Boolean);
+
+    if (!names.length) return "Yang R, et al.";
+    if (names.length <= 6) return names.join(", ");
+
+    return `${names.slice(0, 3).join(", ")}, et al.`;
+  }
+
+  function displayVenue(pub) {
+    const journal = cleanText(pub.journal) || "Publication";
+    return pub.year ? `${journal} (${pub.year})` : journal;
+  }
+
+  function withDisplayFields(pub) {
+    return {
+      ...pub,
+      displayAuthors: compactAuthors(pub.authors),
+      displayVenue: displayVenue(pub)
+    };
   }
 
   function crossrefItemToPublication(item) {
@@ -152,6 +238,25 @@
     };
   }
 
+  function orcidWorkToPublication(work) {
+    const dateParts = orcidDateParts(work?.["publication-date"]);
+    const doi = doiFromExternalIds(work?.["external-ids"]);
+    const title = cleanText(work?.title?.title?.value || work?.title?.["translated-title"]?.value);
+
+    if (!title) return null;
+
+    return {
+      title,
+      authors: formatOrcidContributors(work?.contributors),
+      journal: orcidValue(work?.["journal-title"]) || workTypeLabel(work?.type),
+      year: dateParts[0] ? String(dateParts[0]) : "",
+      url: cleanText(work?.url?.value) || firstExternalUrl(work?.["external-ids"]) || doiUrl(doi),
+      doi,
+      putCode: work?.["put-code"],
+      sortDate: dateScore(dateParts)
+    };
+  }
+
   async function fetchJson(url, accept = "application/json") {
     const res = await fetch(url, {
       headers: { Accept: accept }
@@ -161,16 +266,22 @@
     return res.json();
   }
 
-  async function fetchOrcidPublications() {
-    let data;
-
+  async function fetchOrcidJson(url) {
     try {
-      data = await fetchJson(ORCID_WORKS_URL, "application/vnd.orcid+json");
+      return await fetchJson(url, "application/vnd.orcid+json");
     } catch (err) {
-      data = await fetchJson(ORCID_WORKS_URL);
+      return fetchJson(url);
     }
+  }
 
+  async function fetchOrcidPublications() {
+    const data = await fetchOrcidJson(ORCID_WORKS_URL);
     return (data.group || []).map(orcidGroupToPublication).filter(Boolean);
+  }
+
+  async function fetchOrcidWorkByPutCode(putCode) {
+    const data = await fetchOrcidJson(`${ORCID_RECORD_URL}/work/${putCode}`);
+    return orcidWorkToPublication(data);
   }
 
   async function fetchCrossrefByOrcid() {
@@ -252,9 +363,9 @@
       byKey.set(key, mergePublication(byKey.get(key) || pub, pub));
     });
 
-    return Array.from(byKey.values()).sort((a, b) =>
-      b.sortDate - a.sortDate || a.title.localeCompare(b.title)
-    );
+    return Array.from(byKey.values())
+      .map(withDisplayFields)
+      .sort((a, b) => b.sortDate - a.sortDate || a.title.localeCompare(b.title));
   }
 
   async function loadPublications() {
@@ -269,17 +380,28 @@
       const orcidPublications = orcidResult.status === "fulfilled" ? orcidResult.value : [];
       const crossrefItems = crossrefResult.status === "fulfilled" ? crossrefResult.value : [];
       const lookup = crossrefLookup(crossrefItems);
+      const orcidDetails = await mapWithLimit(
+        orcidPublications.map(pub => pub.putCode).filter(Boolean),
+        4,
+        fetchOrcidWorkByPutCode
+      );
+      const orcidDetailsByPutCode = new Map(
+        orcidDetails.map(pub => [pub.putCode, pub])
+      );
+      const enrichedOrcidPublications = orcidPublications.map(pub =>
+        mergePublication(pub, orcidDetailsByPutCode.get(pub.putCode))
+      );
 
       const missingDois = Array.from(new Set(
-        orcidPublications
+        enrichedOrcidPublications
           .map(pub => normalizeDoi(pub.doi))
           .filter(doi => doi && !lookup.byDoi.has(doi))
       ));
 
       const detailItems = await mapWithLimit(missingDois, 4, fetchCrossrefByDoi);
       const detailedLookup = crossrefLookup(crossrefItems.concat(detailItems));
-      const basePublications = orcidPublications.length ?
-        orcidPublications :
+      const basePublications = enrichedOrcidPublications.length ?
+        enrichedOrcidPublications :
         crossrefItems.map(crossrefItemToPublication).filter(Boolean);
 
       const merged = basePublications.map(pub => mergePublication(

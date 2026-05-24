@@ -26,18 +26,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       const desc = document.createElement("div");
       desc.className = "pub-desc";
 
-      if (pub.authors) {
-        desc.appendChild(document.createTextNode(pub.authors));
-        desc.appendChild(document.createElement("br"));
-      }
+      desc.appendChild(document.createTextNode(pub.displayAuthors));
+      desc.appendChild(document.createElement("br"));
 
-      const journal = document.createElement("em");
-      journal.textContent = pub.journal || "Publication";
-      desc.appendChild(journal);
-
-      if (pub.year) {
-        desc.appendChild(document.createTextNode(` (${pub.year})`));
-      }
+      const venue = document.createElement("em");
+      venue.textContent = pub.displayVenue;
+      desc.appendChild(venue);
 
       title.appendChild(link);
       item.appendChild(title);

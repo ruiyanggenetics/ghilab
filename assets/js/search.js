@@ -22,7 +22,7 @@ function cleanText(value) {
 // Publications are shaped to look like regular search results.
 function publicationToSearchPage(pub) {
   const title = cleanText(pub.title);
-  const authors = cleanText(pub.authors);
+  const authors = cleanText(pub.authors || pub.displayAuthors);
   const journal = cleanText(pub.journal);
   const year = cleanText(pub.year);
   const url = cleanText(pub.url) || `${getBaseUrl()}/publications/`;
