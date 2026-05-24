@@ -5,6 +5,7 @@
   const ORCID_RECORD_URL = `https://pub.orcid.org/v3.0/${ORCID_ID}`;
   const ORCID_WORKS_URL = `${ORCID_RECORD_URL}/works`;
   const CROSSREF_WORKS_URL = "https://api.crossref.org/works";
+  const EUROPE_PMC_SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search";
 
   let publicationsPromise = null;
 
@@ -123,6 +124,14 @@
     return normalizeDoi(externalIdValue(doi));
   }
 
+  function pmidFromExternalIds(container) {
+    const pmid = externalIds(container).find(id =>
+      cleanText(id?.["external-id-type"]).toLowerCase() === "pmid"
+    );
+
+    return cleanText(externalIdValue(pmid));
+  }
+
   function firstExternalUrl(container) {
     const found = externalIds(container).find(id => cleanText(id?.["external-id-url"]?.value));
     return cleanText(found?.["external-id-url"]?.value);
@@ -146,6 +155,8 @@
     const groupDoi = doiFromExternalIds(group?.["external-ids"]);
     const summaryDoi = doiFromExternalIds(summary?.["external-ids"]);
     const doi = groupDoi || summaryDoi;
+    const pmid = pmidFromExternalIds(group?.["external-ids"]) ||
+      pmidFromExternalIds(summary?.["external-ids"]);
     const dateParts = orcidDateParts(summary?.["publication-date"]);
     const title = cleanText(summary?.title?.title?.value || summary?.title?.["translated-title"]?.value);
 
@@ -158,6 +169,7 @@
       year: dateParts[0] ? String(dateParts[0]) : "",
       url: cleanText(summary?.url?.value) || firstExternalUrl(group?.["external-ids"]) || doiUrl(doi),
       doi,
+      pmid,
       putCode: summary?.["put-code"],
       sortDate: dateScore(dateParts)
     };
@@ -216,6 +228,10 @@
     return pub.year ? `${journal} (${pub.year})` : journal;
   }
 
+  function isGenericJournalLabel(journal) {
+    return ["journal article", "publication"].includes(cleanText(journal).toLowerCase());
+  }
+
   function withDisplayFields(pub) {
     return {
       ...pub,
@@ -241,6 +257,7 @@
       year: dateParts[0] ? String(dateParts[0]) : "",
       url: cleanText(item.URL) || doiUrl(doi),
       doi,
+      pmid: cleanText(item.PMID || item.pmid),
       sortDate: dateScore(dateParts)
     };
   }
@@ -248,6 +265,7 @@
   function orcidWorkToPublication(work) {
     const dateParts = orcidDateParts(work?.["publication-date"]);
     const doi = doiFromExternalIds(work?.["external-ids"]);
+    const pmid = pmidFromExternalIds(work?.["external-ids"]);
     const title = cleanText(work?.title?.title?.value || work?.title?.["translated-title"]?.value);
 
     if (!title) return null;
@@ -259,7 +277,34 @@
       year: dateParts[0] ? String(dateParts[0]) : "",
       url: cleanText(work?.url?.value) || firstExternalUrl(work?.["external-ids"]) || doiUrl(doi),
       doi,
+      pmid,
       putCode: work?.["put-code"],
+      sortDate: dateScore(dateParts)
+    };
+  }
+
+  function europePmcDateParts(item) {
+    const date = cleanText(item.firstPublicationDate || item.firstIndexDate);
+    const year = Number.parseInt(cleanText(item.pubYear), 10);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return date.split("-").map(Number);
+    return year ? [year] : [];
+  }
+
+  function europePmcItemToPublication(item) {
+    const dateParts = europePmcDateParts(item);
+    const doi = normalizeDoi(item.doi);
+    const title = cleanText(item.title);
+
+    if (!title) return null;
+
+    return {
+      title,
+      authors: cleanText(item.authorString),
+      journal: cleanText(item.journalTitle),
+      year: dateParts[0] ? String(dateParts[0]) : "",
+      url: doiUrl(doi) || (item.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${item.pmid}/` : ""),
+      doi,
+      pmid: cleanText(item.pmid),
       sortDate: dateScore(dateParts)
     };
   }
@@ -307,6 +352,24 @@
     return data.message || null;
   }
 
+  async function fetchEuropePmcPublication(pub) {
+    const url = new URL(EUROPE_PMC_SEARCH_URL);
+
+    if (pub.pmid) {
+      url.searchParams.set("query", `EXT_ID:${pub.pmid} AND SRC:MED`);
+    } else if (pub.doi) {
+      url.searchParams.set("query", `DOI:"${pub.doi}"`);
+    } else {
+      url.searchParams.set("query", `TITLE:"${pub.title}"`);
+    }
+
+    url.searchParams.set("format", "json");
+    url.searchParams.set("pageSize", "1");
+
+    const data = await fetchJson(url.toString());
+    return europePmcItemToPublication(data.resultList?.result?.[0]);
+  }
+
   async function mapWithLimit(items, limit, mapper) {
     const results = new Array(items.length);
     let next = 0;
@@ -348,16 +411,33 @@
     return { byDoi, byTitle };
   }
 
+  function publicationLookup(publications) {
+    const byDoi = new Map();
+    const byPmid = new Map();
+    const byTitle = new Map();
+
+    publications.filter(Boolean).forEach(pub => {
+      if (pub.doi) byDoi.set(normalizeDoi(pub.doi), pub);
+      if (pub.pmid) byPmid.set(cleanText(pub.pmid), pub);
+      byTitle.set(normalizeTitle(pub.title), pub);
+    });
+
+    return { byDoi, byPmid, byTitle };
+  }
+
   function mergePublication(base, extra) {
     if (!extra) return base;
 
     return {
       title: extra.title || base.title,
       authors: extra.authors || base.authors,
-      journal: extra.journal || base.journal,
+      journal: extra.journal && isGenericJournalLabel(base.journal) ?
+        extra.journal :
+        extra.journal || base.journal,
       year: extra.year || base.year,
       url: extra.url || base.url,
       doi: base.doi || extra.doi,
+      pmid: base.pmid || extra.pmid,
       sortDate: extra.sortDate || base.sortDate
     };
   }
@@ -410,10 +490,22 @@
       const basePublications = enrichedOrcidPublications.length ?
         enrichedOrcidPublications :
         crossrefItems.map(crossrefItemToPublication).filter(Boolean);
+      const genericVenuePublications = basePublications.filter(pub =>
+        isGenericJournalLabel(pub.journal) && (pub.pmid || pub.doi || pub.title)
+      );
+      const europePmcPublications = await mapWithLimit(
+        genericVenuePublications,
+        4,
+        fetchEuropePmcPublication
+      );
+      const europePmcLookup = publicationLookup(europePmcPublications);
 
       const merged = basePublications.map(pub => mergePublication(
         pub,
-        detailedLookup.byDoi.get(normalizeDoi(pub.doi)) ||
+        europePmcLookup.byPmid.get(cleanText(pub.pmid)) ||
+          europePmcLookup.byDoi.get(normalizeDoi(pub.doi)) ||
+          europePmcLookup.byTitle.get(normalizeTitle(pub.title)) ||
+          detailedLookup.byDoi.get(normalizeDoi(pub.doi)) ||
           detailedLookup.byTitle.get(normalizeTitle(pub.title))
       ));
 

@@ -215,6 +215,26 @@ main .page-intro + h2 {
   margin-top: 28px;
 }
 
+.pub-section {
+  margin-top: 30px;
+}
+
+.pub-section-title {
+  font-size: 1.15rem;
+  margin: 0 0 18px 0;
+}
+
+.pub-year-group {
+  margin: 0 0 28px 0;
+}
+
+.pub-year-title {
+  font-size: 0.92rem;
+  color: #555;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
 .pub-dynamic-item {
   margin-bottom: 22px;
   padding-left: 14px;
