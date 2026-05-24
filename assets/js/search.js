@@ -5,7 +5,8 @@ let pages = [];
 
 const input = document.getElementById("nav-search-input");
 const resultsBox = document.getElementById("nav-search-results");
-const PUBLICATIONS_FEED = "https://ghilab.ryangrui.workers.dev/";
+const SEARCH_ORCID_ID = "0000-0003-4427-2158";
+const SEARCH_CROSSREF_URL = "https://api.crossref.org/works";
 
 function getBaseUrl() {
   const script = document.currentScript || document.querySelector('script[src$="/assets/js/search.js"]');
@@ -16,17 +17,59 @@ function getBaseUrl() {
 }
 
 function cleanText(value) {
-  return String(value || "").replace(/\s+/g, " ").trim();
+  const div = document.createElement("div");
+  div.innerHTML = String(value || "");
+  return div.textContent.replace(/\s+/g, " ").trim();
+}
+
+function publicationDateParts(item) {
+  const dateFields = [
+    "published-print",
+    "published-online",
+    "published",
+    "posted",
+    "issued",
+    "created"
+  ];
+
+  for (const field of dateFields) {
+    const parts = item[field]?.["date-parts"]?.[0];
+    if (Array.isArray(parts) && parts.length) return parts;
+  }
+
+  return [];
+}
+
+function doiUrl(doi) {
+  const cleanDoi = cleanText(doi).replace(/^https?:\/\/(dx\.)?doi\.org\//i, "");
+  return cleanDoi ? `https://doi.org/${cleanDoi}` : "";
+}
+
+function formatAuthor(author) {
+  return cleanText([author.given, author.family].filter(Boolean).join(" ")) ||
+    cleanText(author.name);
+}
+
+function formatAuthors(authors) {
+  return (authors || [])
+    .map(formatAuthor)
+    .filter(Boolean)
+    .join(", ");
 }
 
 // ### Publication search records ###
 // Publications are shaped to look like regular search results.
-function publicationToSearchPage(pub) {
-  const title = cleanText(pub.title);
-  const authors = cleanText(pub.authors);
-  const journal = cleanText(pub.journal);
-  const year = cleanText(pub.year);
-  const url = cleanText(pub.url) || `${getBaseUrl()}/publications/`;
+function crossrefItemToSearchPage(item) {
+  const dateParts = publicationDateParts(item);
+  const doi = cleanText(item.DOI);
+  const title = cleanText(item.title?.[0]);
+  const authors = formatAuthors(item.author);
+  const journal = cleanText(item["container-title"]?.[0]) ||
+    cleanText(item["short-container-title"]?.[0]) ||
+    cleanText(item.institution?.[0]?.name) ||
+    cleanText(item.publisher);
+  const year = dateParts[0] ? String(dateParts[0]) : "";
+  const url = cleanText(item.URL) || doiUrl(doi) || `${getBaseUrl()}/publications/`;
 
   if (!title) return null;
 
@@ -122,11 +165,20 @@ async function loadSearchIndex() {
   }
 
   try {
-    const res = await fetch(PUBLICATIONS_FEED);
+    const url = new URL(SEARCH_CROSSREF_URL);
+    url.searchParams.set("filter", `orcid:${SEARCH_ORCID_ID}`);
+    url.searchParams.set("rows", "100");
+    url.searchParams.set("sort", "published");
+    url.searchParams.set("order", "desc");
+
+    const res = await fetch(url.toString(), {
+      headers: { Accept: "application/json" }
+    });
+
     if (!res.ok) throw new Error("Publications fetch failed");
     const publications = await res.json();
-    const publicationPages = publications
-      .map(publicationToSearchPage)
+    const publicationPages = (publications.message?.items || [])
+      .map(crossrefItemToSearchPage)
       .filter(Boolean);
 
     pages = pages.concat(publicationPages);
