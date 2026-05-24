@@ -57,6 +57,15 @@
     const parts = cleanName.split(/\s+/).filter(Boolean);
     if (parts.length < 2) return cleanName;
 
+    const lastPart = parts[parts.length - 1];
+    const firstPart = parts[0];
+    const lastPartLooksLikeInitials = /^[A-Z]{1,5}$/.test(lastPart.replace(/\./g, ""));
+    const firstPartLooksLikeInitials = /^[A-Z]{1,5}$/.test(firstPart.replace(/\./g, ""));
+
+    if (lastPartLooksLikeInitials && !firstPartLooksLikeInitials) {
+      return cleanName;
+    }
+
     const family = parts.pop();
     const initials = initialsFromGivenName(parts.join(" "));
     return initials ? `${family} ${initials}` : family;
