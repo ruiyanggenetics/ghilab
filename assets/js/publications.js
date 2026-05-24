@@ -1,10 +1,11 @@
+// ### Publications feed ###
+// The Publications page pulls a small JSON feed and renders it quietly. If the
+// feed is unavailable, the page still shows the external profile cards.
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("publications");
 
-  // Not on publications page → do nothing
   if (!container) return;
 
-  // ✅ No "Loading..." text
   container.innerHTML = "";
 
   try {
@@ -32,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
   } catch (err) {
-    // Optional: show nothing on failure (or keep an error message)
     container.innerHTML = "";
     console.error(err);
   }

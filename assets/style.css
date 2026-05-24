@@ -1,6 +1,4 @@
-/* =========================
-   BASE
-   ========================= */
+/* ### Base page defaults ### */
 
 * {
   box-sizing: border-box;
@@ -22,16 +20,14 @@ a:hover {
   text-decoration: underline;
 }
 
-/* GLOBAL IMAGE SAFETY — DO NOT REMOVE */
+/* ### Images should never overflow their containers ### */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* =========================
-   PAGE LAYOUT
-   ========================= */
+/* ### Two-column page layout ### */
 
 .page {
   display: flex;
@@ -41,9 +37,7 @@ img {
   gap: 36px;
 }
 
-/* =========================
-   LEFT SIDEBAR
-   ========================= */
+/* ### Sidebar ### */
 
 .sidebar {
   width: 260px;
@@ -97,18 +91,14 @@ img {
   opacity: 0.9;
 }
 
-/* =========================
-   RIGHT CONTENT
-   ========================= */
+/* ### Content column ### */
 
 .content {
   flex: 1;
   min-width: 0;
 }
 
-/* =========================
-   TOP NAV
-   ========================= */
+/* ### Top navigation ### */
 
 .topnav {
   display: flex;
@@ -136,9 +126,7 @@ img {
   color: #111;
 }
 
-/* =========================
-   MAIN CONTENT
-   ========================= */
+/* ### Main content rhythm ### */
 
 main {
   max-width: 900px;
@@ -156,9 +144,7 @@ main .page-intro + h2 {
   margin-top: 30px;
 }
 
-/* =========================
-   HOME BANNER
-   ========================= */
+/* ### Home banner ### */
 
 .site-banner {
   width: 100%;
@@ -166,9 +152,7 @@ main .page-intro + h2 {
   margin-bottom: 22px;
 }
 
-/* =========================
-   AFFILIATIONS (FIXED)
-   ========================= */
+/* ### Affiliation logos ### */
 
 .affiliations {
   display: flex;
@@ -183,17 +167,13 @@ main .page-intro + h2 {
   object-fit: contain;
 }
 
-/* =========================
-   PUBLICATIONS – BASE
-   ========================= */
+/* ### Publication lists ### */
 
 .pub-list {
   margin-top: 28px;
 }
 
-/* =========================
-   PUBLICATIONS – EXTERNAL CARDS
-   ========================= */
+/* ### External publication profile cards ### */
 
 .pub-card {
   display: grid;
@@ -229,9 +209,7 @@ main .page-intro + h2 {
   margin-top: 4px;
 }
 
-/* =========================
-   PUBLICATIONS – DYNAMIC (ORCID)
-   ========================= */
+/* ### Synced publication entries ### */
 
 .pub-dynamic {
   margin-top: 28px;
@@ -264,9 +242,7 @@ main .page-intro + h2 {
   margin-top: 4px;
 }
 
-/* =========================
-   RESOURCE CARDS
-   ========================= */
+/* ### Resource cards ### */
 
 .resource-card-grid {
   display: grid;
@@ -307,9 +283,7 @@ main .page-intro + h2 {
   line-height: 1.45;
 }
 
-/* =========================
-   FUNDING PAGE
-   ========================= */
+/* ### Funding page ### */
 
 .funding-section {
   margin-top: 40px;
@@ -423,9 +397,7 @@ main .page-intro + h2 {
   font-size: 0.86rem;
 }
 
-/* =========================
-   PEOPLE PAGE
-   ========================= */
+/* ### People page ### */
 
 .people-section {
   margin-top: 40px;
@@ -650,9 +622,7 @@ main .page-intro + h2 {
   object-fit: cover;
 }
 
-/* =========================
-   GALLERY
-   ========================= */
+/* ### Gallery reel ### */
 
 .gallery-section {
   margin-top: 28px;
@@ -739,9 +709,7 @@ main .page-intro + h2 {
   opacity: 0.88;
 }
 
-/* =========================
-   NAV SEARCH
-   ========================= */
+/* ### Navigation search ### */
 
 .nav-search {
   margin-left: auto;
@@ -795,9 +763,7 @@ main .page-intro + h2 {
   line-height: 1.45;
 }
 
-/* =========================
-   LAB NEWS – CARDS (LOW-KEY ELEVATION)
-   ========================= */
+/* ### Lab news cards ### */
 
 .news-list {
   margin-top: 22px;
@@ -895,9 +861,7 @@ main .page-intro + h2 {
   background: #fafafa;
 }
 
-/* =========================
-   FOOTER
-   ========================= */
+/* ### Footer ### */
 .site-footer{
   margin-top: 48px;
   padding: 22px 0;
@@ -906,12 +870,12 @@ main .page-intro + h2 {
 
 .footer-inner{
   max-width: 900px;
-  margin: 0 auto;              /* centers the 900px container */
+  margin: 0 auto;
   font-size: 0.85rem;
   color: #888;
 
   display: flex;
-  justify-content: center;     /* centers the footer items */
+  justify-content: center;
   gap: 10px;
   align-items: center;
   text-align: center;
@@ -921,9 +885,7 @@ main .page-intro + h2 {
 .footer-muted{ color: inherit; text-decoration: none; }
 .footer-muted:hover{ text-decoration: underline; }
 
-/* =========================
-   RESEARCH – VERTICAL CARDS
-   ========================= */
+/* ### Research cards ### */
 
 .research-list{
   display: flex;
@@ -936,7 +898,7 @@ main .page-intro + h2 {
   display: block;
   border: 1px solid #e6e6e6;
   border-radius: 14px;
-  overflow: hidden; /* keeps the card rounded */
+  overflow: hidden;
   background: #fff;
   transition: background 0.15s ease, transform 0.1s ease;
 }
@@ -946,14 +908,13 @@ main .page-intro + h2 {
   transform: translateY(-1px);
 }
 
-/* Narrower + taller image (desktop) */
 .research-card.research-card-vertical img{
-  width: 75%;            /* ~25% narrower */
-  height: 390px;         /* 260px → +50% taller */
+  width: 75%;
+  height: 390px;
   object-fit: cover;
   display: block;
-  margin: 0 auto;        /* center the narrower image */
-  border-radius: 14px;   /* optional: nice rounding on the centered image */
+  margin: 0 auto;
+  border-radius: 14px;
 }
 
 .research-card-body{
@@ -984,23 +945,20 @@ main .page-intro + h2 {
   color: #111;
 }
 
-/* Mobile: full-width image, still taller */
 @media (max-width: 900px){
   .research-card.research-card-vertical img{
     width: 100%;
     height: 300px;
     margin: 0;
-    border-radius: 0; /* lets the card's overflow:hidden handle edges */
+    border-radius: 0;
   }
 }
 
-/* =========================
-   TOP NAV – DROPDOWN
-   ========================= */
+/* ### Resources dropdown ### */
 
 .nav-dropdown{
   position: relative;
-  display: inline-block; /* critical */
+  display: inline-block;
 }
 
 .nav-parent{
@@ -1016,7 +974,6 @@ main .page-intro + h2 {
   transform: translateY(-1px);
 }
 
-/* Menu is hidden by default */
 .nav-menu{
   position: absolute;
   top: calc(100% + 8px);
@@ -1030,11 +987,10 @@ main .page-intro + h2 {
   border-radius: 12px;
   box-shadow: 0 10px 22px rgba(0,0,0,0.08);
 
-  display: none;          /* critical */
+  display: none;
   z-index: 1000;
 }
 
-/* hover bridge */
 .nav-dropdown::after{
   content: "";
   position: absolute;
@@ -1044,7 +1000,6 @@ main .page-intro + h2 {
   height: 12px;
 }
 
-/* show on hover/focus */
 .nav-dropdown:hover .nav-menu,
 .nav-dropdown:focus-within .nav-menu{
   display: block;
@@ -1066,14 +1021,14 @@ main .page-intro + h2 {
   text-decoration: none;
 }
 
-/* MOBILE: keep simple (no dropdown behavior) */
+/* ### Mobile dropdown behavior ### */
 @media (max-width: 900px){
   .nav-dropdown{ display: block; }
   .nav-dropdown::after{ display: none; }
 
   .nav-menu{
     position: static;
-    display: block;     /* mobile shows items below */
+    display: block;
     box-shadow: none;
     border: none;
     padding: 0;
@@ -1084,9 +1039,7 @@ main .page-intro + h2 {
   .nav-menu a{ padding: 8px 0; }
 }
 
-/* =========================
-   MOBILE
-   ========================= */
+/* ### Mobile layout ### */
 
 @media (max-width: 900px) {
   .page {

@@ -9,12 +9,12 @@ title: Publications
 
 ## Publications
 
-<!-- ORCID publications (dynamic) -->
+<!-- ### Synced publications render here ### -->
 <div id="publications" class="pub-list pub-dynamic"></div>
 
 <hr class="pub-divider">
 
-<!-- External links (logos) -->
+<!-- ### External publication profiles ### -->
 <div class="pub-list pub-external">
 
   <a class="pub-card" href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank" rel="noopener">

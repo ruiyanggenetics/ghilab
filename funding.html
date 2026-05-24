@@ -26,6 +26,9 @@ Current, upcoming, and past support for the Laboratory of Genetics of Human Immu
 </section>
 
 <script>
+// ### Funding sheet ###
+// Funding cards are maintained in a published sheet so logos, dates, and
+// links can be updated without editing this page.
 const FUNDING_SHEET_ID = "14akO4ySVQkBDd-4hWA4DsBCZ-cNjlpxKd_lsSTSjw1E";
 const FUNDING_SHEET_NAMES = ["Sheet1", "Funding"];
 const RAW_BASEURL = "{{ site.baseurl }}";
@@ -109,6 +112,8 @@ function mapFromHeaderRow(row) {
   })));
 }
 
+// ### Dates and progress ###
+// Google Sheets may return either formatted strings or Date(...) values.
 function parseSheetDate(cellValue, formattedValue) {
   if (typeof cellValue === "string" && cellValue.startsWith("Date")) {
     const parts = cellValue.match(/\d+/g);
@@ -154,6 +159,9 @@ function fundingStatus(item) {
   return "active";
 }
 
+// ### Funding cards ###
+// Active and upcoming grants use a timeline; past grants keep a simpler date
+// line so the page stays easy to scan.
 function makeLogo(item) {
   const logo = document.createElement("div");
   logo.className = "funding-logo";
@@ -258,6 +266,9 @@ async function loadFundingSheet() {
   return { table: { cols: [], rows: [] } };
 }
 
+// ### Draw the funding page ###
+// Items are separated into current/upcoming and past support after the sheet
+// data is loaded.
 function renderFunding(container, items, emptyMessage) {
   container.innerHTML = "";
 

@@ -19,10 +19,8 @@ News items are curated and maintained by the lab.
 </button>
 
 <script>
-/* =========================
-   GOOGLE SHEET CONFIG
-   ========================= */
-
+// ### News sheet ###
+// The visible news cards come from this published sheet.
 const SHEET_ID = "1fiT9YGnIdbJIkTXBlfILtlnoW1TgxmBAe-TYkpHe9nM";
 const SHEET_FALLBACK_NAMES = ["YangLab_updates", "Sheet1"];
 const NEWS_PREVIEW_LIMIT = 5;
@@ -121,6 +119,8 @@ function parseGvizDate(value, formattedValue) {
   return isNaN(fallback) ? new Date(0) : new Date(fallback);
 }
 
+// ### News cards ###
+// Keep the markup compact; the card height is controlled mostly by CSS.
 function makeNewsItem(news) {
   const item = document.createElement("div");
   item.className = "news-item";
@@ -186,10 +186,9 @@ async function loadNewsSheet() {
   return { json: { table: { cols: [], rows: [] } }, sheetName: "" };
 }
 
-/* =========================
-   FETCH + RENDER
-   ========================= */
-
+// ### Load and sort news ###
+// Newer items stay on top. The first view shows a short list; the button
+// reveals the older archive without leaving the page.
 loadNewsSheet()
   .then(({ json, sheetName }) => {
     let rows = json.table?.rows || [];

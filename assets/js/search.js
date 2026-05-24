@@ -1,3 +1,6 @@
+// ### Search data ###
+// Static pages come from search.json; publications are added from the same
+// public feed used by the Publications page.
 let pages = [];
 
 const input = document.getElementById("nav-search-input");
@@ -16,6 +19,8 @@ function cleanText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+// ### Publication search records ###
+// Publications are shaped to look like regular search results.
 function publicationToSearchPage(pub) {
   const title = cleanText(pub.title);
   const authors = cleanText(pub.authors);
@@ -33,6 +38,8 @@ function publicationToSearchPage(pub) {
   };
 }
 
+// ### Search results ###
+// Keep this small and fast: title match, content match, then a short snippet.
 function renderNoResults() {
   const item = document.createElement("div");
   item.className = "nav-search-item";
@@ -100,6 +107,9 @@ function renderResults(query) {
   });
 }
 
+// ### Load indexes ###
+// The page index is local. Publication data is best-effort, so search still
+// works if the feed is unavailable.
 async function loadSearchIndex() {
   const baseUrl = getBaseUrl();
 
@@ -127,6 +137,8 @@ async function loadSearchIndex() {
   if (input) renderResults(input.value.trim().toLowerCase());
 }
 
+// ### Wire the search box ###
+// Results update as the user types and clear when the user clicks elsewhere.
 if (input && resultsBox) {
   loadSearchIndex();
 

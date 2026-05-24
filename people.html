@@ -34,32 +34,20 @@ permalink: /people/
 </section>
 
 <script>
-/* =========================
-   CONFIG
-   ========================= */
-const SHEET_ID   = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
-const SHEET_NAME = "Sheet1";
+// ### People sheet ###
+// The people cards and map pins are maintained in a published sheet.
+const PEOPLE_SHEET_ID = "166QgKaRxVyZuTKAfiX9XLXNVgW6dnsd-10VvFB7nJxg";
+const PEOPLE_SHEET_NAME = "Sheet1";
 const RAW_BASEURL = "{{ site.baseurl }}";
 const BASEURL = RAW_BASEURL.includes("{") ? "" : RAW_BASEURL;
 const DEFAULT_PHOTO = BASEURL ? BASEURL + "/assets/img/people/default-turtle.png" : "assets/img/people/default-turtle.png";
 const MAP_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg";
-const STATIC_PI = {
-  name: "Rui (Ray) Yang, MD, PhD",
-  category: "Principal Investigator",
-  title: "Principal Investigator",
-  photo: "/assets/img/rui-yang-photo.png",
-  startDate: "",
-  endDate: "",
-  cityOfOrigin: "30.647643816147752, 111.34987189261312",
-  biography: "Dr. Rui (Ray) Yang is a board-certified pediatrician and incoming tenure-track assistant professor at Baylor College of Medicine (BCM). He will launch his laboratory at Texas Children's Hospital in summer 2026. His research focuses on monogenic causes of life-threatening infectious diseases, immune dysregulation, and malignancies."
-};
 
 const GVIZ_URL =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  `https://docs.google.com/spreadsheets/d/${PEOPLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(PEOPLE_SHEET_NAME)}`;
 
-/* =========================
-   HELPERS
-   ========================= */
+// ### Small text helpers ###
+// Normalize sheet values before sorting, filtering, or rendering them.
 function cleanText(v) {
   return (v === null || v === undefined) ? "" : String(v).trim();
 }
@@ -92,24 +80,6 @@ function isPrincipalInvestigator(person) {
   return category === "principal investigator" || title.includes("principal investigator");
 }
 
-function isRuiYang(person) {
-  const name = normCategory(person.name);
-  return name.includes("rui") && name.includes("yang");
-}
-
-function withPrincipalInvestigatorFallback(person) {
-  if (!isRuiYang(person)) return person;
-
-  return {
-    ...person,
-    category: person.category || STATIC_PI.category,
-    title: person.title || STATIC_PI.title,
-    photo: person.photo || STATIC_PI.photo,
-    cityOfOrigin: person.cityOfOrigin || STATIC_PI.cityOfOrigin,
-    biography: person.biography || STATIC_PI.biography
-  };
-}
-
 function fallbackTitle(person) {
   if (person.title) return person.title;
   if (isPrincipalInvestigator(person)) return "Principal Investigator";
@@ -119,7 +89,7 @@ function fallbackTitle(person) {
 }
 
 function parseGvizDate(v) {
-  // gviz sometimes returns Date(YYYY,MM,DD) (MM is 0-based)
+  // Google uses Date(YYYY,MM,DD), with zero-based months.
   if (!v) return "";
   if (typeof v === "string" && v.startsWith("Date")) {
     const parts = v.match(/\d+/g);
@@ -211,6 +181,9 @@ function parseCoordinates(value) {
   return { lat, lng };
 }
 
+// ### Origin map ###
+// Coordinates are stored as "lat, lng" in the sheet and positioned on a
+// simple equirectangular world map.
 function findCoordinateCell(row) {
   const cells = row.c || [];
 
@@ -251,11 +224,8 @@ function compareLabMembers(a, b) {
   return compareByFirstName(a, b);
 }
 
-function ensurePrincipalInvestigator(people) {
-  const hasRui = people.some(isRuiYang);
-  return hasRui ? people : [STATIC_PI, ...people];
-}
-
+// ### Person cards ###
+// Cards are built in JavaScript because the people list comes from the sheet.
 function makeCard(person) {
   const card = document.createElement("div");
   card.className = "person-card";
@@ -359,9 +329,9 @@ function renderOriginMap(people) {
   mapEl.appendChild(mapCanvas);
 }
 
-/* =========================
-   FETCH + RENDER
-   ========================= */
+// ### Load the sheet and draw the page ###
+// Lab members, alumni, collaborators, and map pins all come from the same
+// row data so sorting and filtering stay consistent across sections.
 document.addEventListener("DOMContentLoaded", async () => {
   const labMembersEl = document.getElementById("people-lab-members");
   const alumniEl     = document.getElementById("people-alumni");
@@ -396,11 +366,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       endDate: cellValue(row, map, "enddate"),
       biography: cleanText(cellValue(row, map, "biography")),
       cityOfOrigin: cleanText(cellValue(row, map, "cityoforigin")) || findCoordinateCell(row)
-    })).filter(person => person.name).map(withPrincipalInvestigatorFallback);
+    })).filter(person => person.name);
 
-    const labMembers = ensurePrincipalInvestigator(
-      people.filter(person => !isAlumni(person) && !isCloseCollaborator(person))
-    ).sort(compareLabMembers);
+    const labMembers = people
+      .filter(person => !isAlumni(person) && !isCloseCollaborator(person))
+      .sort(compareLabMembers);
 
     const alumni = people
       .filter(isAlumni)
@@ -418,7 +388,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   } catch (err) {
     console.error(err);
-    renderPeople(labMembersEl, [STATIC_PI], "Error loading people.");
+    setEmpty(labMembersEl, "Error loading people.");
     setEmpty(alumniEl, "Error loading people.");
     setEmpty(mapEl, "Error loading map.");
     setEmpty(collabEl, "Error loading people.");

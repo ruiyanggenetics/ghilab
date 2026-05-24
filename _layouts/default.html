@@ -11,9 +11,7 @@
 <body>
   <div class="page">
 
-<!-- =========================
-     LEFT SIDEBAR (ALL PAGES)
-     ========================= -->
+<!-- ### Sidebar shared by every page ### -->
 <aside class="sidebar">
   <div class="sidebar-title">
     Genetics of Human Immunity
@@ -44,14 +42,10 @@
 
 </aside>
     
-    <!-- =========================
-         RIGHT CONTENT
-         ========================= -->
+    <!-- ### Main page column ### -->
     <div class="content">
 
-      <!-- =========================
-           TOP NAVIGATION
-           ========================= -->
+      <!-- ### Top navigation ### -->
       <nav class="topnav">
         <a class="brand" href="{{ '/' | relative_url }}">GHI</a>
 
@@ -78,7 +72,7 @@
         <a href="{{ '/gallery' | relative_url }}">Gallery</a>
         <a href="{{ '/opportunities/' | relative_url }}">Join us!</a>
 
-        <!-- SEARCH (GLOBAL, SAFE) -->
+        <!-- ### Site search ### -->
         <div class="nav-search">
           <input
             id="nav-search-input"
@@ -89,12 +83,10 @@
         </div>
       </nav>
 
-      <!-- SEARCH RESULTS DROPDOWN -->
+      <!-- ### Search results ### -->
       <div id="nav-search-results" class="nav-search-results"></div>
 
-      <!-- =========================
-           PAGE CONTENT
-           ========================= -->
+      <!-- ### Page content ### -->
       <main>
         {{ content }}
       </main>
@@ -112,9 +104,7 @@
     </div>
   </footer>
 
-  <!-- =========================
-       GLOBAL SCRIPTS
-       ========================= -->
+  <!-- ### Shared scripts ### -->
   <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
 
 </body>

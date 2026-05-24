@@ -23,7 +23,9 @@ Lab moments and events.
 </section>
 
 <script>
-const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1TuvpeipjjBo-3WyELVHd2C5J3t9vgmAT";
+// ### Gallery source ###
+// Photos are served from Drive thumbnails, but the cards do not link back to
+// Drive. Add new images here as { id, name } using event_year.jpg names.
 const DRIVE_GALLERY_ITEMS = [
   {
     id: "1OKv9NE6OL286TQUyCrNMUkC96LabGLZa",
@@ -55,6 +57,8 @@ function driveImageUrl(id) {
   return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
 }
 
+// ### Photo cards ###
+// Filenames provide the caption and year, keeping the page lightweight.
 function renderGallery() {
   const track = document.getElementById("gallery-track");
   if (!track) return;
@@ -70,7 +74,7 @@ function renderGallery() {
   track.innerHTML = "";
 
   if (!items.length) {
-    track.innerHTML = `<p class="pub-desc">No gallery photos yet. <a href="${DRIVE_FOLDER_URL}" target="_blank" rel="noopener">Open the Drive folder</a>.</p>`;
+    track.innerHTML = `<p class="pub-desc">No gallery photos yet.</p>`;
     return;
   }
 
@@ -102,6 +106,8 @@ function renderGallery() {
   });
 }
 
+// ### Sideways browsing ###
+// The buttons scroll one large step at a time; the track can also be swiped.
 function setupGalleryScroll() {
   const track = document.getElementById("gallery-track");
   const left = document.getElementById("gallery-scroll-left");
