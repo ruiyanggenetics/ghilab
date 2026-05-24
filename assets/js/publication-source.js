@@ -198,10 +198,8 @@
       .map(name => name.trim())
       .filter(Boolean);
 
-    if (!names.length) return "Yang R, et al.";
-    if (names.length <= 6) return names.join(", ");
-
-    return `${names.slice(0, 3).join(", ")}, et al.`;
+    if (!names.length) return "Yang R";
+    return names.join(", ");
   }
 
   function displayVenue(pub) {
