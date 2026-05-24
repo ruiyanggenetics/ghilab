@@ -1,0 +1,133 @@
+---
+layout: default
+title: Gallery
+description: Photos from GHI lab events.
+permalink: /gallery/
+---
+
+<h1>Gallery</h1>
+
+<p class="page-intro">
+Lab moments and events.
+</p>
+
+<section class="gallery-section" aria-label="Lab photo gallery">
+  <div class="gallery-header">
+    <button class="gallery-scroll-btn" type="button" id="gallery-scroll-left" aria-label="Show newer photos">‹</button>
+    <button class="gallery-scroll-btn" type="button" id="gallery-scroll-right" aria-label="Show older photos">›</button>
+  </div>
+
+  <div id="gallery-track" class="gallery-track" tabindex="0">
+    <p class="pub-desc">Loading gallery...</p>
+  </div>
+</section>
+
+<script>
+const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1TuvpeipjjBo-3WyELVHd2C5J3t9vgmAT";
+const DRIVE_GALLERY_ITEMS = [
+  {
+    id: "1OKv9NE6OL286TQUyCrNMUkC96LabGLZa",
+    name: "CIS_2026.jpg"
+  }
+];
+
+function cleanGalleryText(value) {
+  return value === null || value === undefined ? "" : String(value).trim();
+}
+
+function galleryYear(fileName) {
+  const match = cleanGalleryText(fileName).match(/(?:^|[_-])(\d{4})\.jpe?g$/i);
+  return match ? Number(match[1]) : 0;
+}
+
+function galleryEvent(fileName) {
+  const withoutExt = cleanGalleryText(fileName).replace(/\.jpe?g$/i, "");
+  const withoutYear = withoutExt.replace(/[_-]\d{4}$/i, "");
+  const words = withoutYear.split(/[_-]+/).filter(Boolean);
+
+  return words.map(word => {
+    if (word === word.toUpperCase()) return word;
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }).join(" ");
+}
+
+function driveImageUrl(id) {
+  return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
+}
+
+function driveFileUrl(id) {
+  return `https://drive.google.com/file/d/${encodeURIComponent(id)}/view`;
+}
+
+function renderGallery() {
+  const track = document.getElementById("gallery-track");
+  if (!track) return;
+
+  const items = DRIVE_GALLERY_ITEMS
+    .map(item => ({
+      ...item,
+      year: galleryYear(item.name),
+      event: galleryEvent(item.name)
+    }))
+    .sort((a, b) => b.year - a.year || a.event.localeCompare(b.event));
+
+  track.innerHTML = "";
+
+  if (!items.length) {
+    track.innerHTML = `<p class="pub-desc">No gallery photos yet. <a href="${DRIVE_FOLDER_URL}" target="_blank" rel="noopener">Open the Drive folder</a>.</p>`;
+    return;
+  }
+
+  items.forEach(item => {
+    const card = document.createElement("a");
+    card.className = "gallery-card";
+    card.href = driveFileUrl(item.id);
+    card.target = "_blank";
+    card.rel = "noopener";
+
+    const img = document.createElement("img");
+    img.src = driveImageUrl(item.id);
+    img.alt = item.event ? `${item.event}, ${item.year}` : `Gallery photo, ${item.year}`;
+    img.loading = "lazy";
+
+    const caption = document.createElement("div");
+    caption.className = "gallery-caption";
+
+    const title = document.createElement("div");
+    title.className = "gallery-title";
+    title.textContent = item.event || "Lab event";
+
+    const year = document.createElement("div");
+    year.className = "gallery-year";
+    year.textContent = item.year || "";
+
+    caption.appendChild(title);
+    caption.appendChild(year);
+    card.appendChild(img);
+    card.appendChild(caption);
+    track.appendChild(card);
+  });
+}
+
+function setupGalleryScroll() {
+  const track = document.getElementById("gallery-track");
+  const left = document.getElementById("gallery-scroll-left");
+  const right = document.getElementById("gallery-scroll-right");
+  if (!track || !left || !right) return;
+
+  const scrollByCard = direction => {
+    track.scrollBy({
+      left: direction * Math.max(280, track.clientWidth * 0.78),
+      behavior: "smooth"
+    });
+  };
+
+  left.addEventListener("click", () => scrollByCard(-1));
+  right.addEventListener("click", () => scrollByCard(1));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderGallery();
+  setupGalleryScroll();
+});
+</script>
