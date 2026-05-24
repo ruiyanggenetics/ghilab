@@ -704,12 +704,6 @@ main .page-intro + h2 {
   background: #f7f7f7;
   color: #fff;
   scroll-snap-align: start;
-  text-decoration: none;
-}
-
-.gallery-card:hover,
-.gallery-card:focus {
-  text-decoration: none;
 }
 
 .gallery-card img {

@@ -55,10 +55,6 @@ function driveImageUrl(id) {
   return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
 }
 
-function driveFileUrl(id) {
-  return `https://drive.google.com/file/d/${encodeURIComponent(id)}/view`;
-}
-
 function renderGallery() {
   const track = document.getElementById("gallery-track");
   if (!track) return;
@@ -79,11 +75,8 @@ function renderGallery() {
   }
 
   items.forEach(item => {
-    const card = document.createElement("a");
+    const card = document.createElement("article");
     card.className = "gallery-card";
-    card.href = driveFileUrl(item.id);
-    card.target = "_blank";
-    card.rel = "noopener";
 
     const img = document.createElement("img");
     img.src = driveImageUrl(item.id);
