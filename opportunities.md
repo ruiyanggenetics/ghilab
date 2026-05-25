@@ -13,26 +13,26 @@ Rui is always happy to hear from energetic, curious, proactive, and team-oriente
 
 <div class="resource-card-grid">
 
-  <a class="resource-card" href="mailto:rui.yang@bcm.edu">
+  <div class="resource-card">
     <div class="resource-card-title">Research Assistant / Research Technician</div>
     <div class="resource-card-desc">
       Hands-on experience in human genetics, immunology, and translational research.
     </div>
-  </a>
+  </div>
 
-  <a class="resource-card" href="mailto:rui.yang@bcm.edu">
+  <div class="resource-card">
     <div class="resource-card-title">PhD Students</div>
     <div class="resource-card-desc">
       Rotation, thesis, dissertation, and collaborative training opportunities for students at BCM and beyond.
     </div>
-  </a>
+  </div>
 
-  <a class="resource-card" href="mailto:rui.yang@bcm.edu">
+  <div class="resource-card">
     <div class="resource-card-title">Postdoctoral Fellows, Clinical Fellows, and Instructors</div>
     <div class="resource-card-desc">
       For trainees with backgrounds in immunology, genetics, molecular biology, biochemistry, or related fields.
     </div>
-  </a>
+  </div>
 
 </div>
 
