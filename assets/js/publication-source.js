@@ -487,9 +487,7 @@
 
       const detailItems = await mapWithLimit(missingDois, 4, fetchCrossrefByDoi);
       const detailedLookup = crossrefLookup(crossrefItems.concat(detailItems));
-      const basePublications = enrichedOrcidPublications.length ?
-        enrichedOrcidPublications :
-        crossrefItems.map(crossrefItemToPublication).filter(Boolean);
+      const basePublications = enrichedOrcidPublications;
       const genericVenuePublications = basePublications.filter(pub =>
         isGenericJournalLabel(pub.journal) && (pub.pmid || pub.doi || pub.title)
       );
@@ -509,8 +507,7 @@
           detailedLookup.byTitle.get(normalizeTitle(pub.title))
       ));
 
-      const crossrefOnly = crossrefItems.map(crossrefItemToPublication).filter(Boolean);
-      return dedupePublications(merged.concat(crossrefOnly));
+      return dedupePublications(merged);
     })();
 
     return publicationsPromise;
