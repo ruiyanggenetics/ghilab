@@ -25,13 +25,65 @@ The site is built using **GitHub Pages + Jekyll** (no external theme dependency)
 
 Top navigation includes:
 
-- About (Home)
-- Publications
 - Research
-- Repositories
 - People
-- Opportunities
+- Resources
+- Publications
+- News
+- Funding
+- Gallery
+- Join us!
 - Search
+
+---
+
+## Automated Data Sources
+
+Several pages are intentionally maintained from public external sources so the
+website can stay lightweight.
+
+### Publications
+
+Publications are pulled from ORCID:
+
+- ORCID profile: [https://orcid.org/0000-0003-4427-2158](https://orcid.org/0000-0003-4427-2158)
+- ORCID works API: [https://pub.orcid.org/v3.0/0000-0003-4427-2158/works](https://pub.orcid.org/v3.0/0000-0003-4427-2158/works)
+
+Important rule: **ORCID is the only source of truth for which papers appear on
+the website.** Crossref and Europe PMC are used only to improve metadata for
+papers that are already present in ORCID, such as full author lists, journal
+names, DOI links, and PMID-backed journal corrections.
+
+This prevents unrelated Crossref-only records from appearing on the lab website.
+To add or remove a publication, update the ORCID record rather than editing the
+website.
+
+### People
+
+The People page is populated from the lab Google Sheet. The sheet controls lab
+member cards, alumni/collaborator grouping, photos, biographies, and origin map
+coordinates.
+
+### News
+
+The News page is populated from the lab updates Google Sheet. News items are
+sorted by date, newest first.
+
+### Funding
+
+The Funding page is populated from the funding Google Sheet. Logos, award names,
+links, and start/end dates are managed there.
+
+### Join Us
+
+The active job posts section is populated from the jobs Google Sheet. The sheet
+columns are:
+
+- Position
+- Earliest start date
+- Link
+
+Only rows with a position are displayed.
 
 ---
 
