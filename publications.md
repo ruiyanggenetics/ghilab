@@ -18,7 +18,7 @@ permalink: /publications/
 <!-- External links (logos) -->
 <div class="pub-list pub-external">
 
-  <a class="pub-card" href="https://www.ncbi.nlm.nih.gov/myncbi/1zQe7q7X7gQQH/bibliography/public/" target="_blank" rel="noopener">
+  <a class="pub-card" href="https://www.ncbi.nlm.nih.gov/myncbi/rui.yang.30/bibliography/public/" target="_blank" rel="noopener">
     <img src="{{ '/assets/img/ncbi-logo.jpg' | relative_url }}" alt="NCBI">
     <div>
       <div class="pub-title">NCBI Bibliography</div>
