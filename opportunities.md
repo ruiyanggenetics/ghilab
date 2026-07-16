@@ -11,11 +11,11 @@ As a new and growing laboratory, we are looking for **talented, curious, and mot
 
 ## Research Assistants / Research Technicians
 
-We welcome candidates interested in gaining hands-on experience in human genetics, immunology, and translational research. Please email Rui your CV and a brief cover letter describing your interests.
+We welcome candidates interested in gaining hands-on experience in human genetics, immunology, and translational research. Please email Rui your CV and a brief cover letter describing your interests. Available positions are listed below.
 
 ## Postdoctoral Fellows
 
-We welcome postdoctoral candidates from all disciplines. Please email Rui your CV and a brief cover letter describing your research interests. New positions may be opened for candidates whose interests align with the lab’s research program.
+We welcome postdoctoral candidates from all disciplines. Please email Rui your CV and a brief cover letter describing your research interests. Positions are available for candidates whose interests align with the lab’s research program.
 
 ## Graduate Students
 
@@ -24,31 +24,6 @@ We welcome BCM PhD, MD/PhD, and MS students interested in thesis research. Pleas
 ## Clinical Fellows
 
 BCM clinical fellows and instructors interested in research are encouraged to email Rui to discuss potential opportunities.
-
-<div class="resource-card-grid">
-
-  <div class="resource-card">
-    <div class="resource-card-title">Research Assistant / Research Technician</div>
-    <div class="resource-card-desc">
-      Hands-on experience in human genetics, immunology, and translational research.
-    </div>
-  </div>
-
-  <div class="resource-card">
-    <div class="resource-card-title">PhD Students</div>
-    <div class="resource-card-desc">
-      Rotation, thesis, dissertation, and collaborative training opportunities for students at BCM and beyond.
-    </div>
-  </div>
-
-  <div class="resource-card">
-    <div class="resource-card-title">Postdoctoral Fellows, Clinical Fellows, and Instructors</div>
-    <div class="resource-card-desc">
-      For trainees with backgrounds in immunology, genetics, molecular biology, biochemistry, or related fields.
-    </div>
-  </div>
-
-</div>
 
 <section class="jobs-section">
   <h2>Current active job posts</h2>
@@ -64,11 +39,15 @@ const JOBS_SHEET_ID = "1A_p1mxWfKvQzdPBp_TAjVJMm67AJutFzJ0HHo92fU-8";
 const JOBS_SHEET_NAMES = ["Sheet1", "Jobs", "Openings"];
 
 function cleanText(value) {
-  return value === null || value === undefined ? "" : String(value).trim();
+  return value === null || value === undefined
+    ? ""
+    : String(value).trim();
 }
 
 function normKey(value) {
-  return cleanText(value).toLowerCase().replace(/[^a-z0-9]+/g, "");
+  return cleanText(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
 }
 
 function makeHeaderMap(cols) {
@@ -92,12 +71,16 @@ function makeHeaderMap(cols) {
   };
 
   const map = {};
+
   cols.forEach((col, index) => {
     const key = aliases[normKey(col.label || col.id)];
     if (key) map[key] = index;
   });
 
-  return { ...fallback, ...map };
+  return {
+    ...fallback,
+    ...map
+  };
 }
 
 function cell(row, map, key) {
@@ -110,31 +93,52 @@ function cellText(row, map, key) {
 }
 
 function isHeaderRow(row) {
-  const keys = (row.c || []).map(value => normKey(value?.f || value?.v));
-  return keys.includes("position") && keys.some(key => key.includes("start"));
+  const keys = (row.c || []).map(value =>
+    normKey(value?.f || value?.v)
+  );
+
+  return (
+    keys.includes("position") &&
+    keys.some(key => key.includes("start"))
+  );
 }
 
 function mapFromHeaderRow(row) {
-  return makeHeaderMap((row.c || []).map(value => ({
-    label: value?.f || value?.v
-  })));
+  return makeHeaderMap(
+    (row.c || []).map(value => ({
+      label: value?.f || value?.v
+    }))
+  );
 }
 
 function parseSheetDate(cellValue, formattedValue) {
-  if (typeof cellValue === "string" && cellValue.startsWith("Date")) {
+  if (
+    typeof cellValue === "string" &&
+    cellValue.startsWith("Date")
+  ) {
     const parts = cellValue.match(/\d+/g);
+
     if (parts && parts.length >= 3) {
-      const date = new Date(Number(parts[0]), Number(parts[1]), Number(parts[2]));
+      const date = new Date(
+        Number(parts[0]),
+        Number(parts[1]),
+        Number(parts[2])
+      );
+
       if (!isNaN(date.getTime())) return date;
     }
   }
 
-  const parsed = Date.parse(cleanText(formattedValue || cellValue));
+  const parsed = Date.parse(
+    cleanText(formattedValue || cellValue)
+  );
+
   return isNaN(parsed) ? null : new Date(parsed);
 }
 
 function formatDate(date, fallback) {
   if (!date) return fallback;
+
   return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -143,7 +147,10 @@ function formatDate(date, fallback) {
 }
 
 function makeJobCard(job) {
-  const card = document.createElement(job.link ? "a" : "div");
+  const card = document.createElement(
+    job.link ? "a" : "div"
+  );
+
   card.className = "job-card";
 
   if (job.link) {
@@ -158,21 +165,38 @@ function makeJobCard(job) {
 
   const start = document.createElement("div");
   start.className = "job-start";
-  start.textContent = `Earliest start date: ${job.startLabel || "Flexible"}`;
+  start.textContent =
+    `Earliest start date: ${job.startLabel || "Flexible"}`;
 
   card.appendChild(title);
   card.appendChild(start);
+
   return card;
 }
 
 async function fetchJobsSheet(sheetName) {
-  const url = `https://docs.google.com/spreadsheets/d/${JOBS_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  const url =
+    `https://docs.google.com/spreadsheets/d/${JOBS_SHEET_ID}` +
+    `/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+
   const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to load jobs sheet "${sheetName}": ${res.status}`
+    );
+  }
+
   const text = await res.text();
-  const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
+
+  const match = text.match(
+    /google\.visualization\.Query\.setResponse\((.*)\);?$/s
+  );
 
   if (!match || !match[1]) {
-    throw new Error(`Could not parse jobs sheet: ${sheetName}`);
+    throw new Error(
+      `Could not parse jobs sheet: ${sheetName}`
+    );
   }
 
   return JSON.parse(match[1]);
@@ -185,6 +209,7 @@ async function loadJobsSheet() {
     try {
       const json = await fetchJobsSheet(sheetName);
       const rows = json.table?.rows || [];
+
       if (rows.length) return json;
     } catch (err) {
       lastError = err;
@@ -192,27 +217,44 @@ async function loadJobsSheet() {
   }
 
   if (lastError) throw lastError;
-  return { table: { cols: [], rows: [] } };
+
+  return {
+    table: {
+      cols: [],
+      rows: []
+    }
+  };
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("active-jobs");
+
   if (!container) return;
 
   try {
     const json = await loadJobsSheet();
+
     let rows = json.table?.rows || [];
-    const headerRow = rows[0] && isHeaderRow(rows[0]);
+
+    const headerRow =
+      rows[0] && isHeaderRow(rows[0]);
+
     const map = headerRow
       ? mapFromHeaderRow(rows[0])
       : makeHeaderMap(json.table?.cols || []);
 
-    if (headerRow) rows = rows.slice(1);
+    if (headerRow) {
+      rows = rows.slice(1);
+    }
 
     const jobs = rows
       .map(row => {
         const startCell = cell(row, map, "start");
-        const startDate = parseSheetDate(startCell?.v, startCell?.f);
+
+        const startDate = parseSheetDate(
+          startCell?.v,
+          startCell?.f
+        );
 
         return {
           position: cellText(row, map, "position"),
@@ -226,12 +268,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
       .filter(job => job.position);
 
-    jobs.sort((a, b) => (a.startDate || 0) - (b.startDate || 0));
+    jobs.sort((a, b) => {
+      const aTime = a.startDate
+        ? a.startDate.getTime()
+        : Number.MAX_SAFE_INTEGER;
+
+      const bTime = b.startDate
+        ? b.startDate.getTime()
+        : Number.MAX_SAFE_INTEGER;
+
+      return aTime - bTime;
+    });
+
     container.innerHTML = "";
 
     if (!jobs.length) {
       container.innerHTML =
         '<p class="pub-desc">No active job posts listed right now.</p>';
+
       return;
     }
 
@@ -240,6 +294,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } catch (err) {
     console.error(err);
+
     container.innerHTML =
       '<p class="pub-desc">Unable to load active job posts.</p>';
   }
