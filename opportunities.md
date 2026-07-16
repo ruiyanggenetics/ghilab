@@ -7,9 +7,23 @@ permalink: /opportunities/
 
 # Join us!
 
-As a new and growing lab, we are looking for **talented, curious, and energetic trainees**—including postdoctoral fellows, graduate students, and undergraduate students—who are excited to push the frontiers of discovery and improve the lives of children and families affected by devastating inborn errors of immunity.
+As a new and growing laboratory, we are looking for **talented, curious, and motivated trainees**—including research assistants, postdoctoral fellows, graduate students, undergraduate students, and clinical fellows—who are passionate about advancing our understanding of inborn errors of immunity and improving the lives of affected children and families.
 
-Rui is always happy to hear from energetic, curious, proactive, and team-oriented postdoctoral and graduate student candidates. Please email Rui with your CV and a brief cover letter if you are interested. Positions may be opened when there is a strong fit between a candidate’s interests and the lab’s scientific directions.
+## Research Assistants / Research Technicians
+
+We welcome candidates interested in gaining hands-on experience in human genetics, immunology, and translational research. Please email Rui your CV and a brief cover letter describing your interests.
+
+## Postdoctoral Fellows
+
+We welcome postdoctoral candidates from all disciplines. Please email Rui your CV and a brief cover letter describing your research interests. New positions may be opened for candidates whose interests align with the lab’s research program.
+
+## Graduate Students
+
+We welcome BCM PhD, MD/PhD, and MS students interested in thesis research. Please email Rui to discuss your interests and potential rotation opportunities. We are not currently able to accept graduate students from outside BCM.
+
+## Clinical Fellows
+
+BCM clinical fellows and instructors interested in research are encouraged to email Rui to discuss potential opportunities.
 
 <div class="resource-card-grid">
 
@@ -157,7 +171,10 @@ async function fetchJobsSheet(sheetName) {
   const text = await res.text();
   const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);?$/s);
 
-  if (!match || !match[1]) throw new Error(`Could not parse jobs sheet: ${sheetName}`);
+  if (!match || !match[1]) {
+    throw new Error(`Could not parse jobs sheet: ${sheetName}`);
+  }
+
   return JSON.parse(match[1]);
 }
 
@@ -186,34 +203,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     const json = await loadJobsSheet();
     let rows = json.table?.rows || [];
     const headerRow = rows[0] && isHeaderRow(rows[0]);
-    const map = headerRow ? mapFromHeaderRow(rows[0]) : makeHeaderMap(json.table?.cols || []);
+    const map = headerRow
+      ? mapFromHeaderRow(rows[0])
+      : makeHeaderMap(json.table?.cols || []);
 
     if (headerRow) rows = rows.slice(1);
 
-    const jobs = rows.map(row => {
-      const startCell = cell(row, map, "start");
-      const startDate = parseSheetDate(startCell?.v, startCell?.f);
+    const jobs = rows
+      .map(row => {
+        const startCell = cell(row, map, "start");
+        const startDate = parseSheetDate(startCell?.v, startCell?.f);
 
-      return {
-        position: cellText(row, map, "position"),
-        startDate,
-        startLabel: formatDate(startDate, cellText(row, map, "start")),
-        link: cellText(row, map, "link")
-      };
-    }).filter(job => job.position);
+        return {
+          position: cellText(row, map, "position"),
+          startDate,
+          startLabel: formatDate(
+            startDate,
+            cellText(row, map, "start")
+          ),
+          link: cellText(row, map, "link")
+        };
+      })
+      .filter(job => job.position);
 
     jobs.sort((a, b) => (a.startDate || 0) - (b.startDate || 0));
     container.innerHTML = "";
 
     if (!jobs.length) {
-      container.innerHTML = "<p class=\"pub-desc\">No active job posts listed right now.</p>";
+      container.innerHTML =
+        '<p class="pub-desc">No active job posts listed right now.</p>';
       return;
     }
 
-    jobs.forEach(job => container.appendChild(makeJobCard(job)));
+    jobs.forEach(job => {
+      container.appendChild(makeJobCard(job));
+    });
   } catch (err) {
     console.error(err);
-    container.innerHTML = "<p class=\"pub-desc\">Unable to load active job posts.</p>";
+    container.innerHTML =
+      '<p class="pub-desc">Unable to load active job posts.</p>';
   }
 });
 </script>
